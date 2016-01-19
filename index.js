@@ -1,19 +1,19 @@
 'use strict';
-const Client = require('./lib/client');
+module.exports = require('./lib/client');
 
 
-const client = new Client({
-	database: 'mydb'
-});
+// const client = new Client({
+// 	database: 'mydb'
+// });
 
-client.query('cpu_load_short')
-	.tag('region', 'us-west')
-	.field('value')
-	.end().then(data => {
-		console.dir(data);
-	}).catch(err => {
-		console.dir(err);
-	});
+// client.query('cpu_load_short')
+// 	.tag('region', 'us-west')
+// 	.field('value')
+// 	.end().then(data => {
+// 		console.dir(data);
+// 	}).catch(err => {
+// 		console.dir(err);
+// 	});
 
 // client.write('cpu_load_short')
 // 	.tag({
