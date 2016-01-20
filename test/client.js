@@ -1,6 +1,8 @@
 'use strict';
 const assert = require('assert');
 const Client = require('..');
+const _ = require('lodash');
+
 describe('cuttle-client', () => {
 	const client = new Client({
 		database: 'mydb'
@@ -21,13 +23,13 @@ describe('cuttle-client', () => {
 		const values = {
 			code: 400,
 			bytes: 1010,
-			use: 30,
 			value: 1
 		};
 		client.write(measurement)
 			.tag(tags)
 			.tag('uuid', ++uuid)
 			.value(values)
+			.value('use', 30)
 			.end()
 			.then(done)
 			.catch(done);
@@ -40,17 +42,29 @@ describe('cuttle-client', () => {
 			.field(['uuid', 'use'])
 			.end()
 			.then(data => {
-				const item = data[0];
-				assert(item.code)
-				assert(item.bytes);
-				assert(item.use);
-				assert.equal(item.uuid, uuid);
+				const series = data.series[0];
+				const values = series.values[0];
+				const columns = series.columns;
+				assert.equal(series.name, 'http');
+				assert.equal(columns.length, 5);
+				assert.equal(columns[1], 'code');
+				assert.equal(values[1], 400);
+
+				assert.equal(columns[2], 'bytes');
+				assert.equal(values[2], 1010);
+
+				assert.equal(columns[3], 'uuid');
+				assert.equal(values[3], '1');
+
+				assert.equal(columns[4], 'use');
+				assert.equal(values[4], 30);
+
 				done();
 			})
 			.catch(done);
 	});
 
-	it('get point with multi tag', done => {
+	it('get point with multi tag(object)', done => {
 		client.query(measurement)
 			.tag({
 				uuid: uuid,
@@ -58,11 +72,61 @@ describe('cuttle-client', () => {
 			})
 			.end()
 			.then(data => {
-				const item = data[0];
-				assert(item.code)
-				assert(item.bytes);
-				assert(item.use);
-				assert.equal(item.uuid, uuid);
+				assert.equal(data.series[0].values.length, 1);
+				done();
+			})
+			.catch(done);
+	});
+
+	it('get point with tag(string)', done => {
+		client.query(measurement)
+			.tag("status='40x'")
+			.end()
+			.then(data => {
+				assert.equal(data.series[0].values.length, 1);
+				done();
+			})
+			.catch(done);
+		});
+
+	it('write multi points', done => {
+
+		function randomTags() {
+			return {
+				status: _.sample(['20x', '30x', '40x', '50x']),
+				size: _.sample(['1K', '10K', '50K', '100K', '300K'])
+			};
+		}
+
+		function randomValues() {
+			return {
+				code: _.random(200, 510),
+				bytes: _.random(10, 400 * 1024),
+				use: _.random(1, 1000),
+				value: _.random(1, 2)
+			}
+		}
+		const arr = [];
+		for (let i = 5; i >= 0; i--) {
+			arr.push(
+				client.write(measurement)
+					.tag(randomTags())
+					.value(randomValues())
+					.end()
+			);
+		}
+		Promise.all(arr).then(data => {
+			done();
+		}).catch(done);
+	});
+
+	it('get points group by', done => {
+		client.query(measurement)
+			.group('status')
+			.end()
+			.then(data => {
+				// TODO check data
+				console.dir(JSON.stringify(data));
 				done();
 			})
 			.catch(done);
