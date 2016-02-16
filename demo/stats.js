@@ -5,12 +5,13 @@ const _ = require('lodash');
 const client = new Client({
 	database: 'stats'
 });
+let total = 0;
 
-// client.createDatabase('stats')
+client.createDatabase('stats')
 // client.dropDatabase('stats')
 
 
-
+client.autoSyncWrite(20);
 
 function httpStats(){
 	const bytes = _.random(1, 512 * 1024);
@@ -30,8 +31,22 @@ function httpStats(){
 }
 
 setInterval(function() {
-	httpStats().catch(err => {
+	httpStats().then(() => {
+		console.info('total:' + (++total));
+	}).catch(err => {
 		console.error(err);
 	});
-}, 10);
+}, _.random(1000, 5000));
 
+// client.query('http')
+// 	.where('time > now() - 2h')
+// 	.group('spdy')
+// 	.group('time(1h)')
+// 	.field('COUNT(value)')
+// 	.fill(0)
+// 	.end()
+// 	.then(data => {
+// 		console.dir(JSON.stringify(data));
+// 	}).catch(err => {
+// 		console.error(err);
+// 	});
