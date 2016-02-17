@@ -1,6 +1,6 @@
 {
-  "name": "cuttle-client",
-  "description": "node.js client for cuttle",
+  "name": "simple-influx",
+  "description": "node.js influx client for influx",
   "version": "0.0.1",
   "author": {
     "name": "vicanso 小墨鱼",
@@ -17,10 +17,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vicanso/cuttle-client.git"
+    "url": "https://github.com/vicanso/influx.git"
   },
   "dependencies": {
-    "influx": "^4.1.0",
     "lodash": "^4.0.0",
     "superagent": "^1.7.2"
   },
