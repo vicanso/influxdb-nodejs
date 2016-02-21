@@ -14,5 +14,7 @@ var client = influx({
 //   console.dir(data);
 // });
 
+// client.createDatabase('cuttle', () => {
 
-client.query('SELECT * FROM myseries; SELECT AVG(VALUE) as avgvalue from myseries', function (err, results) {});
+// })
+
