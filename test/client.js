@@ -47,27 +47,26 @@ describe('simple-influx', () => {
 	});
 
 
-	it('write points with callback success', done => {
+	it('write points(value is null) success', done => {
 		const tags = {
 			status: '50x',
 			size: '1K'
 		};
 		const values = {
 			code: 503,
-			bytes: 1010,
-			value: 1
+			bytes: 1010
 		};
 		client.write(series)
 			.tag(tags)
 			.tag('uuid', ++uuid)
 			.value(values)
 			.value('use', 30)
-			.end((err, data) => {
-				if (err) {
-					return done(err);
-				}
+			.end()
+			.then(data => {
+				// data -> undefined
+				assert.equal(data, undefined);
 				done();
-			});
+			}).catch(done);
 	});
 
 
@@ -83,23 +82,6 @@ describe('simple-influx', () => {
 				assert.equal(data.series[0].values[0].length, keys.length);
 				done();
 			}).catch(done);
-	});
-
-
-	it('get points with callback success', done => {
-		client.query(series)
-			.tag('uuid', uuid)
-			.end((err, data) => {
-				if (err) {
-					return done(err);
-				}
-				// data -> {"series":[{"name":"http","columns":["time","bytes","code","size","status","use","uuid","value"],"values":[["2016-02-17T06:11:41.644Z",1010,400,"1K","40x",30,"1",1]]}]}
-				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"];
-				assert.equal(data.series[0].name, 'http');
-				assert.equal(data.series[0].columns.join(), keys.join());
-				assert.equal(data.series[0].values[0].length, keys.length);
-				done();
-			});
 	});
 
 
@@ -354,6 +336,37 @@ describe('simple-influx', () => {
 	});
 
 
+	it('fill with 11 success', done => {
+		const fillValue = 11;
+		const tags = {
+			status: '50x',
+			size: '1K'
+		};
+		const values = {
+			code: 503,
+			bytes: 1010
+		};
+		client.write(series)
+			.tag(tags)
+			.tag('uuid', ++uuid)
+			.value(values)
+			.value('use', 30)
+			.end()
+			.then(data => {
+				return client.query(series)
+					.group('status')
+					.fill(fillValue)
+					.tag('uuid', uuid)
+					.mean('value')
+					.end();
+			}).then(data => {
+				// data -> {"series":[{"name":"http","tags":{"status":"50x"},"columns":["time","mean"],"values":[["1970-01-01T00:00:00Z",11]]}]}
+				assert(data.series[0].values[0][1], fillValue);
+				done();
+			}).catch(done);
+	});
+
+
 	it('write multi points success', done => {
 		client.write(series)
 			.tag({
@@ -417,7 +430,7 @@ describe('simple-influx', () => {
 	});
 
 
-	it('set write queue max', done => {
+	it('set write queue max success', done => {
 		client.setWriteQueueMax(2);
 		client.write(series)
 			.tag({
@@ -455,6 +468,25 @@ describe('simple-influx', () => {
 					done();
 				}).catch(done);
 		}, 1000);
+	});
+
+
+	it('query queue success', done => {
+		client.query(series)
+			.tag('status', '40x')
+			.queue();
+		client.query(series)
+			.tag('status', '50x')
+			.queue();
+
+		client.syncQuery()
+			.then(data => {
+				// data -> [{"series":[{"name":"http","columns":["time","code","size","status","bytes","use","uuid","value"],"values":[["2016-02-22T01:33:35.522Z",400,"1K","40x",1010,30,"1",1],["2016-02-22T01:33:35.595Z",201,"50K","40x",401247,172,null,2]]}]},{"series":[{"name":"http","columns":["time","code","size","status","bytes","use","uuid","value"],"values":[["2016-02-22T01:33:35.537Z",503,"1K","50x",1010,30,"2",1],["2016-02-22T01:33:35.683Z",504,"8K","50x",8031,50,"4",1],["2016-02-22T01:33:35.683Z",502,"2K","50x",2489,30,"3",1],["2016-02-22T01:33:35.703Z",504,"8K","50x",8031,50,"6",1],["2016-02-22T01:33:35.703Z",502,"2K","50x",2489,30,"5",1]]}]}]
+				assert.equal(data.length, 2);
+				assert(data[0].series[0].values.length > 0);
+				assert(data[1].series[0].values.length > 0);
+				done();
+			}).catch(done);
 	});
 
 

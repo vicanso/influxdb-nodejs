@@ -1,7 +1,7 @@
 {
   "name": "simple-influx",
   "description": "node.js influx client for influx",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": {
     "name": "vicanso 小墨鱼",
     "email": "vicansocanbico@gmail.com"
@@ -19,15 +19,18 @@
     "type": "git",
     "url": "https://github.com/vicanso/influx.git"
   },
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "dependencies": {
     "debug": "^2.2.0",
-    "lodash": "^4.0.0",
+    "lodash": "^4.5.1",
     "superagent": "^1.7.2"
   },
   "devDependencies": {
-    "eslint": "^1.10.3",
+    "eslint": "^2.2.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.3.4",
+    "mocha": "^2.4.5",
     "node-uuid": "^1.4.7"
   }
 }
