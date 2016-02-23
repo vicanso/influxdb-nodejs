@@ -59,7 +59,21 @@ client.createDatabase().then(() => {
 });
 ```
 
-create database when is not exists
+create database
+
+### createDatabaseNotExists
+
+```js
+const Influx = require('simple-influx');
+const client = new Influx({
+	database: 'mydb'
+});
+client.createDatabaseNotExists().then(() => {
+	console.info('create database:mydb success');
+}).catch(err => {
+	console.error(err);
+});
+```
 
 
 ### dropDatabase
