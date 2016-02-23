@@ -22,6 +22,28 @@ describe('simple-influx', () => {
 	});
 
 
+	it('safe create database if database exists success', done => {
+		client.createDatabaseNotExists()
+			.then(data => {
+				// data -> undefined
+				assert.equal(data, undefined);
+				done();
+			}).catch(done);
+	});
+
+
+	it('safe create database if database not exists success', done => {
+		client.dropDatabase()
+			.then(() => {
+				return client.createDatabaseNotExists();
+			}).then(data => {
+				// data -> undefined
+				assert.equal(data, undefined);
+				done();
+			}).catch(done);
+	});
+
+
 	it('write point success', done => {
 		const tags = {
 			status: '40x',
