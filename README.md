@@ -1,4 +1,6 @@
-# simple-influx
+# simple-influx 
+	
+[![Build Status](https://travis-ci.org/vicanso/simple-influx.svg?branch=master)](https://travis-ci.org/vicanso/simple-influx)
 
 An [InfluxDB](https://influxdata.com/) Node.js Client
 
