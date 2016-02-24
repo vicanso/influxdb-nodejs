@@ -1,0 +1,20 @@
+node_js:
+- "4"
+- "5"
+
+sudo: required
+
+language: node_js
+
+services:
+  - docker
+
+before_install:
+- docker pull vicanso/influxdb
+- docker run -d -p 8086:8086 vicanso/influxdb
+
+script:
+- npm test
+
+after_script:
+- npm install coveralls@2 && cat ./coverage/lcov.info | coveralls

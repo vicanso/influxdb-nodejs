@@ -429,6 +429,48 @@ describe('simple-influx', () => {
 	});
 
 
+	it('write multi points different series success', done => {
+		const testSeries = 'test';
+		client.write(series)
+			.tag({
+				status: '50x',
+				size: '2K'
+			})
+			.tag('uuid', ++uuid)
+			.value({
+				code: 502,
+				bytes: 2489,
+				value: 1
+			})
+			.value('use', 30)
+			.queue();
+		client.write(testSeries)
+			.tag({
+				status: '50x',
+				size: '8K',
+				uuid: ++uuid
+			})
+			.value({
+				code: 504,
+				bytes: 8031,
+				value: 1,
+				use: 50
+			})
+			.queue();
+		client.syncWrite().then(data => {
+			// data -> undefined
+			return client.query(testSeries)
+				.tag('uuid', uuid)
+				.end();
+		}).then(data => {
+			assert.equal(data.series[0].values.length, 1);
+			return client.dropMeasurement(testSeries);
+		}).then(data => {
+			done();
+		}).catch(done);
+	});
+
+
 	it('call sync write when queue is empty', done => {
 		client.syncWrite().then(data => {
 			// data -> undefined
@@ -524,7 +566,8 @@ describe('simple-influx', () => {
 
 
 	it('drop measurement success', done => {
-		client.dropMeasurement('http').then(data => {
+		client.dropMeasurement(series).then(data => {
+
 			// data -> {}
 			assert(_.isEmpty(data));
 			return client.getMeasurements().then(data => {

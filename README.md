@@ -120,6 +120,20 @@ client.dropMeasurement('http').then(data => {
 });
 ```
 
+### setWriteQueueMax
+
+```js
+const Influx = require('simple-influx');
+const client = new Influx({
+	database: 'mydb'
+});
+client.setWriteQueueMax(20);
+```
+
+- `count` write queue max length
+
+set the write queue max length
+
 
 ### write
 
