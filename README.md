@@ -47,6 +47,27 @@ const client = new Influx({
 - `database` database name
 
 
+### timeout (get/set)
+
+```js
+const Influx = require('simple-influx');
+const client = new Influx({
+	username: 'root',
+	password: 'root',
+	timePrecision: 'ms',
+	host: 'localhost',
+	port: 8086,
+	protocol: 'http',
+	database: 'mydb'
+});
+client.timeout = 1000;
+console.info(client.timeout); // 1000
+```
+
+get/set request timeout
+
+
+
 ### createDatabase
 
 ```js
@@ -121,20 +142,6 @@ client.dropMeasurement('http').then(data => {
 	console.error(err);
 });
 ```
-
-### setWriteQueueMax
-
-```js
-const Influx = require('simple-influx');
-const client = new Influx({
-	database: 'mydb'
-});
-client.setWriteQueueMax(20);
-```
-
-- `count` write queue max length
-
-set the write queue max length
 
 
 ### write
@@ -249,6 +256,30 @@ writer.queue();
 
 add writer instance to write queue, it will sync when call syncWrite or the queue length reach max.
 
+
+### writeQueueLength
+
+```js
+const Influx = require('simple-influx');
+const client = new Influx({
+	database: 'mydb'
+});
+const writer = client.write('http');
+writer.tag('uuid', '1234');
+writer.tag({
+	status: '40x',
+	size: '1K'
+});
+writer.value({
+	code: 400,
+	value: 1
+});
+writer.value('bytes', 1010);
+writer.queue();
+console.info(client.writeQueueLength); // 2
+```
+
+get write queue length
 
 ### syncWrite
 
@@ -596,6 +627,24 @@ client.syncQuery().then(data => {
 
 get all query queue points result
 
+
+### queryQueueLength
+
+```js
+const Influx = require('simple-influx');
+const client = new Influx({
+	database: 'mydb'
+});
+client.query(series)
+	.tag('status', '40x')
+	.queue();
+client.query(series)
+	.tag('status', '50x')
+	.queue();
+console.info(client.queryQueueLength); // 2
+```
+
+get query queue length
 
 ## License
 

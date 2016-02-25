@@ -1,7 +1,7 @@
 {
   "name": "simple-influx",
   "description": "node.js influx client for influx",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": {
     "name": "vicanso 小墨鱼",
     "email": "vicansocanbico@gmail.com"

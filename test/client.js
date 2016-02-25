@@ -189,6 +189,22 @@ describe('simple-influx', () => {
 	});
 
 
+	it('set timeout success', done => {
+		assert.equal(client.timeout, 0);
+		client.timeout = 1;
+		assert.equal(client.timeout, 1);
+		client.query(series)
+			.tag('uuid', uuid)
+			.end()
+			.catch(err => {
+				assert.equal(err.code, 'ECONNABORTED');
+				client.timeout = 0;
+				assert.equal(client.timeout, 0);
+				done();
+			});
+	});
+
+
 	it('write multi points success', done => {
 		const randomTags = () => {
 			return {
@@ -417,6 +433,8 @@ describe('simple-influx', () => {
 			})
 			.queue();
 
+		assert.equal(client.writeQueueLength, 2);
+
 		client.syncWrite().then(data => {
 			// data -> undefined
 			return client.query(series)
@@ -486,52 +504,12 @@ describe('simple-influx', () => {
 		client.query(series)
 			.tag('status', '50x')
 			.queue();
+		assert.equal(client.queryQueueLength, 2);
 		client.syncQuery().then(data => {
 			// data -> [{"series":[{"name":"http","columns":["time","code","size","status","bytes","use","uuid","value"],"values":[["2016-02-19T05:25:00.723Z",400,"1K","40x",1010,30,"1",1],["2016-02-19T05:25:00.805Z",492,"300K","40x",369823,146,null,1],["2016-02-19T05:25:00.805Z",441,"10K","40x",384615,301,null,2]]}]},{"series":[{"name":"http","columns":["time","code","size","status","bytes","use","uuid","value"],"values":[["2016-02-19T05:25:00.732Z",503,"1K","50x",1010,30,"2",1],["2016-02-19T05:25:00.904Z",502,"2K","50x",2489,30,"3",1],["2016-02-19T05:25:00.904Z",504,"8K","50x",8031,50,"4",1]]}]}]
 			assert.equal(data.length, 2);
 			done();
 		}).catch(done);
-	});
-
-
-	it('set write queue max success', done => {
-		client.setWriteQueueMax(2);
-		client.write(series)
-			.tag({
-				status: '50x',
-				size: '2K'
-			})
-			.tag('uuid', ++uuid)
-			.value({
-				code: 502,
-				bytes: 2489,
-				value: 1
-			})
-			.value('use', 30)
-			.queue();
-		client.write(series)
-			.tag({
-				status: '50x',
-				size: '8K',
-				uuid: ++uuid
-			})
-			.value({
-				code: 504,
-				bytes: 8031,
-				value: 1,
-				use: 50
-			})
-			.queue();
-		setTimeout(() => {
-			client.query(series)
-				.tag('uuid', uuid)
-				.end()
-				.then(data => {
-					// data -> {"series":[{"name":"http","columns":["time","code","size","status","bytes","use","uuid","value"],"values":[["2016-02-19T05:59:48.064Z",504,"8K","50x",8031,50,"6",1]]}]}
-					assert.equal(data.series[0].values.length, 1);
-					done();
-				}).catch(done);
-		}, 1000);
 	});
 
 
