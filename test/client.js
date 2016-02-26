@@ -3,7 +3,7 @@ const assert = require('assert');
 const Client = require('..');
 const _ = require('lodash');
 
-describe('simple-influx', () => {
+describe('simple-influx:singleton', () => {
 	const client = new Client({
 		database: 'mydb'
 	});
@@ -98,9 +98,9 @@ describe('simple-influx', () => {
 			.end()
 			.then(data => {
 				// data -> {"series":[{"name":"http","columns":["time","bytes","code","size","status","use","uuid","value"],"values":[["2016-02-17T06:11:41.644Z",1010,400,"1K","40x",30,"1",1]]}]}
-				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"];
+				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"].sort();
 				assert.equal(data.series[0].name, 'http');
-				assert.equal(data.series[0].columns.join(), keys.join());
+				assert.equal(data.series[0].columns.sort().join(), keys.join());
 				assert.equal(data.series[0].values[0].length, keys.length);
 				done();
 			}).catch(done);
@@ -116,9 +116,9 @@ describe('simple-influx', () => {
 			.end()
 			.then(data => {
 				// data -> {"series":[{"name":"http","columns":["time","bytes","code","size","status","use","uuid","value"],"values":[["2016-02-17T06:11:41.644Z",1010,400,"1K","40x",30,"1",1]]}]}
-				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"];
+				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"].sort();
 				assert.equal(data.series[0].name, 'http');
-				assert.equal(data.series[0].columns.join(), keys.join());
+				assert.equal(data.series[0].columns.sort().join(), keys.join());
 				assert.equal(data.series[0].values[0].length, keys.length);
 				done();
 			}).catch(done);
@@ -131,9 +131,9 @@ describe('simple-influx', () => {
 			.end()
 			.then(data => {
 				// data -> {"series":[{"name":"http","columns":["time","bytes","code","size","status","use","uuid","value"],"values":[["2016-02-17T06:11:41.644Z",1010,400,"1K","40x",30,"1",1]]}]}
-				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"];
+				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"].sort();
 				assert.equal(data.series[0].name, 'http');
-				assert.equal(data.series[0].columns.join(), keys.join());
+				assert.equal(data.series[0].columns.sort().join(), keys.join());
 				assert.equal(data.series[0].values[0].length, keys.length);
 				done();
 			}).catch(done);
@@ -146,9 +146,9 @@ describe('simple-influx', () => {
 			.end()
 			.then(data => {
 				// data -> {"series":[{"name":"http","columns":["time","bytes","code","size","status","use","uuid","value"],"values":[["2016-02-17T07:35:00.951Z",1010,503,"1K","50x",30,"2",1]]}]}
-				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"];
+				const keys = ["time", "bytes", "code", "size", "status", "use", "uuid", "value"].sort();
 				assert.equal(data.series[0].name, 'http');
-				assert.equal(data.series[0].columns.join(), keys.join());
+				assert.equal(data.series[0].columns.sort().join(), keys.join());
 				assert.equal(data.series[0].values[0].length, keys.length);
 				done();
 			}).catch(done);
@@ -329,7 +329,7 @@ describe('simple-influx', () => {
 					.end();
 			})
 			.then(data => {
-				assert.equal(prevData.series[0].values[1].join(','), data.series[0].values[0].join(','));
+				assert.equal(prevData.series[0].values[1].sort().join(','), data.series[0].values[0].sort().join(','));
 				done();
 			}).catch(done);
 	});
@@ -341,7 +341,7 @@ describe('simple-influx', () => {
 			.end()
 			.then(data => {
 				// data -> {"series":[{"name":"http","columns":["time","mean"],"values":[["1970-01-01T00:00:00Z",61.8]]}]}
-				assert.equal(data.series[0].columns.join(','), 'time,mean');
+				assert.equal(data.series[0].columns.sort().join(','), 'mean,time');
 				assert.equal(data.series[0].values[0].length, 2);
 				done();
 			}).catch(done);
@@ -354,7 +354,7 @@ describe('simple-influx', () => {
 			.end()
 			.then(data => {
 				// data -> {"series":[{"name":"http","columns":["time","sum"],"values":[["1970-01-01T00:00:00Z",1601]]}]}
-				assert.equal(data.series[0].columns.join(','), 'time,sum');
+				assert.equal(data.series[0].columns.sort().join(','), 'sum,time');
 				assert.equal(data.series[0].values[0].length, 2);
 				done();
 			}).catch(done);
@@ -367,7 +367,7 @@ describe('simple-influx', () => {
 			.end()
 			.then(data => {
 				// data -> {"series":[{"name":"http","columns":["time","count"],"values":[["1970-01-01T00:00:00Z",5]]}]}
-				assert.equal(data.series[0].columns.join(','), 'time,count');
+				assert.equal(data.series[0].columns.sort().join(','), 'count,time');
 				assert.equal(data.series[0].values[0].length, 2);
 				done();
 			}).catch(done);
