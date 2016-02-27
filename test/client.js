@@ -567,3 +567,33 @@ describe('simple-influx:singleton', () => {
 			.catch(done);
 	});
 });
+
+describe('simple-influx:cluster', () => {
+	const client = new Client({
+		database: 'mydb',
+		servers: [
+			{
+				host: '127.0.0.1',
+				port: 8086
+			},
+			{
+				host: '127.0.0.1',
+				port: 9086
+			}
+		]
+	});
+
+	it('get available servers success', done => {
+		setTimeout(() => {
+			const servers = client.availableServers;
+			assert.equal(servers.length, 1);
+			assert.equal(servers[0].port, 8086);
+
+			const disabledServers = client.disabledServers;
+			assert.equal(disabledServers.length, 1);
+			assert.equal(disabledServers[0].port, 9086);
+
+			done();
+		}, 1500);
+	})
+});
