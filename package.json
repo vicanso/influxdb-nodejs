@@ -1,17 +1,18 @@
 {
   "name": "simple-influx",
   "description": "node.js influx client for influx",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "author": {
     "name": "vicanso 小墨鱼",
     "email": "vicansocanbico@gmail.com"
   },
   "keywords": [
-    "cuttle",
-    "statsd"
+    "influx",
+    "influxdb",
+    "series",
+    "stats"
   ],
   "scripts": {
-    "eslint": "node ./node_modules/.bin/eslint ./lib/*.js",
     "test": "node ./node_modules/.bin/eslint ./lib/*.js && node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./test/*.js --"
   },
   "license": "MIT",
@@ -24,7 +25,7 @@
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "lodash": "^4.5.1",
+    "lodash": "^4.6.0",
     "superagent": "^1.7.2"
   },
   "devDependencies": {
