@@ -10,6 +10,11 @@ describe('simple-influx:singleton', () => {
 	const series = 'http';
 	let uuid = 0;
 
+	// it('init client use uri', (done) => {
+	// 	const tmpClient = new Client('https://user:pwd@192.168.1.1:8087/test');
+	// 	assert.equal(JSON.stringify(tmpClient._options), '{"timePrecision":"ms","host":"192.168.1.1","port":8087,"protocol":"https","database":"test","username":"user","password":"pwd"}');
+	// 	done();
+	// });
 
 	it('create database success', done => {
 		client.createDatabase()
