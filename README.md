@@ -49,8 +49,7 @@ const client = new Influx({
 
 ```js
 const Influx = require('simple-influx');
-const client = new Influx('http://user:pass@localhost:port,anotherhost:port,yetanother:port/mydatabase
-');
+const client = new Influx('http://user:pass@localhost:port,anotherhost:port,yetanother:port/mydatabase');
 ```
 
 
@@ -135,8 +134,7 @@ client.dropMeasurement('http').then(data => {
 
 ```js
 const Influx = require('simple-influx');
-const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase
-');
+const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase');
 console.dir(client.availableServers); //[{"host": "192.168.1.1", "port": 8086}, ...]
 ```
 
@@ -144,8 +142,7 @@ console.dir(client.availableServers); //[{"host": "192.168.1.1", "port": 8086}, 
 
 ```js
 const Influx = require('simple-influx');
-const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase
-');
+const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase');
 console.dir(client.unavailableServers); //[{"host": "192.168.1.1", "port": 8086}, ...]
 ```
 
