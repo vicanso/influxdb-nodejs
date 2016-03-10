@@ -1,7 +1,7 @@
 {
   "name": "simple-influx",
   "description": "node.js influx client for influx",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": {
     "name": "vicanso 小墨鱼",
     "email": "vicansocanbico@gmail.com"
@@ -13,6 +13,7 @@
     "stats"
   ],
   "scripts": {
+    "pretest": "npm install",
     "test": "node ./node_modules/.bin/eslint ./lib/*.js && node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./test/*.js --"
   },
   "license": "MIT",
@@ -25,11 +26,11 @@
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "lodash": "^4.6.0",
-    "superagent": "^1.7.2"
+    "lodash": "^4.6.1",
+    "superagent": "^1.8.0"
   },
   "devDependencies": {
-    "eslint": "^2.2.0",
+    "eslint": "^2.3.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "node-uuid": "^1.4.7"

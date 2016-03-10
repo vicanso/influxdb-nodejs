@@ -47,24 +47,12 @@ const client = new Influx({
 - `database` database name
 
 
-### timeout (get/set)
-
 ```js
 const Influx = require('simple-influx');
-const client = new Influx({
-	username: 'root',
-	password: 'root',
-	timePrecision: 'ms',
-	host: 'localhost',
-	port: 8086,
-	protocol: 'http',
-	database: 'mydb'
-});
-client.timeout = 1000;
-console.info(client.timeout); // 1000
+const client = new Influx('http://user:pass@localhost:port,anotherhost:port,yetanother:port/mydatabase
+');
 ```
 
-get/set request timeout
 
 
 
@@ -142,6 +130,44 @@ client.dropMeasurement('http').then(data => {
 	console.error(err);
 });
 ```
+
+### availableServers
+
+```js
+const Influx = require('simple-influx');
+const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase
+');
+console.dir(client.availableServers); //[{"host": "192.168.1.1", "port": 8086}, ...]
+```
+
+### unavailableServers
+
+```js
+const Influx = require('simple-influx');
+const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase
+');
+console.dir(client.unavailableServers); //[{"host": "192.168.1.1", "port": 8086}, ...]
+```
+
+### timeout (get/set)
+
+```js
+const Influx = require('simple-influx');
+const client = new Influx({
+	username: 'root',
+	password: 'root',
+	timePrecision: 'ms',
+	host: 'localhost',
+	port: 8086,
+	protocol: 'http',
+	database: 'mydb'
+});
+client.timeout = 1000;
+console.info(client.timeout); // 1000
+```
+
+get/set request timeout
+
 
 
 ### write

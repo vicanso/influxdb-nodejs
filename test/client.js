@@ -10,11 +10,12 @@ describe('simple-influx:singleton', () => {
 	const series = 'http';
 	let uuid = 0;
 
-	// it('init client use uri', (done) => {
-	// 	const tmpClient = new Client('https://user:pwd@192.168.1.1:8087/test');
-	// 	assert.equal(JSON.stringify(tmpClient._options), '{"timePrecision":"ms","host":"192.168.1.1","port":8087,"protocol":"https","database":"test","username":"user","password":"pwd"}');
-	// 	done();
-	// });
+	it('init client use uri', (done) => {
+
+		const tmpClient = new Client('https://user:pwd@192.168.1.1:8087/test');
+		assert.equal(JSON.stringify(tmpClient._options), '{"timePrecision":"ms","database":"test","servers":[{"protocol":"https","host":"192.168.1.1","port":8087}],"username":"user","password":"pwd"}');
+		done();
+	});
 
 	it('create database success', done => {
 		client.createDatabase()
@@ -594,9 +595,9 @@ describe('simple-influx:cluster', () => {
 			assert.equal(servers.length, 1);
 			assert.equal(servers[0].port, 8086);
 
-			const disabledServers = client.disabledServers;
-			assert.equal(disabledServers.length, 1);
-			assert.equal(disabledServers[0].port, 9086);
+			const unavailableServers = client.unavailableServers;
+			assert.equal(unavailableServers.length, 1);
+			assert.equal(unavailableServers[0].port, 9086);
 
 			done();
 		}, 1500);
