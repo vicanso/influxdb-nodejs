@@ -1,6 +1,6 @@
 {
-  "name": "simple-influx",
-  "description": "node.js influx client for influx",
+  "name": "influxdb-nodejs",
+  "description": "node.js influxdb client for influx",
   "version": "0.0.7",
   "author": {
     "name": "vicanso 小墨鱼",

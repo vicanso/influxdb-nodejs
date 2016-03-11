@@ -3,7 +3,7 @@ const assert = require('assert');
 const Client = require('..');
 const _ = require('lodash');
 
-describe('simple-influx:singleton', () => {
+describe('influxdb-nodejs:singleton', () => {
 	const client = new Client({
 		database: 'mydb'
 	});
@@ -574,7 +574,7 @@ describe('simple-influx:singleton', () => {
 	});
 });
 
-describe('simple-influx:cluster', () => {
+describe('influxdb-nodejs:cluster', () => {
 	const client = new Client({
 		database: 'mydb',
 		servers: [

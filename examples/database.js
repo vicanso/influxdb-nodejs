@@ -1,5 +1,5 @@
 'use strict';
-const Influx = require('simple-influx');
+const Influx = require('..');
 const client = new Influx({
 	username: 'root',
 	password: 'root',

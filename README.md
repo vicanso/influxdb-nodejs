@@ -1,13 +1,13 @@
-# simple-influx 
+# influxdb-nodejs 
 	
-[![Build Status](https://travis-ci.org/vicanso/simple-influx.svg?branch=master)](https://travis-ci.org/vicanso/simple-influx)
+[![Build Status](https://travis-ci.org/vicanso/influxdb-nodejs.svg?branch=master)](https://travis-ci.org/vicanso/influxdb-nodejs)
 
 An [InfluxDB](https://influxdata.com/) Node.js Client
 
 ## Installation
 
 ```js
-$ npm install simple-influx
+$ npm install influxdb-nodejs
 ```
 
 ## Examples
@@ -20,7 +20,7 @@ View the [./examples](examples) directory for working examples.
 ### Constructor
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	username: 'root',
 	password: 'root',
@@ -48,7 +48,7 @@ const client = new Influx({
 
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx('http://user:pass@localhost:port,anotherhost:port,yetanother:port/mydatabase');
 ```
 
@@ -58,7 +58,7 @@ const client = new Influx('http://user:pass@localhost:port,anotherhost:port,yeta
 ### createDatabase
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -69,12 +69,10 @@ client.createDatabase().then(() => {
 });
 ```
 
-create database
-
 ### createDatabaseNotExists
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -88,8 +86,11 @@ client.createDatabaseNotExists().then(() => {
 
 ### dropDatabase
 
+drop data when is exists
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -99,13 +100,12 @@ client.dropDatabase().then(() => {
 	console.error(err);
 });
 ```
-drop data when is exists
 
 
 ### getMeasurements
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -119,7 +119,7 @@ client.getMeasurements().then(data => {
 ### dropMeasurement
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -133,7 +133,7 @@ client.dropMeasurement('http').then(data => {
 ### availableServers
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase');
 console.dir(client.availableServers); //[{"host": "192.168.1.1", "port": 8086}, ...]
 ```
@@ -141,15 +141,18 @@ console.dir(client.availableServers); //[{"host": "192.168.1.1", "port": 8086}, 
 ### unavailableServers
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase');
 console.dir(client.unavailableServers); //[{"host": "192.168.1.1", "port": 8086}, ...]
 ```
 
 ### timeout (get/set)
 
+get/set request timeout
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	username: 'root',
 	password: 'root',
@@ -163,14 +166,16 @@ client.timeout = 1000;
 console.info(client.timeout); // 1000
 ```
 
-get/set request timeout
 
 
 
 ### write
 
+write point to the series, return Writer instance
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -179,13 +184,15 @@ const writer = client.write('http');
 
 - `series` write point to the series
 
-write point to the series, return Writer instance
 
 
 ### Writer.tag
 
+set point tags, return Writer instance
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -201,12 +208,11 @@ writer.tag({
 
 - `value` tag value string
 
-set point tags, return Writer instance
 
 ### Writer.value
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -230,8 +236,11 @@ writer.value('bytes', 1010);
 
 ### Writer.end
 
+write point to server, return promise
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -253,13 +262,15 @@ writer.end().then(() => {
 });
 ```
 
-write point to server, return promise
 
 
 ### Writer.queue
 
+add writer instance to write queue, it will sync when call syncWrite
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -277,13 +288,15 @@ writer.value('bytes', 1010);
 writer.queue();
 ```
 
-add writer instance to write queue, it will sync when call syncWrite or the queue length reach max.
 
 
 ### writeQueueLength
 
+get write queue length
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -302,12 +315,11 @@ writer.queue();
 console.info(client.writeQueueLength); // 2
 ```
 
-get write queue length
 
 ### syncWrite
 
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -332,8 +344,11 @@ client.syncWrite().then(data => {
 
 ### query
 
+get point from the series, return Reader instance
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -342,13 +357,15 @@ const reader = client.query('http');
 
 - `series` get point from the series
 
-get point from the series, return Reader instance
 
 
 ### Reader.tag
 
+set query tag conditions, return Reader instance
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -368,13 +385,15 @@ reader.end().then(data => {
 
 - `value` tag value string
 
-set query tag conditions, return Reader instance
 
 
 ### Reader.where
 
+get points by where conditions
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -397,13 +416,15 @@ client.query('http')
 
 - `conditions` string or regexp
 
-get points by where conditions
 
 
 ### Reader.group
 
+get points group by tag
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -420,13 +441,15 @@ client.query('http')
 
 - `groupTag` group tag name
 
-get points group by tag
 
 
 ### Reader.limit
 
+get points by limit value
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -443,13 +466,15 @@ client.query('http')
 
 - `count` limit value
 
-get points by limit value
 
 
 ### Reader.slimit
 
+get points by slimit value
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -466,13 +491,15 @@ client.query('http')
 
 - `count` slimit value
 
-get points by slimit value
 
 
 ### Reader.desc, Reader.asc
 
+get points sort by time(asc, desc)
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -496,13 +523,15 @@ client.query('http')
 	});
 ```
 
-get points sort by time(asc, desc)
 
 
 ### Reader.offset
 
+get points by offset
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -519,14 +548,16 @@ client.query('http')
 
 - `offset` offset value
 
-get points by offset
 
 
 
 ### Reader.mean
 
+mean points
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -541,13 +572,14 @@ client.query('http')
 ```
 - `field` mean field
 
-mean points
 
 
 ### Reader.sum
 
+sum points
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -563,8 +595,11 @@ client.query('http')
 
 ### Reader.count
 
+count points
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -579,12 +614,14 @@ client.query('http')
 ```
 - `count` count field
 
-count points
 
 ### Reader.fill
 
+fill `null` value with `fill value`
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -604,13 +641,15 @@ client.query('http')
 
 - `value` fill value
 
-fill `null` value with `fill value`
 
 
 ### Reader.queue
 
+add reader instance to reader queue
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -626,13 +665,15 @@ client.syncQuery().then(data => {
 }).catch(error);
 ```
 
-add reader instance to reader queue
 
 
 ### syncQuery
 
+get all query queue points result
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -648,13 +689,15 @@ client.syncQuery().then(data => {
 }).catch(error);
 ```
 
-get all query queue points result
 
 
 ### queryQueueLength
 
+get query queue length
+
+
 ```js
-const Influx = require('simple-influx');
+const Influx = require('influxdb-nodejs');
 const client = new Influx({
 	database: 'mydb'
 });
@@ -667,7 +710,6 @@ client.query(series)
 console.info(client.queryQueueLength); // 2
 ```
 
-get query queue length
 
 ## License
 
