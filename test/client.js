@@ -75,7 +75,7 @@ describe('influxdb-nodejs:singleton', () => {
 	});
 
 
-	it('write points(value is null) success', done => {
+	it('write point(value field is null) success', done => {
 		const tags = {
 			status: '50x',
 			size: '1K'
@@ -95,6 +95,37 @@ describe('influxdb-nodejs:singleton', () => {
 				assert.equal(data, undefined);
 				done();
 			}).catch(done);
+	});
+
+
+
+	it('write two points with same time value will save one point', done => {
+		const id = ++uuid;
+		const now = Date.now();
+		client.write(series)
+			.tag('uuid', id)
+			.value({
+				use: 40,
+				time: now
+			})
+			.queue();
+		client.write(series)
+			.tag('uuid', id)
+			.value({
+				use: 30,
+				time: now + 1
+			})
+			.queue();
+		client.syncWrite().then(() => {
+			return client.query(series).tag('uuid', id).end();
+		}).then(data => {
+			console.dir(data.series[0].values);
+			assert.equal(data.series[0].values.length, 1);
+			done();
+		}).catch(err => {
+			done(err);
+		});
+
 	});
 
 

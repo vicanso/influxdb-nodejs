@@ -335,9 +335,7 @@ writer.value({
 });
 writer.value('bytes', 1010);
 writer.queue();
-client.syncWrite().then(data => {
-	console.info(data);
-}).catch(err => {
+client.syncWrite().catch(err => {
 	console.error(err);
 });
 ```
@@ -662,7 +660,9 @@ client.query(series)
 
 client.syncQuery().then(data => {
 	console.info(data);
-}).catch(error);
+}).catch(err => {
+	console.error(err);
+});
 ```
 
 
