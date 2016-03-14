@@ -113,13 +113,12 @@ describe('influxdb-nodejs:singleton', () => {
 			.tag('uuid', id)
 			.value({
 				use: 30,
-				time: now + 1
+				time: now
 			})
 			.queue();
 		client.syncWrite().then(() => {
 			return client.query(series).tag('uuid', id).end();
 		}).then(data => {
-			console.dir(data.series[0].values);
 			assert.equal(data.series[0].values.length, 1);
 			done();
 		}).catch(err => {
