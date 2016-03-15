@@ -166,12 +166,43 @@ client.timeout = 1000;
 console.info(client.timeout); // 1000
 ```
 
+### writePoint
+
+write point to the influxdb's measurement
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx({
+	username: 'root',
+	password: 'root',
+	timePrecision: 'ms',
+	host: 'localhost',
+	port: 8086,
+	protocol: 'http',
+	database: 'mydb'
+});
+client.writePoint('http', {
+	code: 400,
+	bytes: 1010
+}, {
+	status: '40x',
+	size: '1K'
+});
+```
+
+
+- `measurement` measurement name
+
+- `fields` field set
+
+- `tags` tag set, optional
+
 
 
 
 ### write
 
-write point to the series, return Writer instance
+write point to the influxdb's measurement, return Writer instance
 
 
 ```js

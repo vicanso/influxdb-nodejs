@@ -50,29 +50,29 @@ describe('influxdb-nodejs:singleton', () => {
 	});
 
 
+
 	it('write point success', done => {
 		const tags = {
+			uuid: ++uuid,
 			status: '40x',
 			size: '1K'
 		};
-		const values = {
+		const fields = {
 			code: 400,
 			bytes: 1010,
 			value: 1
 		};
-		client.write(series)
-			.tag(tags)
-			.tag('uuid', ++uuid)
-			.value(values)
-			.value('use', 30)
-			.end()
-			.then(data => {
-				// data -> undefined
-				assert.equal(data, undefined);
-				done();
-			})
-			.catch(done);
+		client.writePoint(series, fields, tags).then(data => {
+			// data -> undefined
+			assert.equal(data, undefined);
+			return client.query(series).tag({uuid: uuid}).end();
+		}).then(data => {
+			assert.equal(data.series[0].values.length, 1);
+			done();
+		}).catch(done);
 	});
+
+
 
 
 	it('write point(value field is null) success', done => {
