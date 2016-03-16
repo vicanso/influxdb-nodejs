@@ -105,16 +105,16 @@ describe('influxdb-nodejs:singleton', () => {
 		client.write(measurement)
 			.tag('uuid', id)
 			.value({
-				use: 40,
-				time: now
+				use: 40
 			})
+			.time(now)
 			.queue();
 		client.write(measurement)
 			.tag('uuid', id)
 			.value({
-				use: 30,
-				time: now
+				use: 30
 			})
+			.time(now)
 			.queue();
 		client.syncWrite().then(() => {
 			return client.query(measurement).tag('uuid', id).end();
