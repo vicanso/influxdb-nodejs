@@ -4,16 +4,14 @@ const Client = require('..');
 const _ = require('lodash');
 
 describe('influxdb-nodejs:singleton', () => {
-	const client = new Client({
-		database: 'mydb'
-	});
+	const client = new Client('http://localhost:8086/mydb');
 	const measurement = 'http';
 	let uuid = 0;
 
 	it('init client use uri', (done) => {
 
 		const tmpClient = new Client('https://user:pwd@192.168.1.1:8087/test');
-		assert.equal(JSON.stringify(tmpClient._options), '{"timePrecision":"ms","database":"test","servers":[{"protocol":"https","host":"192.168.1.1","port":8087}],"username":"user","password":"pwd"}');
+		assert.equal(JSON.stringify(tmpClient._options), '{"timePrecision":"ms","servers":[{"protocol":"https","host":"192.168.1.1","port":8087}],"database":"test","username":"user","password":"pwd"}');
 		done();
 	});
 
@@ -605,19 +603,7 @@ describe('influxdb-nodejs:singleton', () => {
 });
 
 describe('influxdb-nodejs:cluster', () => {
-	const client = new Client({
-		database: 'mydb',
-		servers: [
-			{
-				host: '127.0.0.1',
-				port: 8086
-			},
-			{
-				host: '127.0.0.1',
-				port: 9086
-			}
-		]
-	});
+	const client = new Client('http://127.0.0.1:8086,127.0.0.1:9086/mydb');
 
 	it('get available servers success', done => {
 		setTimeout(() => {
