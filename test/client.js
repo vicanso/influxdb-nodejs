@@ -7,7 +7,7 @@ describe('influxdb-nodejs:singleton', () => {
 	const client = new Client({
 		database: 'mydb'
 	});
-	const series = 'http';
+	const measurement = 'http';
 	let uuid = 0;
 
 	it('init client use uri', (done) => {
@@ -62,10 +62,10 @@ describe('influxdb-nodejs:singleton', () => {
 			bytes: 1010,
 			value: 1
 		};
-		client.writePoint(series, fields, tags).then(data => {
+		client.writePoint(measurement, fields, tags).then(data => {
 			// data -> undefined
 			assert.equal(data, undefined);
-			return client.query(series).tag({uuid: uuid}).end();
+			return client.query(measurement).tag({uuid: uuid}).end();
 		}).then(data => {
 			assert.equal(data.series[0].values.length, 1);
 			done();
@@ -84,7 +84,7 @@ describe('influxdb-nodejs:singleton', () => {
 			code: 503,
 			bytes: 1010
 		};
-		client.write(series)
+		client.write(measurement)
 			.tag(tags)
 			.tag('uuid', ++uuid)
 			.value(values)
@@ -102,14 +102,14 @@ describe('influxdb-nodejs:singleton', () => {
 	it('write two points with same time value will save one point', done => {
 		const id = ++uuid;
 		const now = Date.now();
-		client.write(series)
+		client.write(measurement)
 			.tag('uuid', id)
 			.value({
 				use: 40,
 				time: now
 			})
 			.queue();
-		client.write(series)
+		client.write(measurement)
 			.tag('uuid', id)
 			.value({
 				use: 30,
@@ -117,7 +117,7 @@ describe('influxdb-nodejs:singleton', () => {
 			})
 			.queue();
 		client.syncWrite().then(() => {
-			return client.query(series).tag('uuid', id).end();
+			return client.query(measurement).tag('uuid', id).end();
 		}).then(data => {
 			assert.equal(data.series[0].values.length, 1);
 			done();
@@ -129,7 +129,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('get points success', done => {
-		client.query(series)
+		client.query(measurement)
 			.tag('uuid', uuid)
 			.end()
 			.then(data => {
@@ -144,7 +144,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('get points with multi tag(object) success', done => {
-		client.query(series)
+		client.query(measurement)
 			.tag({
 				status: '40x',
 				size: '1K'
@@ -162,7 +162,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('get points with where(string) success', done => {
-		client.query(series)
+		client.query(measurement)
 			.where("status='40x'")
 			.end()
 			.then(data => {
@@ -177,7 +177,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('get points white regular expression success', done => {
-		client.query(series)
+		client.query(measurement)
 			.where('status =~ /50./')
 			.end()
 			.then(data => {
@@ -201,7 +201,7 @@ describe('influxdb-nodejs:singleton', () => {
 			}
 		};
 
-		client.query(series)
+		client.query(measurement)
 			.where("time > now() - 2s")
 			.end()
 			.then(data => {
@@ -214,7 +214,7 @@ describe('influxdb-nodejs:singleton', () => {
 				finish();
 			}).catch(done);
 
-		client.query(series)
+		client.query(measurement)
 			.where('time > now()')
 			.end()
 			.then(data => {
@@ -229,7 +229,7 @@ describe('influxdb-nodejs:singleton', () => {
 		assert.equal(client.timeout, 0);
 		client.timeout = 1;
 		assert.equal(client.timeout, 1);
-		client.query(series)
+		client.query(measurement)
 			.tag('uuid', uuid)
 			.end()
 			.catch(err => {
@@ -259,7 +259,7 @@ describe('influxdb-nodejs:singleton', () => {
 		const arr = [];
 		for (let i = 2; i >= 0; i--) {
 			arr.push(
-				client.write(series)
+				client.write(measurement)
 				.tag(randomTags())
 				.value(randomValues())
 				.end()
@@ -275,7 +275,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('get points group by multi tags success', done => {
-		client.query(series)
+		client.query(measurement)
 			.group('status')
 			.group('size')
 			.end()
@@ -292,7 +292,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('limit points success', done => {
-		client.query(series)
+		client.query(measurement)
 			.group('*')
 			.limit(1)
 			.end()
@@ -308,7 +308,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('slimit points success', done => {
-		client.query(series)
+		client.query(measurement)
 			.group('*')
 			.slimit(1)
 			.end()
@@ -320,7 +320,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('order points desc success', done => {
-		client.query(series)
+		client.query(measurement)
 			.desc()
 			.end()
 			.then(data => {
@@ -337,7 +337,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('order points asc success', done => {
-		client.query(series)
+		client.query(measurement)
 			.asc()
 			.end()
 			.then(data => {
@@ -355,12 +355,12 @@ describe('influxdb-nodejs:singleton', () => {
 
 	it('offset points success', done => {
 		let prevData;
-		client.query(series)
+		client.query(measurement)
 			.limit(2)
 			.end()
 			.then(data => {
 				prevData = data;
-				return client.query(series)
+				return client.query(measurement)
 					.offset(1)
 					.end();
 			})
@@ -372,7 +372,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('mean result success', done => {
-		client.query(series)
+		client.query(measurement)
 			.mean('use')
 			.end()
 			.then(data => {
@@ -385,7 +385,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('sum result success', done => {
-		client.query(series)
+		client.query(measurement)
 			.sum('use')
 			.end()
 			.then(data => {
@@ -398,7 +398,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('count result success', done => {
-		client.query(series)
+		client.query(measurement)
 			.count('use')
 			.end()
 			.then(data => {
@@ -420,14 +420,14 @@ describe('influxdb-nodejs:singleton', () => {
 			code: 503,
 			bytes: 1010
 		};
-		client.write(series)
+		client.write(measurement)
 			.tag(tags)
 			.tag('uuid', ++uuid)
 			.value(values)
 			.value('use', 30)
 			.end()
 			.then(data => {
-				return client.query(series)
+				return client.query(measurement)
 					.group('status')
 					.fill(fillValue)
 					.tag('uuid', uuid)
@@ -442,7 +442,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('write multi points success', done => {
-		client.write(series)
+		client.write(measurement)
 			.tag({
 				status: '50x',
 				size: '2K'
@@ -455,7 +455,7 @@ describe('influxdb-nodejs:singleton', () => {
 			})
 			.value('use', 30)
 			.queue();
-		client.write(series)
+		client.write(measurement)
 			.tag({
 				status: '50x',
 				size: '8K',
@@ -473,7 +473,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 		client.syncWrite().then(data => {
 			// data -> undefined
-			return client.query(series)
+			return client.query(measurement)
 				.tag('uuid', uuid)
 				.end();
 		}).then(data => {
@@ -483,9 +483,9 @@ describe('influxdb-nodejs:singleton', () => {
 	});
 
 
-	it('write multi points different series success', done => {
-		const testSeries = 'test';
-		client.write(series)
+	it('write multi points different measurement success', done => {
+		const testMeasurement = 'test';
+		client.write(measurement)
 			.tag({
 				status: '50x',
 				size: '2K'
@@ -498,7 +498,7 @@ describe('influxdb-nodejs:singleton', () => {
 			})
 			.value('use', 30)
 			.queue();
-		client.write(testSeries)
+		client.write(testMeasurement)
 			.tag({
 				status: '50x',
 				size: '8K',
@@ -513,12 +513,12 @@ describe('influxdb-nodejs:singleton', () => {
 			.queue();
 		client.syncWrite().then(data => {
 			// data -> undefined
-			return client.query(testSeries)
+			return client.query(testMeasurement)
 				.tag('uuid', uuid)
 				.end();
 		}).then(data => {
 			assert.equal(data.series[0].values.length, 1);
-			return client.dropMeasurement(testSeries);
+			return client.dropMeasurement(testMeasurement);
 		}).then(data => {
 			done();
 		}).catch(done);
@@ -533,11 +533,11 @@ describe('influxdb-nodejs:singleton', () => {
 	});
 
 
-	it('query multi series success', done => {
-		client.query(series)
+	it('query multi measurement success', done => {
+		client.query(measurement)
 			.tag('status', '40x')
 			.queue();
-		client.query(series)
+		client.query(measurement)
 			.tag('status', '50x')
 			.queue();
 		assert.equal(client.queryQueueLength, 2);
@@ -550,10 +550,10 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('query queue success', done => {
-		client.query(series)
+		client.query(measurement)
 			.tag('status', '40x')
 			.queue();
-		client.query(series)
+		client.query(measurement)
 			.tag('status', '50x')
 			.queue();
 
@@ -580,7 +580,7 @@ describe('influxdb-nodejs:singleton', () => {
 
 
 	it('drop measurement success', done => {
-		client.dropMeasurement(series).then(data => {
+		client.dropMeasurement(measurement).then(data => {
 
 			// data -> {}
 			assert(_.isEmpty(data));
