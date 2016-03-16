@@ -78,15 +78,15 @@ describe('influxdb-nodejs:singleton', () => {
 			status: '50x',
 			size: '1K'
 		};
-		const values = {
+		const fields = {
 			code: 503,
 			bytes: 1010
 		};
 		client.write(measurement)
 			.tag(tags)
 			.tag('uuid', ++uuid)
-			.value(values)
-			.value('use', 30)
+			.field(fields)
+			.field('use', 30)
 			.end()
 			.then(data => {
 				// data -> undefined
@@ -102,14 +102,14 @@ describe('influxdb-nodejs:singleton', () => {
 		const now = Date.now();
 		client.write(measurement)
 			.tag('uuid', id)
-			.value({
+			.field({
 				use: 40
 			})
 			.time(now)
 			.queue();
 		client.write(measurement)
 			.tag('uuid', id)
-			.value({
+			.field({
 				use: 30
 			})
 			.time(now)
@@ -246,7 +246,7 @@ describe('influxdb-nodejs:singleton', () => {
 				size: _.sample(['1K', '10K', '50K', '100K', '300K'])
 			};
 		};
-		const randomValues = () => {
+		const randomFields = () => {
 			return {
 				code: _.random(200, 510),
 				bytes: _.random(10, 400 * 1024),
@@ -259,7 +259,7 @@ describe('influxdb-nodejs:singleton', () => {
 			arr.push(
 				client.write(measurement)
 				.tag(randomTags())
-				.value(randomValues())
+				.field(randomFields())
 				.end()
 			);
 		}
@@ -414,15 +414,15 @@ describe('influxdb-nodejs:singleton', () => {
 			status: '50x',
 			size: '1K'
 		};
-		const values = {
+		const fields = {
 			code: 503,
 			bytes: 1010
 		};
 		client.write(measurement)
 			.tag(tags)
 			.tag('uuid', ++uuid)
-			.value(values)
-			.value('use', 30)
+			.field(fields)
+			.field('use', 30)
 			.end()
 			.then(data => {
 				return client.query(measurement)
@@ -446,12 +446,12 @@ describe('influxdb-nodejs:singleton', () => {
 				size: '2K'
 			})
 			.tag('uuid', ++uuid)
-			.value({
+			.field({
 				code: 502,
 				bytes: 2489,
 				value: 1
 			})
-			.value('use', 30)
+			.field('use', 30)
 			.queue();
 		client.write(measurement)
 			.tag({
@@ -459,7 +459,7 @@ describe('influxdb-nodejs:singleton', () => {
 				size: '8K',
 				uuid: ++uuid
 			})
-			.value({
+			.field({
 				code: 504,
 				bytes: 8031,
 				value: 1,
@@ -489,12 +489,12 @@ describe('influxdb-nodejs:singleton', () => {
 				size: '2K'
 			})
 			.tag('uuid', ++uuid)
-			.value({
+			.field({
 				code: 502,
 				bytes: 2489,
 				value: 1
 			})
-			.value('use', 30)
+			.field('use', 30)
 			.queue();
 		client.write(testMeasurement)
 			.tag({
@@ -502,7 +502,7 @@ describe('influxdb-nodejs:singleton', () => {
 				size: '8K',
 				uuid: ++uuid
 			})
-			.value({
+			.field({
 				code: 504,
 				bytes: 8031,
 				value: 1,
