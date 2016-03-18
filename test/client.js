@@ -11,7 +11,7 @@ describe('influxdb-nodejs:singleton', () => {
 	it('init client use uri', (done) => {
 
 		const tmpClient = new Client('https://user:pwd@192.168.1.1:8087/test');
-		assert.equal(JSON.stringify(tmpClient._options), '{"timePrecision":"ms","servers":[{"protocol":"https","host":"192.168.1.1","port":8087}],"database":"test","username":"user","password":"pwd"}');
+		assert.equal(JSON.stringify(tmpClient._options), '{"servers":[{"protocol":"https","host":"192.168.1.1","port":8087}],"database":"test","username":"user","password":"pwd"}');
 		done();
 	});
 
@@ -94,7 +94,6 @@ describe('influxdb-nodejs:singleton', () => {
 				done();
 			}).catch(done);
 	});
-
 
 
 	it('write two points with same time value will save one point', done => {
