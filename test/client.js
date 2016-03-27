@@ -12,7 +12,7 @@ describe('influxdb-nodejs:singleton', () => {
 
     const tmpClient = new Client(
       'https://user:pwd@192.168.1.1:8087/test');
-    assert.equal(JSON.stringify(tmpClient._options),
+    assert.equal(JSON.stringify(tmpClient.options),
       '{"servers":[{"protocol":"https","host":"192.168.1.1","port":8087}],"database":"test","username":"user","password":"pwd"}'
     );
     done();
