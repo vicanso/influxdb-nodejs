@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "debug": "^2.2.0",
+    "influx-ql": "0.0.3",
     "lodash": "^4.11.1",
-    "superagent": "^1.8.3"
+    "superagent": "^2.0.0-alpha.1",
+    "superagent-load-balancer": "0.0.2"
   },
   "devDependencies": {
     "eslint": "^2.8.0",
