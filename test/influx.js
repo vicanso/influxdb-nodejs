@@ -51,6 +51,16 @@ describe('Influx', () => {
     }).catch(done);
   });
 
+  it('set timeout', done => {
+    influx.timeout = 1;
+    assert.equal(influx.timeout, 1);
+    influx.query('select * from cpu_load_short').then().catch(err => {
+      assert.equal(err.code, 'ECONNABORTED');
+      influx.timeout = 0;
+      done();
+    });
+  });
+
   it('drop db', done => {
     influx.query('drop database mydb').then(res => {
       assert(!_.isEmpty(res.body));

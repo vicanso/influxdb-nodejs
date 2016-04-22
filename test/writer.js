@@ -6,6 +6,11 @@ const Influx = require('../lib/influx');
 const _ = require('lodash');
 
 describe('Writer', () => {
+  const delay = (ms) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms).unref();
+    });
+  };
   const influx = new Influx({
     servers: [
       {
@@ -23,27 +28,70 @@ describe('Writer', () => {
     }).catch(done);
   });
 
-
   it('write point', done => {
     const writer = new Writer(influx);
     writer.measurement = 'http'
+    assert.equal(writer.measurement, 'http');
     writer.tag({
       spdy: 'fast',
       type: '2',
-      method: 'get',
     })
+    .tag('method', 'get')
     .field({
       use: 500,
       size: 11 * 1024,
-      code: 200
-    }).then(data => {
+    })
+    .field('code', 400)
+    .then(() => {
+        return delay(100);
+    })
+    .then(() => {
       const reader = new Reader(influx);
       reader.measurement = 'http';
       return reader.condition('spdy', 'fast');
-    }).then(data => {
+    })
+    .then(data => {
       assert.equal(data.results[0].series[0].values.length, 1);
       done();
     }).catch(done);
+  });
+
+  it('write point with time', done => {
+    const writer = new Writer(influx);
+    writer.measurement = 'http';
+    writer.tag('spdy', 'lightning')
+      .field('use', 100)
+      .time()
+      .then(() => {
+        return delay(100);
+      })
+      .then(() => {
+        const reader = new Reader(influx);
+        reader.measurement = 'http';
+        // return reader.tag({spdy: '  lightning'});
+        return reader.condition('spdy', 'lightning');
+      })
+      .then(data => {
+        assert.equal(data.results[0].series[0].values.length, 1);
+        done();
+      }).catch(done);
+  });
+
+  it('write queue', done => {
+    const set = new Set();
+    const writer = new Writer(influx, set);
+    writer.measurement = 'http';
+    writer.tag('spdy', 'fast');
+    writer.field('use', 200);
+    writer.queue();
+    for (let item of set) {
+      assert.equal(item.measurement, 'http');
+      assert.equal(item.tags.spdy, 'fast');
+      assert.equal(item.fields.use, 200);
+      assert.equal(item.time.length, 19);
+    }
+    assert.equal(set.size, 1);
+    done();
   });
 
   it('drop db', done => {
@@ -52,5 +100,4 @@ describe('Writer', () => {
       done();
     }).catch(done);
   });
-
 });

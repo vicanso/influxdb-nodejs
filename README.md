@@ -1,6 +1,7 @@
 # influxdb-nodejs 
 	
 [![Build Status](https://travis-ci.org/vicanso/influxdb-nodejs.svg?branch=master)](https://travis-ci.org/vicanso/influxdb-nodejs)
+[![npm](http://img.shields.io/npm/v/influxdb-nodejs.svg?style=flat-square)](https://www.npmjs.org/package/influxdb-nodejs)
 
 An [InfluxDB](https://influxdata.com/) Node.js Client
 

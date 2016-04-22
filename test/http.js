@@ -50,6 +50,7 @@ describe('HTTP', () => {
 
   it('set global timeout', done => {
     http.timeout = 1;
+    assert(http.timeout, 1);
     http.get('/query?q=SHOW+SERIES+WHERE+FALSE').then().catch(err => {
       assert.equal(err.code, 'ECONNABORTED');
       http.timeout = 0;
