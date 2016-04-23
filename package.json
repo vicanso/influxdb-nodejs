@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "influx-ql": "0.0.4",
+    "influx-ql": "0.0.5",
     "lodash": "^4.11.1",
     "superagent": "^2.0.0-alpha.1",
     "superagent-load-balancer": "0.0.3"

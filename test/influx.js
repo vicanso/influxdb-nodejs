@@ -16,15 +16,15 @@ describe('Influx', () => {
   });
 
   it('query when db is not exists', done => {
-    influx.query('select * from cpu_load_short').then(res => {
-      assert(res.body.results[0].error)
+    influx.query('select * from cpu_load_short').then(data => {
+      assert(data.results[0].error)
       done();
     }).catch(done);
   });
 
   it('create database', done => {
-    influx.query('create database if not exists mydb').then(res => {
-      assert(!_.isEmpty(res.body));
+    influx.query('create database if not exists mydb').then(data => {
+      assert(!_.isEmpty(data));
       done();
     }).catch(done);
   });
@@ -39,14 +39,14 @@ describe('Influx', () => {
       fields: {
         value: '0.64',
       },
-    }).then(res => {
+    }).then(data => {
       done();
     }).catch(done);
   });
 
   it('query', done => {
-    influx.query('select * from cpu_load_short').then(res => {
-      assert(res.body.results[0].series[0]);
+    influx.query('select * from cpu_load_short').then(data => {
+      assert(data.results[0].series[0]);
       done();
     }).catch(done);
   });
@@ -62,8 +62,8 @@ describe('Influx', () => {
   });
 
   it('drop db', done => {
-    influx.query('drop database mydb').then(res => {
-      assert(!_.isEmpty(res.body));
+    influx.query('drop database mydb').then(data => {
+      assert(!_.isEmpty(data));
       done();
     }).catch(done);
   });

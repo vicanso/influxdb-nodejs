@@ -46,6 +46,7 @@ describe('Client:singleton', () => {
     client.write('http')
       .tag({
         spdy: 'fast',
+        type: '3'
       })
       .field({
         use: 200,
@@ -54,8 +55,41 @@ describe('Client:singleton', () => {
     assert.equal(client.writeQueueLength, 1);
   });
 
+  it('write point', done => {
+    client.writePoint('http', {
+      use: 301,
+    }, {
+      spdy: 'faster',
+    }).then(data => {
+      return client.query('http')
+        .condition('spdy', 'faster');
+    }).then(data => {
+      assert.equal(data.results[0].series[0].values[0][4], 'faster');
+      done();
+    }).catch(done);
+  });
+
   it('sync write queue', done => {
     client.syncWrite().then(data => {
+      done();
+    }).catch(done);
+  });
+
+  it('get point queue', () => {
+    client.query('http')
+      .condition('type', '2')
+      .queue();
+    client.query('http')
+      .condition('type', '3')
+      .queue();
+    assert.equal(client.queryQueueLength, 2);
+  });
+
+  it('sync query queue', done => {
+    client.syncQuery().then(data => {
+      assert.equal(data.results.length, 2);
+      assert.equal(data.results[0].series[0].values[0][5], '2');
+      assert.equal(data.results[1].series[0].values[0][5], '3');
       done();
     }).catch(done);
   });
@@ -69,6 +103,74 @@ describe('Client:singleton', () => {
       }).catch(done);
   });
   
+  it('set timeout', done => {
+    client.timeout = 1;
+    assert.equal(client.timeout, 1);
+    client.query('http')
+      .then()
+      .catch(err => {
+        assert.equal(err.code, 'ECONNABORTED');
+        client.timeout = 0;
+        done();
+      });
+  });
+
+  it('show databases', done => {
+    client.showDatabases().then(data => {
+      assert(data.results[0].series[0].values.length);
+      done();
+    }).catch(done);
+  });
+
+  it('show retention policies', done => {
+    client.showRetentionPolicies().then(data => {
+      assert(data.results[0].series[0].values.length);
+      done();
+    }).catch(done);
+  });
+
+  it('show measurements', done => {
+    client.showMeasurements().then(data => {
+      assert(data.results[0].series[0].values.length);
+      done();
+    }).catch(done);
+  });
+
+  it('show tag keys of measurements', done => {
+    client.showTagKeys('http').then(data => {
+      assert(data.results[0].series[0].values.length);
+      done();
+    }).catch(done);
+  });
+
+  it('show tag keys of all measurements', done => {
+    client.showTagKeys().then(data => {
+      assert(data.results[0].series[0].values.length);
+      done();
+    }).catch(done);
+  });
+
+  it('show field keys of measurements', done => {
+    client.showFieldKeys('http').then(data => {
+      assert(data.results[0].series[0].values.length);
+      done();
+    }).catch(done);
+  });
+
+  it('show field keys of all measurements', done => {
+    client.showFieldKeys().then(data => {
+      assert(data.results[0].series[0].values.length);
+      done();
+    }).catch(done);
+  });
+
+  it('show series', done => {
+    client.showSeries().then(data => {
+      assert(data.results[0].series[0].values.length);
+      done();
+    }).catch(done);
+  })
+
   it('drop database', done => {
     client.dropDatabase().then(() => {
       done();

@@ -94,8 +94,8 @@ describe('Reader', () => {
   });
 
   it('drop db', done => {
-    influx.query('drop database mydb').then(res => {
-      assert(!_.isEmpty(res.body));
+    influx.query('drop database mydb').then(data => {
+      assert(!_.isEmpty(data));
       done();
     }).catch(done);
   });

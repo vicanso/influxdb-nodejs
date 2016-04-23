@@ -22,8 +22,8 @@ describe('Writer', () => {
   });
 
   it('create database', done => {
-    influx.query('create database if not exists mydb').then(res => {
-      assert(!_.isEmpty(res.body));
+    influx.query('create database if not exists mydb').then(data => {
+      assert(!_.isEmpty(data));
       done();
     }).catch(done);
   });
@@ -95,8 +95,8 @@ describe('Writer', () => {
   });
 
   it('drop db', done => {
-    influx.query('drop database mydb').then(res => {
-      assert(!_.isEmpty(res.body));
+    influx.query('drop database mydb').then(data => {
+      assert(!_.isEmpty(data));
       done();
     }).catch(done);
   });
