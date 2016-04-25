@@ -1,9 +1,10 @@
 # influxdb-nodejs 
-	
+  
 [![Build Status](https://travis-ci.org/vicanso/influxdb-nodejs.svg?branch=master)](https://travis-ci.org/vicanso/influxdb-nodejs)
 [![npm](http://img.shields.io/npm/v/influxdb-nodejs.svg?style=flat-square)](https://www.npmjs.org/package/influxdb-nodejs)
 
-An [InfluxDB](https://influxdata.com/) Node.js Client
+An [InfluxDB](https://influxdata.com/) Node.js Client.
+
 
 ## Installation
 
@@ -12,7 +13,7 @@ $ npm install influxdb-nodejs
 ```
 
 ## Examples
-	
+  
 View the [./examples](examples) directory for working examples. 
 
 
@@ -34,7 +35,7 @@ get available servers
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase');
-console.info(client.availableServers); //[{"host": "192.168.1.1", "port": 8086}, ...]
+console.info(client.availableServers); //[{"host": "192.168.1.1", "port": 8086, "protocol": "http"}, ...]
 ```
 
 ### unavailableServers
@@ -44,7 +45,7 @@ get unavailable servers
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://user:pass@192.168.1.1:8086,192.168.1.2:8086,192.168.1.3:9086/mydatabase');
-console.info(client.unavailableServers); //[{"host": "192.168.1.1", "port": 8086}, ...]
+console.info(client.unavailableServers); //[{"host": "192.168.1.1", "port": 8086, "protocol": "http"}, ...]
 ```
 
 
@@ -62,21 +63,6 @@ console.info(client.timeout); // 1000
 ```
 
 
-
-### createDatabase
-
-create database, if the database is exists, will throw an error
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-client.createDatabase().then(() => {
-	console.info('create database:mydb success');
-}).catch(err => {
-	console.error(err);
-});
-```
-
 ### createDatabaseNotExists
 
 create database if the database is not exists
@@ -85,9 +71,9 @@ create database if the database is not exists
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.createDatabaseNotExists().then(() => {
-	console.info('create database:mydb success');
+  console.info('create database:mydb success');
 }).catch(err => {
-	console.error(err);
+  console.error(err);
 });
 ```
 
@@ -101,38 +87,109 @@ drop database when the database is exists
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.dropDatabase().then(() => {
-	console.info('drop database:mydb success');
+  console.info('drop database:mydb success');
 }).catch(err => {
-	console.error(err);
+  console.error(err);
 });
 ```
 
+### showRetentionPolicies
 
-### getMeasurements
+show retention policies of db
 
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
-client.getMeasurements().then(data => {
-	console.info(data);
+client.showRetentionPolicies().then((data) => {
+  console.info(data);
 }).catch(err => {
-	console.error(err);
+  console.error(err);
 });
 ```
 
-### dropMeasurement
+### showMeasurements
+
+show measurements of db
 
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
-client.dropMeasurement('http').then(data => {
-	console.info(data);
+client.showMeasurements().then(data => {
+  console.info(data);
 }).catch(err => {
-	console.error(err);
+  console.error(err);
+});
+```
+
+### showTagKeys
+
+- `measurement` measurement name, [optional]
+
+show tag keys of measurement/db
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+// show tag keys of mydb
+client.showTagKeys().then(data => {
+  console.info(data);
+}).catch(err => {
+  console.error(err);
+});
+// show tag keys of http
+client.showTagKeys('http').then(data => {
+  console.info(data);
+}).catch(err => {
+  console.error(err);
 });
 ```
 
 
+### showFieldKeys
+
+- `measurement` measurement name, [optional]
+
+show field keys of measurement/db
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+// show field keys of mydb
+client.showFieldKeys().then(data => {
+  console.info(data);
+}).catch(err => {
+  console.error(err);
+});
+// show field keys of http
+client.showFieldKeys('http').then(data => {
+  console.info(data);
+}).catch(err => {
+  console.error(err);
+});
+```
+
+### showSeries
+
+- `measurement` measurement name, [optional]
+
+show series of measurement/db
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+// show series of mydb
+client.showSeries().then(data => {
+  console.info(data);
+}).catch(err => {
+  console.error(err);
+});
+// show series of http
+client.showSeries('http').then(data => {
+  console.info(data);
+}).catch(err => {
+  console.error(err);
+});
+```
 
 ### writePoint
 
@@ -149,11 +206,11 @@ write point to the influxdb's measurement
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.writePoint('http', {
-	code: 400,
-	bytes: 1010
+  code: 400,
+  bytes: 1010
 }, {
-	status: '40x',
-	size: '1K'
+  status: '40x',
+  size: '1K'
 });
 ```
 
@@ -191,8 +248,8 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
 const writer = client.write('http');
 writer.tag('uuid', '1234');
 writer.tag({
-	status: '40x',
-	size: '1K'
+  status: '40x',
+  size: '1K'
 });
 ```
 
@@ -211,19 +268,19 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
 const writer = client.write('http');
 writer.tag('uuid', '1234');
 writer.tag({
-	status: '40x',
-	size: '1K'
+  status: '40x',
+  size: '1K'
 });
 writer.field({
-	code: 400,
-	value: 1
+  code: 400,
+  value: 1
 });
 writer.field('bytes', 1010);
 ```
 
 
 
-### Writer.end
+### Writer.then
 
 write point to server, return promise
 
@@ -234,18 +291,18 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
 const writer = client.write('http');
 writer.tag('uuid', '1234');
 writer.tag({
-	status: '40x',
-	size: '1K'
+  status: '40x',
+  size: '1K'
 });
 writer.field({
-	code: 400,
-	value: 1
+  code: 400,
+  value: 1
 });
 writer.field('bytes', 1010);
-writer.end().then(() => {
-	console.info('write point success');
+writer.then(() => {
+  console.info('write point success');
 }).catch(err => {
-	console.error(err);
+  console.error(err);
 });
 ```
 
@@ -262,12 +319,12 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
 const writer = client.write('http');
 writer.tag('uuid', '1234');
 writer.tag({
-	status: '40x',
-	size: '1K'
+  status: '40x',
+  size: '1K'
 });
 writer.field({
-	code: 400,
-	value: 1
+  code: 400,
+  value: 1
 });
 writer.field('bytes', 1010);
 writer.queue();
@@ -286,12 +343,12 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
 const writer = client.write('http');
 writer.tag('uuid', '1234');
 writer.tag({
-	status: '40x',
-	size: '1K'
+  status: '40x',
+  size: '1K'
 });
 writer.field({
-	code: 400,
-	value: 1
+  code: 400,
+  value: 1
 });
 writer.field('bytes', 1010);
 writer.queue();
@@ -307,23 +364,25 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
 const writer = client.write('http');
 writer.tag('uuid', '1234');
 writer.tag({
-	status: '40x',
-	size: '1K'
+  status: '40x',
+  size: '1K'
 });
 writer.field({
-	code: 400,
-	value: 1
+  code: 400,
+  value: 1
 });
 writer.vafieldlue('bytes', 1010);
 writer.queue();
-client.syncWrite().catch(err => {
-	console.error(err);
+client.syncWrite().then(() => {
+  console.info('sync write success');
+}).catch(err => {
+  console.error(err);
 });
 ```
 
 ### query
 
-get point from the measurement, return Reader instance
+get point from the measurement, return Reader instance extends  [influx-ql](https://github.com/vicanso/influx-ql)
 
 
 - `measurement` get point from the measurement
@@ -332,269 +391,20 @@ get point from the measurement, return Reader instance
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 const reader = client.query('http');
-```
-
-
-
-
-### Reader.tag
-
-set query tag conditions, return Reader instance
-
-- `key` tag name string or {key1: value1, key2: value2}
-
-- `value` tag value string, optional
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-const reader = client.query('http');
-reader.tag('status', '40x');
-reader.tag({
-	uuid: '1234'
-});
-reader.end().then(data => {
-	console.info(data);
+reader.addField('status', 'spdy', 'fetch time');
+reader.start = '2016-01-01';
+reader.end = '-3h';
+reader.limit = 10;
+reader.slimit = 5;
+reader.condition('code', 400);
+reader.tag('spdy', 'fast');
+reader.addCondition('use <= 30');
+reader.fill = 0;
+reader.then(data => {
+  console.info(data);
 }).catch(err => {
-	console.error(err);
+  console.error(err);
 });
-```
-
-
-
-### Reader.where
-
-get points by where conditions
-
-- `conditions` string or regexp
-
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-const reader = client.query('http');
-reader.where("status='40x'").end().then(data => {
-	console.info(data);
-}).catch(err => {
-	console.error(err);
-});
-
-client.query('http')
-	.where('status =~ /50./')
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-
-
-
-
-### Reader.group
-
-get points group by tag
-
-- `groupTag` group tag name
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-client.query('http')
-	.group('status')
-	.group('size')
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-
-
-
-
-### Reader.limit
-
-get points by limit value
-
-- `count` limit value
-
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-client.query('http')
-	.group('*')
-	.limit(1)
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-
-
-
-
-### Reader.slimit
-
-get points by slimit value
-
-- `count` slimit value
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-client.query('http')
-	.group('*')
-	.slimit(1)
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-
-
-
-
-### Reader.desc, Reader.asc
-
-get points sort by time(asc, desc)
-
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-
-client.query('http')
-	.desc()
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-
-client.query('http')
-	.asc()
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-
-
-
-### Reader.offset
-
-get points by offset
-
-- `offset` offset value
-
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-
-client.query('http')
-	.offset(1)
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-
-
-### Reader.mean
-
-mean points
-
-- `field` mean field
-
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-client.query('http')
-	.mean('use')
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-
-
-
-### Reader.sum
-
-sum points
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-client.query('http')
-	.sum('use')
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-
-### Reader.count
-
-count points
-
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-client.query('http')
-	.count('use')
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-```
-- `count` count field
-
-
-### Reader.fill
-
-fill `null` value with `fill value`
-
-- `value` fill value
-
-
-```js
-const Influx = require('influxdb-nodejs');
-const client = new Influx('http://127.0.0.1:8086/mydb');
-client.query('http')
-	.group('status')
-	.fill(1)
-	.tag('uuid', uuid)
-	.mean('value')
-	.end()
-	.then(data => {
-		console.info(data);
-	}).catch(err => {
-		console.error(err);
-	});
-
 ```
 
 
@@ -609,16 +419,16 @@ add reader instance to reader queue
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.query('http')
-	.tag('status', '40x')
-	.queue();
+  .tag('status', '40x')
+  .queue();
 client.query('http')
-	.tag('status', '50x')
-	.queue();
+  .tag('status', '50x')
+  .queue();
 
 client.syncQuery().then(data => {
-	console.info(data);
+  console.info(data);
 }).catch(err => {
-	console.error(err);
+  console.error(err);
 });
 ```
 
@@ -633,14 +443,14 @@ get all query queue points result
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.query('http')
-	.tag('status', '40x')
-	.queue();
+  .tag('status', '40x')
+  .queue();
 client.query('http')
-	.tag('status', '50x')
-	.queue();
+  .tag('status', '50x')
+  .queue();
 
 client.syncQuery().then(data => {
-	console.info(data);
+  console.info(data);
 }).catch(error);
 ```
 
@@ -655,11 +465,11 @@ get query queue length
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.query('http')
-	.tag('status', '40x')
-	.queue();
+  .tag('status', '40x')
+  .queue();
 client.query('http')
-	.tag('status', '50x')
-	.queue();
+  .tag('status', '50x')
+  .queue();
 console.info(client.queryQueueLength); // 2
 ```
 

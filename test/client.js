@@ -7,7 +7,7 @@ describe('Client:singleton', () => {
 
   it('init', done => {
     setTimeout(done, 1500);
-  })
+  });
 
   it('get available servers', () => {
     assert.equal(client.availableServers.length, 1);
@@ -102,6 +102,24 @@ describe('Client:singleton', () => {
         done();
       }).catch(done);
   });
+
+  it('query point by tag', done => {
+    client.query('http')
+      .tag('spdy', 'fast')
+      .then(data => {
+        assert.equal(data.results[0].series[0].values.length, 2);
+        done();
+      }).catch(done);
+  });
+
+  it('query point by field', done => {
+    client.query('http')
+      .field('use', 301)
+      .then(data => {
+        assert.equal(data.results[0].series[0].values.length, 1);
+        done();
+      }).catch(done);
+  });
   
   it('set timeout', done => {
     client.timeout = 1;
@@ -169,7 +187,57 @@ describe('Client:singleton', () => {
       assert(data.results[0].series[0].values.length);
       done();
     }).catch(done);
-  })
+  });
+
+  it('drop database', done => {
+    client.dropDatabase().then(() => {
+      done();
+    }).catch(done);
+  });
+});
+
+
+describe('Client:Auth', () => {
+  const client = new Client('http://vicanso:mypwd@127.0.0.1:8081/mydb');
+
+  it('init', done => {
+    setTimeout(done, 1500);
+  });
+
+  it('create database if not exists', done => {
+    client.createDatabaseNotExists().then(() => {
+      done();
+    }).catch(done);
+  });
+
+  it('write point', done => {
+    client.write('http')
+      .tag({
+        spdy: 'fast',
+        type: '2',
+        method: 'get',
+      })
+      .field({
+        use: 300,
+        code: 200,
+        size: 10 * 1024,
+      })
+      .then(data => {
+        done();
+      }).catch(done);
+  });
+
+  it('query point', done => {
+    client.query('http')
+      .tag({
+        spdy: 'fast',
+        type: '2',
+      })
+      .then(data => {
+        assert(data.results[0].series[0].values.length);
+        done();
+      }).catch(done);
+  });
 
   it('drop database', done => {
     client.dropDatabase().then(() => {
