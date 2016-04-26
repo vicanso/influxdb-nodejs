@@ -1,7 +1,7 @@
 {
   "name": "influxdb-nodejs",
   "description": "node.js influxdb client",
-  "version": "0.0.12",
+  "version": "1.0.0",
   "author": "Tree Xie <vicansocanbico@gmail.com>",
   "keywords": [
     "influx",
@@ -22,14 +22,16 @@
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "lodash": "^4.6.1",
-    "superagent": "^1.8.0"
+    "influx-ql": "0.0.7",
+    "lodash": "^4.11.1",
+    "superagent": "^2.0.0-alpha.1",
+    "superagent-load-balancer": "0.0.4"
   },
   "devDependencies": {
-    "eslint": "^2.5.1",
-    "eslint-config-airbnb": "^6.2.0",
-    "istanbul": "^0.4.2",
-    "mocha": "^2.4.5",
-    "node-uuid": "^1.4.7"
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb": "^8.0.0",
+    "eslint-plugin-import": "^1.5.0",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5"
   }
 }
