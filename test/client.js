@@ -4,7 +4,7 @@ const Client = require('..');
 
 describe('Client:singleton', () => {
   const client = new Client('http://127.0.0.1:8086,127.0.0.1:8087/mydb');
-
+  client.startHealthCheck();
   it('init', done => {
     setTimeout(done, 1500);
   });
@@ -200,8 +200,10 @@ describe('Client:singleton', () => {
 describe('Client:Auth', () => {
   const client = new Client('http://vicanso:mypwd@127.0.0.1:8081/mydb');
 
-  it('init', done => {
-    setTimeout(done, 1500);
+  it('create user', done => {
+    client.queryRaw('create user vicanso with password \'mypwd\' with all privileges').then(data => {
+      done();
+    }).catch(done);
   });
 
   it('create database if not exists', done => {

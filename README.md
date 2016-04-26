@@ -2,6 +2,7 @@
   
 [![Build Status](https://travis-ci.org/vicanso/influxdb-nodejs.svg?branch=master)](https://travis-ci.org/vicanso/influxdb-nodejs)
 [![npm](http://img.shields.io/npm/v/influxdb-nodejs.svg?style=flat-square)](https://www.npmjs.org/package/influxdb-nodejs)
+[![Github Releases](https://img.shields.io/npm/dm/influxdb-nodejs.svg?style=flat-square)](https://github.com/vicanso/influxdb-nodejs)
 
 An [InfluxDB](https://influxdata.com/) Node.js Client.
 
@@ -473,6 +474,35 @@ client.query('http')
 console.info(client.queryQueueLength); // 2
 ```
 
+### startHealthCheck
+
+- `ping` health check ping function, [optional]
+
+detection the backend whether is health
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.startHealthCheck();
+// custom ping function
+client.startHealthCheck((backend, cb) => {
+  // the backend fail if callback with error
+  setTimeout(cb, 10); 
+});
+```
+
+### stopHealthCheck
+
+stop health check
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.startHealthCheck();
+setTimeout(() => {
+  client.stopHealthCheck();
+}, 1000);
+```
 
 ## License
 

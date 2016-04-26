@@ -12,6 +12,8 @@ services:
 before_install:
 - docker pull vicanso/influxdb
 - docker run -d -p 8086:8086 vicanso/influxdb
+- docker pull vicanso/influxdb-auth
+- docker run -d -p 8081:8086 vicanso/influxdb-auth
 
 script:
 - npm test

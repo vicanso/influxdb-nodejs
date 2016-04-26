@@ -25,7 +25,7 @@
     "influx-ql": "0.0.7",
     "lodash": "^4.11.1",
     "superagent": "^2.0.0-alpha.1",
-    "superagent-load-balancer": "0.0.3"
+    "superagent-load-balancer": "0.0.4"
   },
   "devDependencies": {
     "eslint": "^2.8.0",
