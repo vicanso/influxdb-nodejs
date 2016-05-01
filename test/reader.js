@@ -93,6 +93,27 @@ describe('Reader', () => {
     done();
   });
 
+  it('set format type:json', done => {
+    const reader = new Reader(influx);
+    reader.measurement = 'http';
+    reader.format = 'json';
+    reader.then(data => {
+      assert(data.http);
+      assert.equal(data.http.length, 3);
+      done();
+    }).catch(done);
+  });
+
+  it('set format type:csv', done => {
+    const reader = new Reader(influx);
+    reader.measurement = 'http';
+    reader.format = 'csv';
+    reader.then(data => {
+      assert(data.http);
+      done();
+    }).catch(done);
+  });
+
   it('drop db', done => {
     influx.query('drop database mydb').then(data => {
       assert(!_.isEmpty(data));

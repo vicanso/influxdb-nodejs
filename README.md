@@ -1,6 +1,7 @@
 # influxdb-nodejs 
   
 [![Build Status](https://travis-ci.org/vicanso/influxdb-nodejs.svg?branch=master)](https://travis-ci.org/vicanso/influxdb-nodejs)
+[![Coverage Status](https://img.shields.io/coveralls/vicanso/influxdb-nodejs/master.svg?style=flat)](https://coveralls.io/r/vicanso/influxdb-nodejs?branch=master)
 [![npm](http://img.shields.io/npm/v/influxdb-nodejs.svg?style=flat-square)](https://www.npmjs.org/package/influxdb-nodejs)
 [![Github Releases](https://img.shields.io/npm/dm/influxdb-nodejs.svg?style=flat-square)](https://github.com/vicanso/influxdb-nodejs)
 
@@ -401,6 +402,8 @@ reader.condition('code', 400);
 reader.tag('spdy', 'fast');
 reader.addCondition('use <= 30');
 reader.fill = 0;
+// return data format type: 'default', 'json', 'csv'
+reader.format = 'json';
 reader.then(data => {
   console.info(data);
 }).catch(err => {
@@ -439,6 +442,8 @@ client.syncQuery().then(data => {
 
 get all query queue points result
 
+- `format`  format type, `default`, `json`, `csv` 
+
 
 ```js
 const Influx = require('influxdb-nodejs');
@@ -450,7 +455,7 @@ client.query('http')
   .tag('status', '50x')
   .queue();
 
-client.syncQuery().then(data => {
+client.syncQuery('json').then(data => {
   console.info(data);
 }).catch(error);
 ```

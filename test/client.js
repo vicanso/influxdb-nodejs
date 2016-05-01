@@ -94,6 +94,33 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
+  it('sync query queue, format:json', done => {
+    client.query('http')
+      .condition('type', '2')
+      .queue();
+    client.query('http')
+      .condition('type', '3')
+      .queue();
+    client.syncQuery('json').then(data => {
+      assert(data.http);
+      assert.equal(data.http.length, 2);
+      done();
+    }).catch(done);
+  });
+
+  it('sync query queue, format:csv', done => {
+    client.query('http')
+      .condition('type', '2')
+      .queue();
+    client.query('http')
+      .condition('type', '3')
+      .queue();
+    client.syncQuery('csv').then(data => {
+      assert(data.http);
+      done();
+    }).catch(done);
+  });
+
   it('query point', done => {
     client.query('http')
       .condition('spdy', 'fast')
@@ -190,6 +217,7 @@ describe('Client:singleton', () => {
   });
 
   it('drop database', done => {
+    client.stopHealthCheck();
     client.dropDatabase().then(() => {
       done();
     }).catch(done);
@@ -199,7 +227,7 @@ describe('Client:singleton', () => {
 
 describe('Client:Auth', () => {
   const client = new Client('http://vicanso:mypwd@127.0.0.1:8081/mydb');
-
+  client.startHealthCheck();
   it('create user', done => {
     client.queryRaw('create user vicanso with password \'mypwd\' with all privileges').then(data => {
       done();
