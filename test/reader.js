@@ -87,7 +87,7 @@ describe('Reader', () => {
     const set = new Set();
     const reader = new Reader(influx, set);
     reader.measurement = 'http';
-    reader.condition('type', '4');
+    reader.condition("type = '4'");
     reader.queue();
     assert.equal(set.size, 1);
     done();
