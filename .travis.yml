@@ -15,7 +15,7 @@ before_install:
   - docker run -d -p 8085:8086 vicanso/influxdb-auth
 
 script:
-- npm test
+  - npm test
 
 after_script:
-- npm install coveralls@2 && cat ./coverage/lcov.info | coveralls
+  - npm install coveralls@2 && cat ./coverage/lcov.info | coveralls
