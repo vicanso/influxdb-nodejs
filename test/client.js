@@ -227,11 +227,7 @@ describe('Client:singleton', () => {
 
 describe('Client:Auth', () => {
   const client = new Client('http://vicanso:mypwd@127.0.0.1:8085/mydb');
-  client.startHealthCheck();
-  it('init', done => {
-    setTimeout(done, 1500);
-  });
-
+  
   it('create user', done => {
     client.queryRaw('create user vicanso with password \'mypwd\' with all privileges').then(data => {
       done();
