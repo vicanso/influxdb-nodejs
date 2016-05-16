@@ -80,7 +80,9 @@ describe('Writer', () => {
   it('write point with time and precision', done => {
     const writer = new Writer(influx);
     writer.measurement = 'http';
+    assert.equal(writer.precision, undefined);
     writer.precision = 'ms';
+    assert.equal(writer.precision, 'ms');
     writer.tag('usePrecision', 'true')
       .field('use', 100)
       .time(1463413422809)
