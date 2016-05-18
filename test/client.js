@@ -69,6 +69,21 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
+  it('write point with precision', done => {
+    client.writePoint('http', {
+      use: 404,
+    }, {
+      spdy: 'faster',
+    }, 'ms')
+    .then(data => {
+      return client.query('http')
+        .condition('spdy', 'faster');
+    }).then(data => {
+      assert.equal(data.results[0].series[0].values[0][4], 'faster');
+      done();
+    }).catch(done);
+  });
+
   it('sync write queue', done => {
     client.syncWrite().then(data => {
       done();
