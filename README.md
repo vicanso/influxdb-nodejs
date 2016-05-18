@@ -203,6 +203,7 @@ write point to the influxdb's measurement
 
 - `tags` tag set, optional
 
+- `precision` timestamp precision. ['n','u','ms','s','m','h'], optional
 
 ```js
 const Influx = require('influxdb-nodejs');
@@ -213,7 +214,7 @@ client.writePoint('http', {
 }, {
   status: '40x',
   size: '1K'
-});
+}, 'ms');
 ```
 
 
@@ -225,11 +226,12 @@ write point to the influxdb's measurement, return Writer instance
 
 - `measurement` write point to the measurement
 
+- `precision` timestamp precision. ['n','u','ms','s','m','h'], optional
 
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
-const writer = client.write('http');
+const writer = client.write('http', 's');
 ```
 
 
