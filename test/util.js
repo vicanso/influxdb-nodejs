@@ -3,12 +3,6 @@ const _ = require('lodash');
 const assert = require('assert');
 const util = require('../lib/util');
 describe('util', () => {
-  it('now', () => {
-    const now = util.now();
-    assert(_.isString(now));
-    assert.equal(now.length, 19);
-  });
-
   it('get error', () => {
     const e = new Error('400');
     e.response = {

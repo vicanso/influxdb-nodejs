@@ -57,11 +57,14 @@ describe('Writer', () => {
   });
 
   it('write point with time', done => {
+    const ms = Date.now();
+    const us = `${Math.ceil(process.hrtime()[1] / 1000)}`;
+    const ns = `${ms}${_.padStart(us, '6', '0')}`;
     const writer = new Writer(influx);
     writer.measurement = 'http';
     writer.tag('spdy', 'lightning')
       .field('use', 100)
-      .time()
+      .time(ns)
       .then(() => {
         return delay(100);
       })
@@ -113,7 +116,6 @@ describe('Writer', () => {
       assert.equal(item.measurement, 'http');
       assert.equal(item.tags.spdy, 'fast');
       assert.equal(item.fields.use, 200);
-      assert.equal(item.time.length, 19);
     }
     assert.equal(set.size, 1);
     done();
