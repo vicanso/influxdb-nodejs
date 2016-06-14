@@ -254,6 +254,16 @@ describe('Client:Auth', () => {
     }).catch(done);
   });
 
+  it('on auth client', done => {
+    const tmp = new Client('http://127.0.0.1:8085/mydb');
+    tmp.createDatabaseNotExists().then(() => {
+      done(new Error('no auth client can not create database'));
+    }).catch(err => {
+      assert.equal(err.status, 401);
+      done();
+    });
+  });
+
   it('create database if not exists', done => {
     client.createDatabaseNotExists().then(() => {
       done();

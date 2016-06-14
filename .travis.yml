@@ -9,10 +9,9 @@ services:
   - docker
 
 before_install:
-  - docker pull vicanso/influxdb
-  - docker run -d -p 8086:8086 vicanso/influxdb
-  - docker pull vicanso/influxdb-auth
-  - docker run -d -p 8085:8086 vicanso/influxdb-auth
+  - docker pull influxdb:alpine
+  - docker run -d -p 8086:8086 influxdb:alpine
+  - docker run -d -p 8085:8086 -e INFLUXDB_HTTP_AUTH_ENABLED=true influxdb:alpine
 
 script:
   - npm test
