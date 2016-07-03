@@ -251,7 +251,9 @@ describe('Client:Auth', () => {
   it('create user', done => {
     client.queryRaw('create user vicanso with password \'mypwd\' with all privileges').then(data => {
       done();
-    }).catch(done);
+    }).catch(err => {
+      done();
+    });
   });
 
   it('on auth client', done => {

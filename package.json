@@ -23,17 +23,17 @@
   "dependencies": {
     "debug": "^2.2.0",
     "influx-ql": "0.1.2",
-    "lodash": "^4.12.0",
+    "lodash": "^4.13.1",
     "superagent": "^2.0.0",
     "superagent-load-balancer": "0.0.4"
   },
   "devDependencies": {
-    "eslint": "^2.12.0",
+    "eslint": "^2.13.1",
     "eslint-config-airbnb": "^9.0.1",
-    "eslint-plugin-import": "^1.8.1",
-    "eslint-plugin-jsx-a11y": "^1.4.2",
-    "eslint-plugin-react": "^5.1.1",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5"
+    "eslint-plugin-import": "^1.10.0",
+    "eslint-plugin-jsx-a11y": "^1.5.3",
+    "eslint-plugin-react": "^5.2.2",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3"
   }
 }

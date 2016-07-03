@@ -37,7 +37,7 @@ describe('Influx', () => {
         region: 'us-west',
       },
       fields: {
-        value: '0.64',
+        value: 0.64,
       },
     }).then(data => {
       done();

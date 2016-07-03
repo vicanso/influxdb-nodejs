@@ -38,8 +38,10 @@ describe('Writer', () => {
     })
     .tag('method', 'get')
     .field({
-      use: 500,
+      use: '500i',
       size: 11 * 1024,
+      url: '/user/session',
+      auth: 'T',
     })
     .field('code', 400)
     .then(() => {
@@ -51,7 +53,10 @@ describe('Writer', () => {
       return reader.condition('spdy', 'fast');
     })
     .then(data => {
-      assert.equal(data.results[0].series[0].values.length, 1);
+      const values = data.results[0].series[0].values;
+      assert.equal(values.length, 1);
+      assert.equal(values[0][1], true);
+      assert.equal(values[0][8], 500);
       done();
     }).catch(done);
   });
@@ -63,7 +68,7 @@ describe('Writer', () => {
     const writer = new Writer(influx);
     writer.measurement = 'http';
     writer.tag('spdy', 'lightning')
-      .field('use', 100)
+      .field('use', '100i')
       .time(ns)
       .then(() => {
         return delay(100);
@@ -71,7 +76,6 @@ describe('Writer', () => {
       .then(() => {
         const reader = new Reader(influx);
         reader.measurement = 'http';
-        // return reader.tag({spdy: '  lightning'});
         return reader.condition('spdy', 'lightning');
       })
       .then(data => {
@@ -87,7 +91,7 @@ describe('Writer', () => {
     writer.precision = 'ms';
     assert.equal(writer.precision, 'ms');
     writer.tag('usePrecision', 'true')
-      .field('use', 100)
+      .field('use', '100i')
       .time(1463413422809)
       .then(() => {
         return delay(100);
@@ -110,12 +114,12 @@ describe('Writer', () => {
     const writer = new Writer(influx, set);
     writer.measurement = 'http';
     writer.tag('spdy', 'fast');
-    writer.field('use', 200);
+    writer.field('use', '200i');
     writer.queue();
     for (let item of set) {
       assert.equal(item.measurement, 'http');
       assert.equal(item.tags.spdy, 'fast');
-      assert.equal(item.fields.use, 200);
+      assert.equal(item.fields.use, '200i');
     }
     assert.equal(set.size, 1);
     done();
