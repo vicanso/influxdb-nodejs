@@ -209,8 +209,8 @@ write point to the influxdb's measurement
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.writePoint('http', {
-  code: 400,
-  bytes: 1010
+  code: '400i',
+  bytes: '1010i'
 }, {
   status: '40x',
   size: '1K'
@@ -276,7 +276,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.field('bytes', 1010);
@@ -299,7 +299,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.field('bytes', 1010);
@@ -327,7 +327,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.field('bytes', 1010);
@@ -351,7 +351,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.field('bytes', 1010);
@@ -372,7 +372,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.vafieldlue('bytes', 1010);

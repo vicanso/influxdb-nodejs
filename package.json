@@ -1,7 +1,7 @@
 {
   "name": "influxdb-nodejs",
   "description": "node.js influxdb client",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Tree Xie <vicansocanbico@gmail.com>",
   "keywords": [
     "influx",
