@@ -162,6 +162,23 @@ describe('Client:singleton', () => {
         done();
       }).catch(done);
   });
+
+  it('query raw', done => {
+    client.queryRaw('select * from http where use = 301')
+      .then(data => {
+        assert.equal(data.results[0].series[0].values.length, 1);
+        done();
+      }).catch(done);
+  });
+
+  it('query point use or', done => {
+    client.query('http')
+      .condition('type', ['2', '3'])
+      .then(data => {
+        assert.equal(data.results[0].series[0].values.length, 2);
+        done();
+      }).catch(done);
+  })
   
   it('set timeout', done => {
     client.timeout = 1;

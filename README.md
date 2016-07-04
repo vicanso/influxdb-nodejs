@@ -234,6 +234,21 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
 const writer = client.write('http', 's');
 ```
 
+### queryRaw
+
+use influx ql to get points
+
+- `ql` influx ql
+
+- `db` database, optional
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.queryRaw('select * from http').then(data => {
+  console.info(data);
+});
+```
 
 
 
