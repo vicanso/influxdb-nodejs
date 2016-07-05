@@ -1,9 +1,10 @@
 'use strict';
 const assert = require('assert');
 const Client = require('..');
+const db = 'vicanso';
 
 describe('Client:singleton', () => {
-  const client = new Client('http://127.0.0.1:8086,127.0.0.1:8087/mydb');
+  const client = new Client(`http://127.0.0.1:8086,127.0.0.1:8087/${db}`);
   client.startHealthCheck();
   it('init', done => {
     setTimeout(done, 1500);
@@ -258,7 +259,7 @@ describe('Client:singleton', () => {
 
 
 describe('Client:Auth', () => {
-  const client = new Client('http://vicanso:mypwd@127.0.0.1:8085/mydb');
+  const client = new Client(`http://vicanso:mypwd@127.0.0.1:8085/${db}`);
   
   client.startHealthCheck();
   it('init', done => {
@@ -274,7 +275,7 @@ describe('Client:Auth', () => {
   });
 
   it('on auth client', done => {
-    const tmp = new Client('http://127.0.0.1:8085/mydb');
+    const tmp = new Client(`http://127.0.0.1:8085/${db}`);
     tmp.createDatabaseNotExists().then(() => {
       done(new Error('no auth client can not create database'));
     }).catch(err => {

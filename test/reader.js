@@ -3,7 +3,7 @@ const assert = require('assert');
 const Reader = require('../lib/reader');
 const Influx = require('../lib/influx');
 const _ = require('lodash');
-
+const db = 'vicanso';
 describe('Reader', () => {
   const influx = new Influx({
     servers: [
@@ -12,11 +12,11 @@ describe('Reader', () => {
         port: 8086,
       }
     ],
-    database: 'mydb',
+    database: db,
   });
 
   it('write point', done => {
-    influx.query('create database if not exists mydb').then(() => {
+    influx.query(`create database if not exists ${db}`).then(() => {
       return influx.write([
         {
           measurement: 'http',
@@ -115,7 +115,7 @@ describe('Reader', () => {
   });
 
   it('drop db', done => {
-    influx.query('drop database mydb').then(data => {
+    influx.query(`drop database ${db}`).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);

@@ -3,7 +3,7 @@ const assert = require('assert');
 const HTTP = require('../lib/http');
 const _ = require('lodash');
 const request = require('superagent');
-
+const db = 'vicanso';
 describe('HTTP', () => {
   const http = new HTTP([
     {
@@ -24,7 +24,7 @@ describe('HTTP', () => {
 
   it('create database by get', done => {
     http.get('/query', {
-      q: 'create database if not exists mydb',
+      q: `create database if not exists ${db}`,
     }).then(res => {
       assert(!_.isEmpty(res.body));
       done();
@@ -33,7 +33,7 @@ describe('HTTP', () => {
 
   it('post data to backend', done => {
     http.post('/write', 'cpu_load_short,host=server01,region=us-west value=0.64', {
-      db: 'mydb'
+      db,
     }).then(res => {
       done();
     }).catch(done);
@@ -41,7 +41,7 @@ describe('HTTP', () => {
 
   it('drop db', done => {
     http.get('/query', {
-      q: 'drop database mydb',
+      q: `drop database ${db}`,
     }).then(res => {
       assert(!_.isEmpty(res.body));
       done();

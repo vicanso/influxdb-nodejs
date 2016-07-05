@@ -1,8 +1,9 @@
 'use strict';
 const _ = require('lodash');
 const Influx = require('..');
-const client = new Influx('http://black:8086/mydb');
-
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.createDatabaseNotExists().then(() => {
+});
 function writePoint(measurement) {
   client.write(measurement)
     .tag({

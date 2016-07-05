@@ -4,7 +4,7 @@ const Writer = require('../lib/writer');
 const Reader = require('../lib/reader');
 const Influx = require('../lib/influx');
 const _ = require('lodash');
-
+const db = 'vicanso';
 describe('Writer', () => {
   const delay = (ms) => {
     return new Promise(resolve => {
@@ -18,11 +18,11 @@ describe('Writer', () => {
         port: 8086,
       }
     ],
-    database: 'mydb',
+    database: db,
   });
 
   it('create database', done => {
-    influx.query('create database if not exists mydb').then(data => {
+    influx.query(`create database if not exists ${db}`).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);
@@ -126,7 +126,7 @@ describe('Writer', () => {
   });
 
   it('drop db', done => {
-    influx.query('drop database mydb').then(data => {
+    influx.query(`drop database ${db}`).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);
