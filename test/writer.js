@@ -61,6 +61,33 @@ describe('Writer', () => {
     }).catch(done);
   });
 
+  it('write point to test-ql measurement', done => {
+    const measurement = 'test-ql';
+    const writer = new Writer(influx);
+    writer.measurement = measurement;
+    writer.tag({
+      'location dc': 'gd gz',
+    })
+    .field('city,name', 'gz,ch')
+    .field('my nick', 'tree xie')
+    .then(() => {
+      return delay(100);
+    })
+    .then(() => {
+      const reader = new Reader(influx);
+      reader.measurement = measurement;
+      return reader;
+    })
+    .then(data => {
+      const series = data.results[0].series[0];
+      assert.equal(series.columns.join(','), 'time,city,name,location dc,my nick');
+      const arr = series.values[0];
+      arr.shift();
+      assert.equal(arr.join(','), 'gz,ch,gd gz,tree xie');
+      done();
+    }).catch(done);
+  });
+
   it('write point with time', done => {
     const ms = Date.now();
     const us = `${Math.ceil(process.hrtime()[1] / 1000)}`;
