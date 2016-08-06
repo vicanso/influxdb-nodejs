@@ -290,6 +290,13 @@ describe('Client:Auth', () => {
     }).catch(done);
   });
 
+  it('show databases', done => {
+    client.showDatabases().then(data => {
+      assert.equal(data.results[0].series.length, 1);
+      done();
+    }).catch(done);
+  });
+
   it('write point', done => {
     client.write('http')
       .tag({
