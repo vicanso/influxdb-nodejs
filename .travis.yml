@@ -9,9 +9,9 @@ services:
   - docker
 
 before_install:
-  - docker pull influxdb:alpine
-  - docker run -d -p 8086:8086 influxdb:alpine
-  - docker run -d -p 8085:8086 -e INFLUXDB_HTTP_AUTH_ENABLED=true influxdb:alpine
+  - docker pull influxdb:0.13-alpine
+  - docker run -d -p 8086:8086 influxdb:0.13-alpine
+  - docker run -d -p 8085:8086 -e INFLUXDB_HTTP_AUTH_ENABLED=true influxdb:0.13-alpine
 
 script:
   - npm test
