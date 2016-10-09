@@ -7,7 +7,7 @@ const db = 'vicanso';
 describe('HTTP', () => {
   const http = new HTTP([
     {
-      host: '127.0.0.1',
+      host: 'localhost',
       port: 8086,
     }
   ], (backend, cb) => {
@@ -22,9 +22,9 @@ describe('HTTP', () => {
     }).catch(done);    
   });
 
-  it('create database by get', done => {
-    http.get('/query', {
-      q: `create database if not exists ${db}`,
+  it('create database by post', done => {
+    http.post('/query', {
+      q: `create database ${db}`,
     }).then(res => {
       assert(!_.isEmpty(res.body));
       done();
@@ -40,7 +40,7 @@ describe('HTTP', () => {
   });
 
   it('drop db', done => {
-    http.get('/query', {
+    http.post('/query', {
       q: `drop database ${db}`,
     }).then(res => {
       assert(!_.isEmpty(res.body));

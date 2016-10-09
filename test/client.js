@@ -4,7 +4,7 @@ const Client = require('..');
 const db = 'vicanso';
 
 describe('Client:singleton', () => {
-  const client = new Client(`http://127.0.0.1:8086,127.0.0.1:8087/${db}`);
+  const client = new Client(`http://localhost:8086,localhost:8087/${db}`);
   client.startHealthCheck();
   it('init', done => {
     setTimeout(done, 1500);
@@ -21,7 +21,7 @@ describe('Client:singleton', () => {
   });
 
   it('create database if not exists', done => {
-    client.createDatabaseNotExists().then(data => {
+    client.createDatabase().then(data => {
       done();
     }).catch(done);
   });
@@ -259,7 +259,7 @@ describe('Client:singleton', () => {
 
 
 describe('Client:Auth', () => {
-  const client = new Client(`http://vicanso:mypwd@127.0.0.1:8085/${db}`);
+  const client = new Client(`http://vicanso:mypwd@localhost:8085/${db}`);
   
   client.startHealthCheck();
   it('init', done => {
@@ -267,16 +267,17 @@ describe('Client:Auth', () => {
   });
 
   it('create user', done => {
-    client.queryRaw('create user vicanso with password \'mypwd\' with all privileges').then(data => {
+    client.queryPost('create user "vicanso" with password \'mypwd\' with all privileges').then(data => {
       done();
     }).catch(err => {
-      done();
+      console.error(err);
+      done(err);
     });
   });
 
   it('on auth client', done => {
-    const tmp = new Client(`http://127.0.0.1:8085/${db}`);
-    tmp.createDatabaseNotExists().then(() => {
+    const tmp = new Client(`http://localhost:8085/${db}`);
+    tmp.createDatabase().then(() => {
       done(new Error('no auth client can not create database'));
     }).catch(err => {
       assert.equal(err.status, 401);
@@ -284,8 +285,8 @@ describe('Client:Auth', () => {
     });
   });
 
-  it('create database if not exists', done => {
-    client.createDatabaseNotExists().then(() => {
+  it('create database', done => {
+    client.createDatabase().then(() => {
       done();
     }).catch(done);
   });

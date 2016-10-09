@@ -7,7 +7,7 @@ describe('Influx', () => {
   const influx = new Influx({
     servers: [
       {
-        host: '127.0.0.1',
+        host: 'localhost',
         port: 8086,
       }
     ],
@@ -23,7 +23,7 @@ describe('Influx', () => {
   });
 
   it('create database', done => {
-    influx.query(`create database if not exists ${db}`).then(data => {
+    influx.queryPost(`create database ${db}`).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);

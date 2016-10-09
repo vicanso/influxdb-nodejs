@@ -14,7 +14,7 @@ describe('Writer', () => {
   const influx = new Influx({
     servers: [
       {
-        host: '127.0.0.1',
+        host: 'localhost',
         port: 8086,
       }
     ],
@@ -22,7 +22,7 @@ describe('Writer', () => {
   });
 
   it('create database', done => {
-    influx.query(`create database if not exists ${db}`).then(data => {
+    influx.createDatabase(db).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);
@@ -153,7 +153,7 @@ describe('Writer', () => {
   });
 
   it('drop db', done => {
-    influx.query(`drop database ${db}`).then(data => {
+    influx.dropDatabase(db).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);

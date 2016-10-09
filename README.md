@@ -65,14 +65,14 @@ console.info(client.timeout); // 1000
 ```
 
 
-### createDatabaseNotExists
+### createDatabase
 
 create database if the database is not exists
 
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
-client.createDatabaseNotExists().then(() => {
+client.createDatabase().then(() => {
   console.info('create database:mydb success');
 }).catch(err => {
   console.error(err);

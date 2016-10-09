@@ -8,7 +8,7 @@ describe('Reader', () => {
   const influx = new Influx({
     servers: [
       {
-        host: '127.0.0.1',
+        host: 'localhost',
         port: 8086,
       }
     ],
@@ -16,7 +16,7 @@ describe('Reader', () => {
   });
 
   it('write point', done => {
-    influx.query(`create database if not exists ${db}`).then(() => {
+    influx.createDatabase(db).then(() => {
       return influx.write([
         {
           measurement: 'http',
@@ -115,7 +115,7 @@ describe('Reader', () => {
   });
 
   it('drop db', done => {
-    influx.query(`drop database ${db}`).then(data => {
+    influx.dropDatabase(db).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);
