@@ -245,6 +245,54 @@ client.write('login')
   });
 ```
 
+### query
+
+Get Reader instance
+
+- `measurement` the measurement's name
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://user:pass@127.0.0.1:8086/mydb');
+client.query('http')
+  .condition('spdy', 'lightning')
+  .set({
+    format: 'json',
+    epoch: 's',
+  })
+  .then(data => {
+    // {"http":[{"time":1476014599,"auth":null,"method":null,"size":null,"spdy":"lightning","type":null,"url":null,"use":100},{"time":1476014681,"auth":null,"method":null,"size":null,"spdy":"lightning","type":null,"url":null,"use":100}]}
+    console.info(data);
+  }).catch(err => console.error(err));
+```
+
+### writePoint
+
+Simple way for write point
+
+- `measurement` the measurement's name
+
+- `fields` the fields object
+
+- `tags` the tags object [optional]
+
+- `precision` The timestamp precision. 'h', 'm', 's', 'ms', 'u', 'n' [optional]
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://user:pass@127.0.0.1:8086/mydb');
+// data: {"time":"2016-10-09T14:00:00Z","auth":null,"code":500,"method":"get","size":null,"spdy":"slow","type":null,"url":null,"use":null}
+client.writePoint('http', {
+  code: 500,
+}, {
+  spdy: 'slow',
+  method: 'get',
+}, 'h').then(() => {
+  console.info('complete');
+}).catch(err => {
+  console.error(err);
+});
+```
 
 ### writeQueueLength
 
@@ -269,6 +317,31 @@ writer.queue();
 assert.equal(client.writeQueueLength, 1);
 ```
 
+### syncWrite
+
+Sync write queue
+
+```js
+const assert = require('assert');
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+const writer = client.write('http');
+writer.tag('uuid', '1234');
+writer.tag({
+  status: '40x',
+  size: '1K'
+});
+writer.field({
+  code: '400i',
+  value: 1
+});
+writer.field('bytes', 1010);
+writer.queue();
+client.syncWrite().then(() => {
+  console.info('complete sync write queue');
+}).catch(err => console.error(err));
+```
+
 ### queryQueueLength
 
 Get the query queue length
@@ -284,4 +357,25 @@ client.query('http')
   .tag('status', '50x')
   .queue();
 assert.equal(client.queryQueueLength, 2);
+```
+
+### syncQuery
+
+Sync query queue
+
+- `format` the point format type 'json', 'csv'
+
+```js
+const assert = require('assert');
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.query('http')
+  .tag('status', '40x')
+  .queue();
+client.query('http')
+  .tag('status', '50x')
+  .queue();
+client.syncQuery('json').then(data => {
+  console.info(data);
+}).catch(err => console.error(err));
 ```

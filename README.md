@@ -23,7 +23,7 @@ View the [./examples](examples) directory for working examples.
 
 ## API
 
-[./api](View the detail)
+[View the detail](api.md)
 
 ### Constructor
 
