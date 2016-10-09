@@ -1,11 +1,13 @@
 # influxdb-nodejs 
   
-[![Build Status](https://travis-ci.org/vicanso/influxdb-nodejs.svg?branch=master)](https://travis-ci.org/vicanso/influxdb-nodejs)
+[![Build Status](https://api.travis-ci.org/vicanso/influxdb-nodejs.svg?branch=v1.x)](https://travis-ci.org/vicanso/influxdb-nodejs)
 [![Coverage Status](https://img.shields.io/coveralls/vicanso/influxdb-nodejs/master.svg?style=flat)](https://coveralls.io/r/vicanso/influxdb-nodejs?branch=master)
 [![npm](http://img.shields.io/npm/v/influxdb-nodejs.svg?style=flat-square)](https://www.npmjs.org/package/influxdb-nodejs)
 [![Github Releases](https://img.shields.io/npm/dm/influxdb-nodejs.svg?style=flat-square)](https://github.com/vicanso/influxdb-nodejs)
 
 An [InfluxDB](https://influxdata.com/) Node.js Client.
+
+* !!Important. The branch is for influxdb below version 1.0, master branch is for the latest version of influxdb.
 
 
 ## Installation
