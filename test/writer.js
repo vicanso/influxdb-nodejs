@@ -126,12 +126,11 @@ describe('Writer', () => {
       .then(() => {
         const reader = new Reader(influx);
         reader.measurement = 'http';
-        // return reader.tag({spdy: '  lightning'});
         return reader.condition('usePrecision', 'true');
       })
       .then(data => {
         assert.equal(data.results[0].series[0].values.length, 1);
-	assert.equal(new Date(data.results[0].series[0].values[0][0]).getTime(), 1463413422809);
+        assert.equal(new Date(data.results[0].series[0].values[0][0]).getTime(), 1463413422809);
         done();
       }).catch(done);
   });

@@ -46,6 +46,7 @@ describe('Influx', () => {
 
   it('query', done => {
     influx.query('select * from cpu_load_short').then(data => {
+      assert.equal(`${data.results[0].series[0].values[0][0]}`.length, 10);
       assert(data.results[0].series[0]);
       done();
     }).catch(done);

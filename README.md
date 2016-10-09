@@ -7,6 +7,8 @@
 
 An [InfluxDB](https://influxdata.com/) Node.js Client.
 
+* The branch is for influxdb 1.x. If use below 1.x, please get branch v1.x
+
 
 ## Installation
 
@@ -20,6 +22,8 @@ View the [./examples](examples) directory for working examples.
 
 
 ## API
+
+[./api](View the detail)
 
 ### Constructor
 

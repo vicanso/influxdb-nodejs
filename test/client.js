@@ -1,5 +1,6 @@
 'use strict';
 const assert = require('assert');
+const _ = require('lodash');
 const Client = require('..');
 const db = 'vicanso';
 
@@ -194,57 +195,68 @@ describe('Client:singleton', () => {
   });
 
   it('show databases', done => {
-    client.showDatabases().then(data => {
-      assert(data.results[0].series[0].values.length);
+    client.showDatabases().then(dbs => {
+      assert(dbs.length);
       done();
     }).catch(done);
   });
 
   it('show retention policies', done => {
-    client.showRetentionPolicies().then(data => {
-      assert(data.results[0].series[0].values.length);
+    client.showRetentionPolicies().then(rps => {
+      assert(rps.length);
+      assert.equal(_.keys(rps[0]).sort().join(','), 'default,duration,name,replicaN,shardGroupDuration');
       done();
     }).catch(done);
   });
 
   it('show measurements', done => {
-    client.showMeasurements().then(data => {
-      assert(data.results[0].series[0].values.length);
+    client.showMeasurements().then(measurements => {
+      assert.equal(measurements.length, 1);
       done();
     }).catch(done);
   });
 
-  it('show tag keys of measurements', done => {
-    client.showTagKeys('http').then(data => {
-      assert(data.results[0].series[0].values.length);
+  it('show tag keys of measurement', done => {
+    client.showTagKeys('http').then(tagKeys => {
+      assert(tagKeys.length);
+      assert.equal(tagKeys[0].name, 'http');
+      assert.equal(_.map(tagKeys[0].values, item => item.key).join(','), 'method,spdy,type');
       done();
     }).catch(done);
   });
 
   it('show tag keys of all measurements', done => {
-    client.showTagKeys().then(data => {
-      assert(data.results[0].series[0].values.length);
+    client.showTagKeys().then(tagKeys => {
+      assert(tagKeys.length);
+      assert.equal(tagKeys[0].name, 'http');
+      assert.equal(_.map(tagKeys[0].values, item => item.key).join(','), 'method,spdy,type');
       done();
     }).catch(done);
   });
 
-  it('show field keys of measurements', done => {
-    client.showFieldKeys('http').then(data => {
-      assert(data.results[0].series[0].values.length);
+  it('show field keys of measurement', done => {
+    client.showFieldKeys('http').then(fieldKeys => {
+      assert(fieldKeys.length);
+      assert.equal(fieldKeys[0].name, 'http');
+      assert.equal(_.map(fieldKeys[0].values, item => item.key).join(','), 'code,size,use');
+      assert.equal(_.map(fieldKeys[0].values, item => item.type).join(','), 'float,float,float');
       done();
     }).catch(done);
   });
 
   it('show field keys of all measurements', done => {
-    client.showFieldKeys().then(data => {
-      assert(data.results[0].series[0].values.length);
+    client.showFieldKeys().then(fieldKeys => {
+      assert(fieldKeys.length);
+      assert.equal(fieldKeys[0].name, 'http');
+      assert.equal(_.map(fieldKeys[0].values, item => item.key).join(','), 'code,size,use');
+      assert.equal(_.map(fieldKeys[0].values, item => item.type).join(','), 'float,float,float');
       done();
     }).catch(done);
   });
 
   it('show series', done => {
-    client.showSeries().then(data => {
-      assert(data.results[0].series[0].values.length);
+    client.showSeries().then(series => {
+      assert.equal(series.length, 3);
       done();
     }).catch(done);
   });
@@ -292,8 +304,8 @@ describe('Client:Auth', () => {
   });
 
   it('show databases', done => {
-    client.showDatabases().then(data => {
-      assert.equal(data.results[0].series.length, 1);
+    client.showDatabases().then(dbs => {
+      assert.equal(dbs.length, 2);
       done();
     }).catch(done);
   });

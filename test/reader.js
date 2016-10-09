@@ -87,7 +87,7 @@ describe('Reader', () => {
     const set = new Set();
     const reader = new Reader(influx, set);
     reader.measurement = 'http';
-    reader.condition("type = '4'");
+    reader.condition('"type" = \'4\'');
     reader.queue();
     assert.equal(set.size, 1);
     done();
@@ -96,10 +96,14 @@ describe('Reader', () => {
   it('set format type:json', done => {
     const reader = new Reader(influx);
     reader.measurement = 'http';
-    reader.format = 'json';
+    reader.set('format', 'json');
     reader.then(data => {
       assert(data.http);
       assert.equal(data.http.length, 3);
+      _.forEach(data.http, item => {
+        const keys = _.keys(item).sort();
+        assert.equal(keys.join(','), 'code,method,size,spdy,time,type,use');
+      });
       done();
     }).catch(done);
   });
@@ -107,9 +111,11 @@ describe('Reader', () => {
   it('set format type:csv', done => {
     const reader = new Reader(influx);
     reader.measurement = 'http';
-    reader.format = 'csv';
+    reader.set('format', 'csv');
     reader.then(data => {
-      assert(data.http);
+      const arr = data.http.split('\n');
+      assert.equal(arr.length, 4);
+      assert.equal(arr[0], 'time,code,method,size,spdy,type,use');
       done();
     }).catch(done);
   });

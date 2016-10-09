@@ -10,14 +10,12 @@ describe('HTTP', () => {
       host: 'localhost',
       port: 8086,
     }
-  ], (backend, cb) => {
-    const url = `${backend.protocol || 'http'}://${backend.host}:${backend.port || 80}/query?q=SHOW+SERIES+WHERE+FALSE`;
-    request.get(url).end(cb);
-  });
+  ], 'round-robin');
 
   it('get from backend', done => {
-    http.get('/query?q=SHOW+SERIES+WHERE+FALSE').then(res => {
-      assert(!_.isEmpty(res.body));
+    http.get('/ping').then(res => {
+      assert.equal(res.status, 204);
+      assert(res.get('X-Influxdb-Version'));
       done();
     }).catch(done);    
   });
@@ -51,7 +49,7 @@ describe('HTTP', () => {
   it('set global timeout', done => {
     http.timeout = 1;
     assert(http.timeout, 1);
-    http.get('/query?q=SHOW+SERIES+WHERE+FALSE').then().catch(err => {
+    http.get('/ping').then().catch(err => {
       assert.equal(err.code, 'ECONNABORTED');
       http.timeout = 0;
       done();
@@ -59,7 +57,7 @@ describe('HTTP', () => {
   });
 
   it('set single timeout', done => {
-    http.get('/query?q=SHOW+SERIES+WHERE+FALSE').timeout(1).then().catch(err => {
+    http.get('/ping').timeout(1).then().catch(err => {
       assert.equal(err.code, 'ECONNABORTED');
       done();
     });
