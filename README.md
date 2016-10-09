@@ -1,6 +1,7 @@
 # influxdb-nodejs 
   
 [![Build Status](https://travis-ci.org/vicanso/influxdb-nodejs.svg?branch=master)](https://travis-ci.org/vicanso/influxdb-nodejs)
+[![Coverage Status](https://img.shields.io/coveralls/vicanso/influxdb-nodejs/master.svg?style=flat)](https://coveralls.io/r/vicanso/influxdb-nodejs?branch=master)
 [![npm](http://img.shields.io/npm/v/influxdb-nodejs.svg?style=flat-square)](https://www.npmjs.org/package/influxdb-nodejs)
 [![Github Releases](https://img.shields.io/npm/dm/influxdb-nodejs.svg?style=flat-square)](https://github.com/vicanso/influxdb-nodejs)
 
@@ -202,17 +203,18 @@ write point to the influxdb's measurement
 
 - `tags` tag set, optional
 
+- `precision` timestamp precision. ['n','u','ms','s','m','h'], optional
 
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.writePoint('http', {
-  code: 400,
-  bytes: 1010
+  code: '400i',
+  bytes: '1010i'
 }, {
   status: '40x',
   size: '1K'
-});
+}, 'ms');
 ```
 
 
@@ -224,13 +226,29 @@ write point to the influxdb's measurement, return Writer instance
 
 - `measurement` write point to the measurement
 
+- `precision` timestamp precision. ['n','u','ms','s','m','h'], optional
 
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
-const writer = client.write('http');
+const writer = client.write('http', 's');
 ```
 
+### queryRaw
+
+use influx ql to get points
+
+- `ql` influx ql
+
+- `db` database, optional
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.queryRaw('select * from http').then(data => {
+  console.info(data);
+});
+```
 
 
 
@@ -273,7 +291,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.field('bytes', 1010);
@@ -296,7 +314,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.field('bytes', 1010);
@@ -324,7 +342,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.field('bytes', 1010);
@@ -348,7 +366,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.field('bytes', 1010);
@@ -369,7 +387,7 @@ writer.tag({
   size: '1K'
 });
 writer.field({
-  code: 400,
+  code: '400i',
   value: 1
 });
 writer.vafieldlue('bytes', 1010);
@@ -401,6 +419,8 @@ reader.condition('code', 400);
 reader.tag('spdy', 'fast');
 reader.addCondition('use <= 30');
 reader.fill = 0;
+// return data format type: 'default', 'json', 'csv'
+reader.format = 'json';
 reader.then(data => {
   console.info(data);
 }).catch(err => {
@@ -439,6 +459,8 @@ client.syncQuery().then(data => {
 
 get all query queue points result
 
+- `format`  format type, `default`, `json`, `csv` 
+
 
 ```js
 const Influx = require('influxdb-nodejs');
@@ -450,7 +472,7 @@ client.query('http')
   .tag('status', '50x')
   .queue();
 
-client.syncQuery().then(data => {
+client.syncQuery('json').then(data => {
   console.info(data);
 }).catch(error);
 ```

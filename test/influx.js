@@ -2,7 +2,7 @@
 const assert = require('assert');
 const Influx = require('../lib/influx');
 const _ = require('lodash');
-
+const db = 'vicanso';
 describe('Influx', () => {
   const influx = new Influx({
     servers: [
@@ -11,7 +11,7 @@ describe('Influx', () => {
         port: 8086,
       }
     ],
-    database: 'mydb',
+    database: db,
     epoch: 's'
   });
 
@@ -23,7 +23,7 @@ describe('Influx', () => {
   });
 
   it('create database', done => {
-    influx.query('create database if not exists mydb').then(data => {
+    influx.query(`create database if not exists ${db}`).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);
@@ -37,7 +37,7 @@ describe('Influx', () => {
         region: 'us-west',
       },
       fields: {
-        value: '0.64',
+        value: 0.64,
       },
     }).then(data => {
       done();
@@ -62,7 +62,7 @@ describe('Influx', () => {
   });
 
   it('drop db', done => {
-    influx.query('drop database mydb').then(data => {
+    influx.query(`drop database ${db}`).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);

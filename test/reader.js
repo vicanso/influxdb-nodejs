@@ -3,7 +3,7 @@ const assert = require('assert');
 const Reader = require('../lib/reader');
 const Influx = require('../lib/influx');
 const _ = require('lodash');
-
+const db = 'vicanso';
 describe('Reader', () => {
   const influx = new Influx({
     servers: [
@@ -12,11 +12,11 @@ describe('Reader', () => {
         port: 8086,
       }
     ],
-    database: 'mydb',
+    database: db,
   });
 
   it('write point', done => {
-    influx.query('create database if not exists mydb').then(() => {
+    influx.query(`create database if not exists ${db}`).then(() => {
       return influx.write([
         {
           measurement: 'http',
@@ -87,14 +87,35 @@ describe('Reader', () => {
     const set = new Set();
     const reader = new Reader(influx, set);
     reader.measurement = 'http';
-    reader.condition('type', '4');
+    reader.condition("type = '4'");
     reader.queue();
     assert.equal(set.size, 1);
     done();
   });
 
+  it('set format type:json', done => {
+    const reader = new Reader(influx);
+    reader.measurement = 'http';
+    reader.format = 'json';
+    reader.then(data => {
+      assert(data.http);
+      assert.equal(data.http.length, 3);
+      done();
+    }).catch(done);
+  });
+
+  it('set format type:csv', done => {
+    const reader = new Reader(influx);
+    reader.measurement = 'http';
+    reader.format = 'csv';
+    reader.then(data => {
+      assert(data.http);
+      done();
+    }).catch(done);
+  });
+
   it('drop db', done => {
-    influx.query('drop database mydb').then(data => {
+    influx.query(`drop database ${db}`).then(data => {
       assert(!_.isEmpty(data));
       done();
     }).catch(done);

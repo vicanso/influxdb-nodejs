@@ -1,9 +1,10 @@
 'use strict';
 const assert = require('assert');
 const Client = require('..');
+const db = 'vicanso';
 
 describe('Client:singleton', () => {
-  const client = new Client('http://127.0.0.1:8086,127.0.0.1:8087/mydb');
+  const client = new Client(`http://127.0.0.1:8086,127.0.0.1:8087/${db}`);
   client.startHealthCheck();
   it('init', done => {
     setTimeout(done, 1500);
@@ -69,6 +70,21 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
+  it('write point with precision', done => {
+    client.writePoint('http', {
+      use: 404,
+    }, {
+      spdy: 'faster',
+    }, 'ms')
+    .then(data => {
+      return client.query('http')
+        .condition('spdy', 'faster');
+    }).then(data => {
+      assert.equal(data.results[0].series[0].values[0][4], 'faster');
+      done();
+    }).catch(done);
+  });
+
   it('sync write queue', done => {
     client.syncWrite().then(data => {
       done();
@@ -90,6 +106,33 @@ describe('Client:singleton', () => {
       assert.equal(data.results.length, 2);
       assert.equal(data.results[0].series[0].values[0][5], '2');
       assert.equal(data.results[1].series[0].values[0][5], '3');
+      done();
+    }).catch(done);
+  });
+
+  it('sync query queue, format:json', done => {
+    client.query('http')
+      .condition('type', '2')
+      .queue();
+    client.query('http')
+      .condition('type', '3')
+      .queue();
+    client.syncQuery('json').then(data => {
+      assert(data.http);
+      assert.equal(data.http.length, 2);
+      done();
+    }).catch(done);
+  });
+
+  it('sync query queue, format:csv', done => {
+    client.query('http')
+      .condition('type', '2')
+      .queue();
+    client.query('http')
+      .condition('type', '3')
+      .queue();
+    client.syncQuery('csv').then(data => {
+      assert(data.http);
       done();
     }).catch(done);
   });
@@ -120,6 +163,23 @@ describe('Client:singleton', () => {
         done();
       }).catch(done);
   });
+
+  it('query raw', done => {
+    client.queryRaw('select * from http where use = 301')
+      .then(data => {
+        assert.equal(data.results[0].series[0].values.length, 1);
+        done();
+      }).catch(done);
+  });
+
+  it('query point use or', done => {
+    client.query('http')
+      .condition('type', ['2', '3'])
+      .then(data => {
+        assert.equal(data.results[0].series[0].values.length, 2);
+        done();
+      }).catch(done);
+  })
   
   it('set timeout', done => {
     client.timeout = 1;
@@ -190,6 +250,7 @@ describe('Client:singleton', () => {
   });
 
   it('drop database', done => {
+    client.stopHealthCheck();
     client.dropDatabase().then(() => {
       done();
     }).catch(done);
@@ -198,16 +259,40 @@ describe('Client:singleton', () => {
 
 
 describe('Client:Auth', () => {
-  const client = new Client('http://vicanso:mypwd@127.0.0.1:8081/mydb');
+  const client = new Client(`http://vicanso:mypwd@127.0.0.1:8085/${db}`);
+  
+  client.startHealthCheck();
+  it('init', done => {
+    setTimeout(done, 1500);
+  });
 
   it('create user', done => {
     client.queryRaw('create user vicanso with password \'mypwd\' with all privileges').then(data => {
       done();
-    }).catch(done);
+    }).catch(err => {
+      done();
+    });
+  });
+
+  it('on auth client', done => {
+    const tmp = new Client(`http://127.0.0.1:8085/${db}`);
+    tmp.createDatabaseNotExists().then(() => {
+      done(new Error('no auth client can not create database'));
+    }).catch(err => {
+      assert.equal(err.status, 401);
+      done();
+    });
   });
 
   it('create database if not exists', done => {
     client.createDatabaseNotExists().then(() => {
+      done();
+    }).catch(done);
+  });
+
+  it('show databases', done => {
+    client.showDatabases().then(data => {
+      assert.equal(data.results[0].series.length, 1);
       done();
     }).catch(done);
   });

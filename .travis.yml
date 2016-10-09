@@ -1,22 +1,20 @@
-node_js:
-- "4"
-- "5"
-
-sudo: required
-
+sudo: false
 language: node_js
+node_js:
+  - "6"
+  - "5"
+  - "4"
 
 services:
   - docker
 
 before_install:
-- docker pull vicanso/influxdb
-- docker run -d -p 8086:8086 vicanso/influxdb
-- docker pull vicanso/influxdb-auth
-- docker run -d -p 8081:8086 vicanso/influxdb-auth
+  - docker pull influxdb:alpine
+  - docker run -d -p 8086:8086 influxdb:alpine
+  - docker run -d -p 8085:8086 -e INFLUXDB_HTTP_AUTH_ENABLED=true influxdb:alpine
 
 script:
-- npm test
+  - npm test
 
 after_script:
-- npm install coveralls@2 && cat ./coverage/lcov.info | coveralls
+  - npm install coveralls@2 && cat ./coverage/lcov.info | coveralls
