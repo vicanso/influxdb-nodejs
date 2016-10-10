@@ -116,9 +116,9 @@ client.syncQuery('json')
 
 ## Comparison
 
-- `influx`
+- `influx` It's complex for me. Before developing this module, I used influx, which was not straightforward; and its batch function can not be saved as queue. What's more, the function of query is too simple, just like I write influx ql.
 
-- `influent`
+- `influent` I have never used this module, but I have read its API. In my opinion, this module is not so convenient.
 
 ## License
 
