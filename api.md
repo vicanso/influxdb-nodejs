@@ -1,4 +1,6 @@
-## API
+# API
+
+## Influx
 
 ### Constructor
 
@@ -378,4 +380,169 @@ client.query('http')
 client.syncQuery('json').then(data => {
   console.info(data);
 }).catch(err => console.error(err));
+```
+
+## Reader
+
+The class extends [influx-ql](https://github.com/vicanso/influx-ql), please read about it first.
+
+
+### set
+
+Set the option for reader
+
+- `format` the result format type, support 'json', 'csv' and 'default'
+
+- `epoch` the result epoch, support 'n', 'u', 'ms', 's', 'm', 'h'
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.query('http')
+  .condition('spdy', 'fast')
+  .set('format', 'json')
+  .set('epoch', 's')
+  .then(console.info)
+  .catch(console.error);
+```
+
+### get
+
+Get the option of reader
+
+### queue
+
+Add the reader to the reader's queue
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.query('http')
+  .condition('spdy', 'fast')
+  .queue();
+
+client.query('http')
+  .condition('spdy', 'slow')
+  .queue();
+
+client.syncQuery('json')
+  .then(console.info)
+  .catch(console.error);
+```
+
+## Writer
+
+
+### tag
+
+Set the write point tag
+
+- `key` the tag key
+
+- `value` the tag value
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.write('http')
+  .tag('spdy', 'fast')
+  .tag({
+    type: '2',
+    method: 'get',
+  })
+  .field('use', 300)
+  .field({
+    code: 200,
+    size: 10 * 1024,
+  })
+  .then(() => console.info('write point success'))
+  .catch(console.error);
+```
+
+### field
+
+Set the write point field
+
+- `key` the field key
+
+- `value` the field value
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.write('http')
+  .tag('spdy', 'fast')
+  .tag({
+    type: '2',
+    method: 'get',
+  })
+  .field('use', 300)
+  .field({
+    code: 200,
+    size: 10 * 1024,
+  })
+  .then(() => console.info('write point success'))
+  .catch(console.error);
+```
+
+
+### time
+
+Set the write point timestamp, If you do not specify a timestamp for your data point InfluxDB uses the server’s local nanosecond timestamp in UTC.
+
+- `v` the timestamp
+
+- `precision` the precision, [optional]
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.write('http')
+  .tag('spdy', 'fast')
+  .tag({
+    type: '2',
+    method: 'get',
+  })
+  .field('use', 300)
+  .field({
+    code: 200,
+    size: 10 * 1024,
+  })
+  .time(Date.now(), 'ms')
+  .then(() => console.info('write point success'))
+  .catch(console.error);
+```
+
+
+### queue
+
+Add the writer to the writer's queue, If you do not specify a timestamp for your data point InfluxDB uses the server’s local nanosecond timestamp in UTC. Notice the timestamp must be the same precision.
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.write('http')
+  .tag('spdy', 'fast')
+  .tag({
+    type: '2',
+    method: 'get',
+  })
+  .field('use', 300)
+  .field({
+    code: 200,
+    size: 10 * 1024,
+  }).queue();
+client.write('http')
+  .tag('spdy', 'slow')
+  .tag({
+    type: '2',
+    method: 'get',
+  })
+  .field('use', 300)
+  .field({
+    code: 200,
+    size: 10 * 1024,
+  }).queue();
+client.syncWrite().then(() => console.info('write point success'))
+  .catch(console.error);
 ```
