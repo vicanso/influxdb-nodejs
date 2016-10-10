@@ -47,8 +47,8 @@ describe('HTTP', () => {
   });
 
   it('set global timeout', done => {
-    http.timeout = 1;
-    assert(http.timeout, 1);
+    http.timeout = 0.1;
+    assert(http.timeout, 0.1);
     http.get('/ping').then().catch(err => {
       assert.equal(err.code, 'ECONNABORTED');
       http.timeout = 0;
@@ -57,7 +57,7 @@ describe('HTTP', () => {
   });
 
   it('set single timeout', done => {
-    http.get('/ping').timeout(1).then().catch(err => {
+    http.get('/ping').timeout(0.1).then().catch(err => {
       assert.equal(err.code, 'ECONNABORTED');
       done();
     });
