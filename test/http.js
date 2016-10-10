@@ -49,7 +49,7 @@ describe('HTTP', () => {
   it('set global timeout', done => {
     http.timeout = 0.1;
     assert(http.timeout, 0.1);
-    http.get('/ping').then().catch(err => {
+    http.get('/query?q=SHOW+SERIES+WHERE+FALSE').then().catch(err => {
       assert.equal(err.code, 'ECONNABORTED');
       http.timeout = 0;
       done();
@@ -57,9 +57,10 @@ describe('HTTP', () => {
   });
 
   it('set single timeout', done => {
-    http.get('/ping').timeout(0.1).then().catch(err => {
+    http.get('/query?q=SHOW+SERIES+WHERE+FALSE').timeout(0.1).then().catch(err => {
       assert.equal(err.code, 'ECONNABORTED');
       done();
     });
   });
 });
+
