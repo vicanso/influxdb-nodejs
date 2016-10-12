@@ -8,6 +8,14 @@ const onHeaders = require('on-headers');
 client.createDatabase().catch(err => {
   console.error('create database fail err:', err);
 });
+// batch post to influxdb  every 10s
+setInterval(() => {
+  if (client.writeQueueLength) {
+    client.syncWrite()
+      .then(() => console.info('sync write queue success'))
+      .catch(console.error);
+  }
+}, 10 * 1000);
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -22,11 +30,12 @@ app.use((req, res, next) => {
       use: use,
       code: statusCode
     };
-    client.writePoint('http', fields, tags).then(() => {
-      console.info('write point to http measurement success');
-    }).catch(err => {
-      console.error(err);
-    });
+    // add to the queue
+    // all batch point has the same time
+    client.write('http')
+      .field(fields)
+      .tag(tags)
+      .queue();
   });
   next();
 });
@@ -42,3 +51,5 @@ app.get('/', (req, res) => {
 const server = app.listen(() => {
   console.info(`listen on http://127.0.0.1:${server.address().port}/`);
 });
+
+

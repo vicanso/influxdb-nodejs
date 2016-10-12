@@ -2,8 +2,10 @@
 const koa = require('koa');
 const app = koa();
 const Influx = require('..');
-const client = new Influx('http://localhost:8086/my-app');
+const client = new Influx('http://localhost:8086/mydb');
 const _ = require('lodash');
+
+client.createDatabase();
 
 app.use(function*(next) {
   const ctx = this;
@@ -35,4 +37,6 @@ app.use(function*() {
   });
 });
 
-app.listen(3000);
+const server = app.listen();
+
+console.info(`listen on http://127.0.0.1:${server.address().port}/`);

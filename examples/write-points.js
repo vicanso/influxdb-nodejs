@@ -1,7 +1,7 @@
 'use strict';
 const _ = require('lodash');
 const Influx = require('..');
-const client = new Influx('http://127.0.0.1:8086/simulate');
+const client = new Influx('http://127.0.0.1:8086/mydb');
 
 function getBase() {
   const hours = (new Date()).getHours();
@@ -138,7 +138,7 @@ function simulateClientLogin() {
     });
 }
 
-client.createDatabaseNotExists().then(() => {
+client.createDatabase().then(() => {
   simulateClientRequest();
   simulateClientLogin()
 });

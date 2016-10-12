@@ -22,11 +22,19 @@ app.use((req, res, next) => {
       use: use,
       code: statusCode
     };
-    client.writePoint('http', fields, tags).then(() => {
-      console.info('write point to http measurement success');
-    }).catch(err => {
-      console.error(err);
-    });
+    // add to the queue
+    // set the time for every point
+    client.write('http')
+      .field(fields)
+      .tag(tags)
+      .time(Date.now(), 'ms')
+      .queue();
+    // batch post to influxdb when queue length gte 5
+    if (client.writeQueueLength >= 5) {
+      client.syncWrite()
+        .then(() => console.info('sync write queue success'))
+        .catch(console.error);
+    }
   });
   next();
 });
@@ -42,3 +50,5 @@ app.get('/', (req, res) => {
 const server = app.listen(() => {
   console.info(`listen on http://127.0.0.1:${server.address().port}/`);
 });
+
+
