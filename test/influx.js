@@ -12,7 +12,6 @@ describe('Influx', () => {
       }
     ],
     database: db,
-    epoch: 's'
   });
 
   it('query when db is not exists', done => {
@@ -45,7 +44,7 @@ describe('Influx', () => {
   });
 
   it('query', done => {
-    influx.query('select * from cpu_load_short').then(data => {
+    influx.query('select * from cpu_load_short', null, 's').then(data => {
       assert.equal(`${data.results[0].series[0].values[0][0]}`.length, 10);
       assert(data.results[0].series[0]);
       done();

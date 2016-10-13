@@ -86,6 +86,34 @@ client.timeout = 1000;
 assert.equal(client.timeout, 1000);
 ```
 
+### format (get/set)
+
+Set or get query response format type
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.format = 'json';
+client.query('http')
+  .condition('spdy', 'fast')
+  .then(console.info)
+  .catch(console.error);
+```
+
+### epoch (get/set)
+
+Set or get query epoch
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.epoch = 's';
+client.query('http')
+  .condition('spdy', 'fast')
+  .then(console.info)
+  .catch(console.error);
+```
+
 ### createDatabase
 
 Create database

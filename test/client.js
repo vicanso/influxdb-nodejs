@@ -194,6 +194,28 @@ describe('Client:singleton', () => {
       });
   });
 
+  it('set format', done => {
+    client.format = 'json';
+    client.query('http')
+      .then((data) => {
+        assert.equal(client.format, 'json');
+        assert.equal(data.http.length, 4);
+        client.format = '';
+        done();
+      }).catch(done);
+  });
+
+  it('set epoch', done => {
+    client.epoch = 's'
+    client.query('http')
+      .then((data) => {
+        assert.equal(client.epoch, 's');
+        assert.equal(`${data.results[0].series[0].values[0][0]}`.length, 10);
+        client.epoch = '';
+        done();
+      }).catch(done);
+  });
+
   it('show databases', done => {
     client.showDatabases().then(dbs => {
       assert(dbs.length);
