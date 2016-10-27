@@ -423,6 +423,8 @@ Set the option for reader
 
 - `epoch` the result epoch, support 'n', 'u', 'ms', 's', 'm', 'h'
 
+- `RP start end limit slimit order offset soffset fill` the key for the influx-ql
+
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
@@ -430,6 +432,10 @@ client.query('http')
   .condition('spdy', 'fast')
   .set('format', 'json')
   .set('epoch', 's')
+  .set({
+    limit: 10,
+    start: '-3h',
+  })
   .then(console.info)
   .catch(console.error);
 ```

@@ -90,8 +90,20 @@ const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.query('http')
   .condition('spdy', 'fast')
+  .addCondition('"use" <= 30')
+  .addField('spdy', 'status', 'fetch time')
   .set('epoch', 'ms')
   .set('format', 'json')
+  .set({
+    start: '-24h',
+    end: '-12h',
+    limit: 10,
+    slimit: 5,
+    order: 'desc',
+    offset: 10,
+    soffset: 5,
+    fill: 0,
+  })
   .then(console.info)
   .catch(console.error);
 ```
