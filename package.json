@@ -1,7 +1,7 @@
 {
   "name": "influxdb-nodejs",
   "description": "node.js influxdb client",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "Tree Xie <vicansocanbico@gmail.com>",
   "keywords": [
     "influx",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "influx-ql": "^1.0.3",
+    "influx-ql": "^1.1.0",
     "lodash": "^4.16.4",
     "superagent": "^2.3.0",
     "superagent-load-balancer": "^1.0.1"
