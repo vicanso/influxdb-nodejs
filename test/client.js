@@ -238,6 +238,8 @@ describe('Client:singleton', () => {
       assert.equal(rps.length, 2);
       client.dropRetentionPolicy('mytest');
     }).then(() => {
+      return new Promise(resolve => setTimeout(resolve, 100));
+    }).then(() => {
       return client.showRetentionPolicies();
     }).then((rps) => {
       assert.equal(rps.length, 1);
