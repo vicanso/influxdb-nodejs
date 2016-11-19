@@ -140,6 +140,42 @@ client.dropDatabase().then(() => {
 });
 ```
 
+### createRetentionPolicy
+
+Create retention policy
+
+- `name` the retention policy name
+
+- `duration` duration, eg: '2h'
+
+- `replication` 1 for single node instances, default is 1 [optional]
+
+- `isDefault` set as default rp, default is false [optional]
+
+```js
+const assert = require('assert');
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://user:pass@127.0.0.1:8086/mydb');
+client.createRetentionPolicy('two-week', '2w').then(() => {
+  console.info('createRetentionPolicy success');
+});
+```
+
+### dropRetentionPolicy
+
+Drop retention policy
+
+- `name` the retention policy name
+
+```js
+const assert = require('assert');
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://user:pass@127.0.0.1:8086/mydb');
+client.dropRetentionPolicy('two-week').then(() => {
+  console.info('dropRetentionPolicy success');
+});
+```
+
 ### showDatabases
 
 Show all databases

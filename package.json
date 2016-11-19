@@ -21,9 +21,9 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "debug": "^2.2.0",
-    "influx-ql": "^1.1.0",
-    "lodash": "^4.16.4",
+    "debug": "^2.3.2",
+    "influx-ql": "^1.1.2",
+    "lodash": "^4.17.2",
     "superagent": "^2.3.0",
     "superagent-load-balancer": "^1.0.1"
   },

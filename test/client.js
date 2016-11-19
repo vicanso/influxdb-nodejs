@@ -231,6 +231,20 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
+  it('create/drop retention policy', done => {
+    client.createRetentionPolicy('mytest', '2h').then(() => {
+      return client.showRetentionPolicies();
+    }).then((rps) => {
+      assert.equal(rps.length, 2);
+      client.dropRetentionPolicy('mytest');
+    }).then(() => {
+      return client.showRetentionPolicies();
+    }).then((rps) => {
+      assert.equal(rps.length, 1);
+      done();
+    }).catch(done);
+  });
+
   it('show measurements', done => {
     client.showMeasurements().then(measurements => {
       assert.equal(measurements.length, 1);
