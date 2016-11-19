@@ -151,7 +151,8 @@ describe('Writer', () => {
     done();
   });
 
-  it('drop db', done => {
+  it('drop db', function(done) {
+    this.timeout(5000);
     influx.dropDatabase(db).then(data => {
       assert(!_.isEmpty(data));
       done();

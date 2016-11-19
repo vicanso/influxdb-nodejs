@@ -37,7 +37,8 @@ describe('HTTP', () => {
     }).catch(done);
   });
 
-  it('drop db', done => {
+  it('drop db', function(done) {
+    this.timeout(5000);
     http.post('/query', {
       q: `drop database ${db}`,
     }).then(res => {

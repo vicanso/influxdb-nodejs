@@ -299,7 +299,8 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
-  it('drop database', done => {
+  it('drop database', function(done) {
+    this.timeout(5000);
     client.stopHealthCheck();
     client.dropDatabase().then(() => {
       done();
@@ -377,7 +378,8 @@ describe('Client:Auth', () => {
       }).catch(done);
   });
 
-  it('drop database', done => {
+  it('drop database', function(done) {
+    this.timeout(5000);
     client.dropDatabase().then(() => {
       done();
     }).catch(done);
