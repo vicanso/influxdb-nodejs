@@ -236,7 +236,7 @@ describe('Client:singleton', () => {
       return client.showRetentionPolicies();
     }).then((rps) => {
       assert.equal(rps.length, 2);
-      return client.updateRetentionPolicy('mytest', '4h', true);
+      return client.updateRetentionPolicy('mytest', '4h');
     }).then(() => {
       return client.showRetentionPolicies();
     }).then((rps) => {
