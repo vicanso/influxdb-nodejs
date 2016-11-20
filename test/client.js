@@ -231,14 +231,18 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
-  it('create/drop retention policy', done => {
+  it('create/update/drop retention policy', done => {
     client.createRetentionPolicy('mytest', '2h').then(() => {
       return client.showRetentionPolicies();
     }).then((rps) => {
       assert.equal(rps.length, 2);
-      client.dropRetentionPolicy('mytest');
+      return client.updateRetentionPolicy('mytest', '4h', true);
     }).then(() => {
-      return new Promise(resolve => setTimeout(resolve, 100));
+      return client.showRetentionPolicies();
+    }).then((rps) => {
+      assert.equal(rps[1].name, 'mytest');
+      assert.equal(rps[1].duration, '4h0m0s');
+      return client.dropRetentionPolicy('mytest');
     }).then(() => {
       return client.showRetentionPolicies();
     }).then((rps) => {

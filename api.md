@@ -161,6 +161,30 @@ client.createRetentionPolicy('two-week', '2w').then(() => {
 });
 ```
 
+### updateRetentionPolicy
+
+Update retention policy
+
+- `name` the retention policy name
+
+- `duration` duration, eg: '2h'
+
+- `replication` 1 for single node instances, default is 1 [optional]
+
+- `shardDuration` shard duration, eg: '30m'
+
+- `isDefault` set as default rp, default is false [optional]
+
+```js
+const assert = require('assert');
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://user:pass@127.0.0.1:8086/mydb');
+client.updateRetentionPolicy('two-week', '2d').then(() => {
+  console.info('updateRetentionPolicy success');
+});
+```
+
+
 ### dropRetentionPolicy
 
 Drop retention policy
