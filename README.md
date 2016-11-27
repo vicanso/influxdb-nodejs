@@ -26,6 +26,167 @@ View the [./examples](examples) directory for working examples.
 
 [View the detail](api.md)
 
+## How to query data
+
+First write data to influxdb by [examples/write-points.js](examples/write-points.js).
+
+Note: My time zone is UTC+8.
+
+- measurement:request
+  - field:code 200, 304, 400, 500, 502
+  - field:use 300, 1000, 3000, 6000
+  - tag:method GET', 'POST', 'PUT', 'PATCH', 'DELETE'
+  - tag:spdy '0', '1', '2', '3', '4'
+  - tag:type '2', '3', '4', '5'
+
+- measurement:login
+  - field:account
+  - tag:type 'vip', 'member'
+  
+### Count today's login times 
+
+```js
+const client = new Influx('http://127.0.0.1:8086/mydb');
+// { login: [ { time: '2016-11-26T16:00:00Z', count: 99 } ] }
+client.query('login')
+  .addCalculate('count', 'account')
+  .set({
+    start: '2016-11-26T16:00:00.000Z',
+    format: 'json',
+  })
+  .then(console.info);
+```
+
+### Count yesterday's login times
+
+```js
+const client = new Influx('http://127.0.0.1:8086/mydb');
+// {"results":[{"series":[{"name":"login","columns":["time","count"],"values":[["2016-11-25T16:00:00Z",58]]}]}]}
+client.query('login')
+  .addCalculate('count', 'account')
+  .set({
+    start: '2016-11-25T16:00:00.000Z',
+    end: '2016-11-26T16:00:00.000Z',
+  })
+  .then(console.info);
+```
+
+### Count today's login times group by type
+
+```js
+const client = new Influx('http://127.0.0.1:8086/mydb');
+// { login:
+//   [ { time: '2016-11-26T16:00:00Z', count: 71, type: 'member' },
+//     { time: '2016-11-26T16:00:00Z', count: 28, type: 'vip' } ] }
+client.query('login')
+  .addCalculate('count', 'account')
+  .addGroup('type')
+  .set({
+    start: '2016-11-26T16:00:00.000Z',
+    format: 'json',
+  })
+  .then(console.info);
+```
+
+### Count today's login times group by type and 5m
+
+```js
+const client = new Influx('http://127.0.0.1:8086/mydb');
+// { login:
+//   [ { time: '2016-11-26T16:00:00Z', count: 1, type: 'member' },
+//     { time: '2016-11-26T16:05:00Z', count: 0, type: 'member' },
+//     { time: '2016-11-26T16:10:00Z', count: 1, type: 'member' },
+//     ...
+client.query('login')
+  .addCalculate('count', 'account')
+  .addGroup('type', 'time(5m)')
+  .set({
+    start: '2016-11-26T16:00:00.000Z',
+    format: 'json',
+  })
+  .then(console.info);
+```
+
+### Get today's request count times and mean use (spdy:"3")
+
+```js
+const client = new Influx('http://127.0.0.1:8086/mydb');
+//{ request:
+//   [ { time: '2016-11-26T16:00:00Z',
+//       count: 49,
+//       mean: 4530.081632653061 } ] }
+client.query('request')
+  .condition('spdy', '3')
+  .addCalculate('count', 'code')
+  .addCalculate('mean', 'use')
+  .set({
+    start: '2016-11-26T16:00:00.000Z',
+    format: 'json',
+  })
+  .then(console.info);
+```
+### Get the last 30 min request
+
+```js
+const client = new Influx('http://127.0.0.1:8086/mydb');
+//{ request:
+//   [ { time: '2016-11-27T00:27:20.656596231Z',
+//       code: 304,
+//       method: 'GET',
+//       spdy: '1',
+//       type: '3',
+//       use: 842 },
+//     { time: '2016-11-27T00:27:42.667793891Z',
+//       code: 200,
+//       method: 'GET',
+//       spdy: '0',
+//       type: '2',
+//       use: 84 },
+//      ...
+client.query('request')
+  .set({
+    start: '-30m',
+    format: 'json',
+  })
+  .then(console.info);
+```
+
+### Get the last 30 min request's method and use order by time desc
+
+```js
+const client = new Influx('http://127.0.0.1:8086/mydb');
+//{ request:
+//   [ { time: '2016-11-27T00:36:33.09489012Z',
+//       method: 'GET',
+//       use: 176 },
+//     { time: '2016-11-27T00:36:13.085100861Z',
+//       method: 'GET',
+//       use: 209 },
+client.query('request')
+  .addField('method', 'use')
+  .set({
+    start: '-30m',
+    format: 'json',
+    order: 'desc',
+  })
+  .then(console.info);
+```
+
+### Count today's the request time where use time is more than 300ms
+
+```js
+const client = new Influx('http://127.0.0.1:8086/mydb');
+// { request: [ { time: '2016-11-26T16:00:00Z', count: 263 } ] }
+client.query('request')
+  .addCalculate('count', 'use')
+  .condition('"use" > 300')
+  .set({
+    start: '2016-11-26T16:00:00.000Z',
+    format: 'json',
+  })
+  .then(console.info);
+```
+
 ## Simple Demo
 
 ### Write point
