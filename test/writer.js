@@ -146,6 +146,7 @@ describe('Writer', () => {
       assert.equal(item.measurement, 'http');
       assert.equal(item.tags.spdy, 'fast');
       assert.equal(item.fields.use, '200i');
+      assert(Date.now() - item.time < 10);
     }
     assert.equal(set.size, 1);
     done();
