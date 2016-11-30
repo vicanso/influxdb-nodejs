@@ -52,9 +52,22 @@ describe('Client:singleton', () => {
       })
       .field({
         use: 200,
+        uuid: 'vicanso',
       })
       .queue();
     assert.equal(client.writeQueueLength, 1);
+  });
+
+  it('sync write queue', done => {
+    client.syncWrite().then(() => {
+      return client.query('http')
+        .condition('uuid', 'vicanso')
+        .set('format', 'json');
+    }).then((data) => {
+      assert.equal(data.http.length, 1);
+      assert.equal(data.http[0].time.length, 30);
+      done();
+    }).catch(done);
   });
 
   it('write point', done => {
@@ -86,11 +99,6 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
-  it('sync write queue', done => {
-    client.syncWrite().then(data => {
-      done();
-    }).catch(done);
-  });
 
   it('get point queue', () => {
     client.query('http')
