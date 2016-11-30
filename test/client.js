@@ -294,7 +294,7 @@ describe('Client:singleton', () => {
     client.showFieldKeys('http').then(fieldKeys => {
       assert(fieldKeys.length);
       assert.equal(fieldKeys[0].name, 'http');
-      assert.equal(_.map(fieldKeys[0].values, item => item.key).join(','), 'code,size,use');
+      assert.equal(_.map(fieldKeys[0].values, item => item.key).join(','), 'code,size,use,uuid');
       assert.equal(_.map(fieldKeys[0].values, item => item.type).join(','), 'float,float,float');
       done();
     }).catch(done);
@@ -304,7 +304,7 @@ describe('Client:singleton', () => {
     client.showFieldKeys().then(fieldKeys => {
       assert(fieldKeys.length);
       assert.equal(fieldKeys[0].name, 'http');
-      assert.equal(_.map(fieldKeys[0].values, item => item.key).join(','), 'code,size,use');
+      assert.equal(_.map(fieldKeys[0].values, item => item.key).join(','), 'code,size,use,uuid');
       assert.equal(_.map(fieldKeys[0].values, item => item.type).join(','), 'float,float,float');
       done();
     }).catch(done);
