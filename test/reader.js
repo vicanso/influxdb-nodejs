@@ -64,6 +64,13 @@ describe('Reader', () => {
     }).catch(done);
   });
 
+  it('toString', () => {
+    const reader = new Reader(influx);
+    reader.measurement = 'http';
+    reader.condition('spdy', '1');
+    assert.equal(reader.toString(), 'select * from "http" where "spdy" = \'1\'');
+  });
+
   it('query point', done => {
     const reader = new Reader(influx);
     reader.measurement = 'http';
