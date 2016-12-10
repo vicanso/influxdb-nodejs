@@ -3,7 +3,7 @@
     "allowUnknownTags": false
   },
   "source": {
-      "include": "./lib",
+      "include": ["./lib", "./extends"],
       "includePattern": ".js$",
       "excludePattern": "(http.js|utils.js|influx.js)"
   },
