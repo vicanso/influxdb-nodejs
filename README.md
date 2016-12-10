@@ -24,7 +24,7 @@ View the [./examples](examples) directory for working examples.
 
 ## API
 
-[API](http://vicanso.github.io/influxdb-nodejs/Client.html)
+[API](https://vicanso.github.io/influxdb-nodejs/Client.html)
 
 
 ## Comparison
