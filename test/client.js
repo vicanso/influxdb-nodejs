@@ -60,6 +60,10 @@ describe('Client:singleton', () => {
 
   it('sync write queue', done => {
     client.syncWrite().then(() => {
+      return new Promise(resolve => {
+        setTimeout(resolve, 100);
+      });
+    }).then(() => {
       return client.query('http')
         .condition('uuid', 'vicanso')
         .set('format', 'json');
