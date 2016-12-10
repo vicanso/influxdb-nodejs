@@ -10,7 +10,8 @@
     "stats"
   ],
   "scripts": {
-    "test": "node ./node_modules/.bin/eslint ./lib/*.js && node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./test/*.js --"
+    "test": "node ./node_modules/.bin/eslint ./lib/*.js && node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./test/*.js --",
+    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "license": "MIT",
   "repository": {
@@ -29,12 +30,14 @@
     "time-tool": "^1.0.2"
   },
   "devDependencies": {
+    "docdash": "^0.4.0",
     "eslint": "^3.6.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^2.0.1",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
     "istanbul": "^0.4.5",
+    "jsdoc": "^3.4.3",
     "mocha": "^3.1.0"
   }
 }

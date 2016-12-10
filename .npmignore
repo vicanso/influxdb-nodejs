@@ -1,3 +1,5 @@
 coverage
 examples
 test
+docs
+jsdoc.json
