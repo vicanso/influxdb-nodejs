@@ -360,7 +360,7 @@ describe('Client:Auth', () => {
 
   it('create database', done => {
     client.createDatabase().then(() => {
-      done();
+      setTimeout(done, 300);
     }).catch(done);
   });
 
