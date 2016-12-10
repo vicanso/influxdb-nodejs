@@ -61,7 +61,7 @@ describe('Client:singleton', () => {
   it('sync write queue', done => {
     client.syncWrite().then(() => {
       return new Promise(resolve => {
-        setTimeout(resolve, 100);
+        setTimeout(resolve, 300);
       });
     }).then(() => {
       return client.query('http')
