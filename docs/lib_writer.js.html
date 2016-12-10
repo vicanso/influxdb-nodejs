@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/writer.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a><ul class='methods'><li data-type='method'><a href="Client.html#createDatabase">createDatabase</a></li><li data-type='method'><a href="Client.html#createRetentionPolicy">createRetentionPolicy</a></li><li data-type='method'><a href="Client.html#dropDatabase">dropDatabase</a></li><li data-type='method'><a href="Client.html#dropRetentionPolicy">dropRetentionPolicy</a></li><li data-type='method'><a href="Client.html#getServers">getServers</a></li><li data-type='method'><a href="Client.html#query">query</a></li><li data-type='method'><a href="Client.html#queryPost">queryPost</a></li><li data-type='method'><a href="Client.html#queryRaw">queryRaw</a></li><li data-type='method'><a href="Client.html#showDatabases">showDatabases</a></li><li data-type='method'><a href="Client.html#showFieldKeys">showFieldKeys</a></li><li data-type='method'><a href="Client.html#showMeasurements">showMeasurements</a></li><li data-type='method'><a href="Client.html#showRetentionPolicies">showRetentionPolicies</a></li><li data-type='method'><a href="Client.html#showTagKeys">showTagKeys</a></li><li data-type='method'><a href="Client.html#startHealthCheck">startHealthCheck</a></li><li data-type='method'><a href="Client.html#stopHealthCheck">stopHealthCheck</a></li><li data-type='method'><a href="Client.html#syncQuery">syncQuery</a></li><li data-type='method'><a href="Client.html#syncWrite">syncWrite</a></li><li data-type='method'><a href="Client.html#updateRetentionPolicy">updateRetentionPolicy</a></li><li data-type='method'><a href="Client.html#write">write</a></li><li data-type='method'><a href="Client.html#writePoint">writePoint</a></li></ul></li><li><a href="QL.html">QL</a><ul class='methods'><li data-type='method'><a href="QL.html#addCalculate">addCalculate</a></li><li data-type='method'><a href="QL.html#addField">addField</a></li><li data-type='method'><a href="QL.html#addGroup">addGroup</a></li><li data-type='method'><a href="QL.html#condition">condition</a></li><li data-type='method'><a href="QL.html#field">field</a></li><li data-type='method'><a href="QL.html#tag">tag</a></li></ul></li><li><a href="Reader.html">Reader</a><ul class='methods'><li data-type='method'><a href="Reader.html#addCalculate">addCalculate</a></li><li data-type='method'><a href="Reader.html#addField">addField</a></li><li data-type='method'><a href="Reader.html#addGroup">addGroup</a></li><li data-type='method'><a href="Reader.html#condition">condition</a></li><li data-type='method'><a href="Reader.html#field">field</a></li><li data-type='method'><a href="Reader.html#get">get</a></li><li data-type='method'><a href="Reader.html#queue">queue</a></li><li data-type='method'><a href="Reader.html#set">set</a></li><li data-type='method'><a href="Reader.html#tag">tag</a></li><li data-type='method'><a href="Reader.html#then">then</a></li><li data-type='method'><a href="Reader.html#toString">toString</a></li></ul></li><li><a href="Writer.html">Writer</a><ul class='methods'><li data-type='method'><a href="Writer.html#field">field</a></li><li data-type='method'><a href="Writer.html#queue">queue</a></li><li data-type='method'><a href="Writer.html#tag">tag</a></li><li data-type='method'><a href="Writer.html#then">then</a></li><li data-type='method'><a href="Writer.html#time">time</a></li><li data-type='method'><a href="Writer.html#toJSON">toJSON</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">lib/writer.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const _ = require('lodash');
+const timeTool = require('time-tool');
+
+const internal = require('./internal');
+const debug = require('./debug');
+
+/**
+ * Influxdb Writer
+ * @example
+ * const Influx = require('influxdb-nodejs');
+ * const client = new Influx('http://127.0.0.1:8086/mydb');
+ * const writer = client.writer('http');
+ */
+
+class Writer {
+  /**
+   * Get the influxdb writer
+   * @param  {Influx} client - The influx instance
+   * @param  {Set} queueSet - The query queue
+   * @return {Writer}
+   * @since 2.2.0
+   */
+  constructor(client, queueSet) {
+    const internalData = internal(this);
+    internalData.client = client;
+    internalData.queueSet = queueSet;
+    internalData.measurement = '';
+    internalData.tags = {};
+    internalData.fields = {};
+    internalData.time = 0;
+    internalData.precision = undefined;
+  }
+  set measurement(v) {
+    internal(this).measurement = v;
+  }
+  get measurement() {
+    return internal(this).measurement;
+  }
+  set precision(v) {
+    internal(this).precision = v;
+  }
+  get precision() {
+    return internal(this).precision;
+  }
+  /**
+   * Set the tag for the write point
+   * @param  {String | Object} key - The tag's key
+   * @param  {Any} value - The tag's value
+   * @return {Writer}
+   * @since 2.2.0
+   * @example
+   * client.write('http')
+   *   .tag('method', 'GET')
+   *   .tag({
+   *     spdy: 'fast',
+   *     type: '2',
+   *   })
+   *   .field('size', 10 * 1024)
+   *   .field({
+   *     use: 300,
+   *     code: 200,
+   *   })
+   *   .then(() => console.info('write point success'))
+   *   .catch(err => console.error(`write point fail, ${err.message}`));
+   */
+  tag(k, v) {
+    const tags = internal(this).tags;
+    if (v) {
+      tags[k] = v;
+    } else {
+      _.extend(tags, k);
+    }
+    return this;
+  }
+  /**
+   * Set the field for the write point
+   * @param  {String | Object} key - The field's key
+   * @param  {Any} value - The field's value
+   * @return {Writer}
+   * @since 2.2.0
+   * @example
+   * client.write('http')
+   *   .tag('method', 'GET')
+   *   .tag({
+   *     spdy: 'fast',
+   *     type: '2',
+   *   })
+   *   .field('size', 10 * 1024)
+   *   .field({
+   *     use: 300,
+   *     code: 200,
+   *   })
+   *   .then(() => console.info('write point success'))
+   *   .catch(err => console.error(`write point fail, ${err.message}`));
+   */
+  field(k, v) {
+    const fields = internal(this).fields;
+    if (v) {
+      fields[k] = v;
+    } else {
+      _.extend(fields, k);
+    }
+    return this;
+  }
+  /**
+   * Set the timestamp for the write point
+   * @param  {String} timestamp - The timestamp
+   * @return {String} precision - The precision for the timestamp
+   * @since 2.2.0
+   * @example
+   * client.write('http')
+   *   .tag('method', 'GET')
+   *   .tag({
+   *     spdy: 'fast',
+   *     type: '2',
+   *   })
+   *   .field('size', 10 * 1024)
+   *   .field({
+   *     use: 300,
+   *     code: 200,
+   *   })
+   *   .time(Date.now(), 'ms')
+   *   .then(() => console.info('write point success'))
+   *   .catch(err => console.error(`write point fail, ${err.message}`));
+   */
+  time(timestamp, precision) {
+    internal(this).time = timestamp;
+    if (precision) {
+      this.precision = precision;
+    }
+    return this;
+  }
+  /**
+   * Get the writer promise
+   * @param  {Function} resolve - resolve function
+   * @param  {Function} reject - reject function
+   * @return {Promise}
+   * @since 2.2.0
+   */
+  then(resolve, reject) {
+    if (!this.fullfilledPromise) {
+      const client = internal(this).client;
+      const data = this.toJSON();
+      this.fullfilledPromise = new Promise((innerResolve, innerReject) => {
+        client.write(data).then(innerResolve, innerReject);
+      });
+    }
+    return this.fullfilledPromise.then(resolve, reject);
+  }
+  /**
+   * Get the point data {measurement: String, tags: Object, fields: Object, time: String }]
+   * @return {Object}
+   * @since 2.2.0
+   * @example
+   * const writer = client.write('http')
+   *   .tag('method', 'GET')
+   *   .tag({
+   *     spdy: 'fast',
+   *     type: '2',
+   *   })
+   *   .field('size', 10 * 1024)
+   *   .field({
+   *     use: 300,
+   *     code: 200,
+   *   });
+   * console.info(writer.toJSON());
+   * // => { measurement: 'http',
+   * //      tags: { method: 'GET', spdy: 'fast', type: '2' },
+   * //      fields: { size: 10240, use: 300, code: 200 },
+   * //      time: 0 }
+   */
+  toJSON() {
+    const internalData = internal(this);
+
+    /* istanbul ignore if */
+    if (!internalData.measurement) {
+      throw new Error('measurement can not be null');
+    }
+    const data = {};
+    _.forEach('measurement tags fields time precision'.split(' '), (key) => {
+      if (!_.isUndefined(internalData[key])) {
+        data[key] = internalData[key];
+      }
+    });
+
+    debug('writer data:%j', data);
+    return data;
+  }
+  /**
+   * Add the writer to the queue
+   * @return {Writer}
+   * @since 2.2.0
+   * @example
+   * client.write('http')
+   *   .tag('method', 'GET')
+   *   .tag({
+   *     spdy: 'fast',
+   *     type: '2',
+   *   })
+   *   .field('size', 10 * 1024)
+   *   .field({
+   *     use: 300,
+   *     code: 200,
+   *   })
+   *   .queue();
+   */
+  queue() {
+    const queueSet = internal(this).queueSet;
+    /* istanbul ignore if */
+    if (!queueSet) {
+      throw new Error('queue set is undefined');
+    }
+    this.time(timeTool.ns());
+    queueSet.add(this.toJSON());
+    return this;
+  }
+}
+
+module.exports = Writer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Dec 10 2016 21:47:19 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

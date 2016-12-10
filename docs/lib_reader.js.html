@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/reader.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a><ul class='methods'><li data-type='method'><a href="Client.html#createDatabase">createDatabase</a></li><li data-type='method'><a href="Client.html#createRetentionPolicy">createRetentionPolicy</a></li><li data-type='method'><a href="Client.html#dropDatabase">dropDatabase</a></li><li data-type='method'><a href="Client.html#dropRetentionPolicy">dropRetentionPolicy</a></li><li data-type='method'><a href="Client.html#getServers">getServers</a></li><li data-type='method'><a href="Client.html#query">query</a></li><li data-type='method'><a href="Client.html#queryPost">queryPost</a></li><li data-type='method'><a href="Client.html#queryRaw">queryRaw</a></li><li data-type='method'><a href="Client.html#showDatabases">showDatabases</a></li><li data-type='method'><a href="Client.html#showFieldKeys">showFieldKeys</a></li><li data-type='method'><a href="Client.html#showMeasurements">showMeasurements</a></li><li data-type='method'><a href="Client.html#showRetentionPolicies">showRetentionPolicies</a></li><li data-type='method'><a href="Client.html#showTagKeys">showTagKeys</a></li><li data-type='method'><a href="Client.html#startHealthCheck">startHealthCheck</a></li><li data-type='method'><a href="Client.html#stopHealthCheck">stopHealthCheck</a></li><li data-type='method'><a href="Client.html#syncQuery">syncQuery</a></li><li data-type='method'><a href="Client.html#syncWrite">syncWrite</a></li><li data-type='method'><a href="Client.html#updateRetentionPolicy">updateRetentionPolicy</a></li><li data-type='method'><a href="Client.html#write">write</a></li><li data-type='method'><a href="Client.html#writePoint">writePoint</a></li></ul></li><li><a href="QL.html">QL</a><ul class='methods'><li data-type='method'><a href="QL.html#addCalculate">addCalculate</a></li><li data-type='method'><a href="QL.html#addField">addField</a></li><li data-type='method'><a href="QL.html#addGroup">addGroup</a></li><li data-type='method'><a href="QL.html#condition">condition</a></li><li data-type='method'><a href="QL.html#field">field</a></li><li data-type='method'><a href="QL.html#tag">tag</a></li></ul></li><li><a href="Reader.html">Reader</a><ul class='methods'><li data-type='method'><a href="Reader.html#addCalculate">addCalculate</a></li><li data-type='method'><a href="Reader.html#addField">addField</a></li><li data-type='method'><a href="Reader.html#addGroup">addGroup</a></li><li data-type='method'><a href="Reader.html#condition">condition</a></li><li data-type='method'><a href="Reader.html#field">field</a></li><li data-type='method'><a href="Reader.html#get">get</a></li><li data-type='method'><a href="Reader.html#queue">queue</a></li><li data-type='method'><a href="Reader.html#set">set</a></li><li data-type='method'><a href="Reader.html#tag">tag</a></li><li data-type='method'><a href="Reader.html#then">then</a></li><li data-type='method'><a href="Reader.html#toString">toString</a></li></ul></li><li><a href="Writer.html">Writer</a><ul class='methods'><li data-type='method'><a href="Writer.html#field">field</a></li><li data-type='method'><a href="Writer.html#queue">queue</a></li><li data-type='method'><a href="Writer.html#tag">tag</a></li><li data-type='method'><a href="Writer.html#then">then</a></li><li data-type='method'><a href="Writer.html#time">time</a></li><li data-type='method'><a href="Writer.html#toJSON">toJSON</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">lib/reader.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const QL = require('influx-ql');
+const _ = require('lodash');
+
+const internal = require('./internal');
+const debug = require('./debug');
+const util = require('./util');
+
+const qlKeys = 'RP start end limit slimit order offset soffset fill'.split(' ');
+
+/**
+ * Influxdb Reader extends InfluxQL
+ * @extends QL
+ * @example
+ * const Influx = require('influxdb-nodejs');
+ * const client = new Influx('http://127.0.0.1:8086/mydb');
+ * const reader = client.query('http');
+ */
+
+class Reader extends QL {
+  /**
+   * Get the influxdb reader
+   * @param  {Influx} client - The influx instance
+   * @param  {Set} queueSet - The query queue
+   * @return {Reader}
+   * @since 2.2.0
+   */
+  constructor(client, queueSet) {
+    /* istanbul ignore if */
+    if (!client) {
+      throw new Error('client cat not be null');
+    }
+    super();
+    const internalData = internal(this);
+    internalData.client = client;
+    internalData.queueSet = queueSet;
+    internalData.options = {};
+  }
+
+  /**
+   * Set the reader options
+   * @param {String | Object} key - The key of options, eg: format epoch RP start end limit slimit order offset soffset fill
+   * @param {Any} - The value of options
+   * @return {Reader}
+   * @since 2.2.0
+   * @example
+   * client.query('http')
+   *   .condition('spdy', 'fast')
+   *   // query data response type
+   *   .set('format', 'json')
+   *   // the specified precision of epoch timestamps
+   *   .set('epoch', 's')
+   *   .set({
+   *     // the retention policy
+   *     RP: 'autogen',
+   *     // the query start time, 3 hours ago
+   *     start: '-3h',
+   *     // the query end time, 1 hours ago
+   *     end: '-1h',
+   *     // the query point limit, paginates N points in the query results
+   *     limit: 10,
+   *     // the query series limit
+   *     slimit: 1,
+   *     // the query result order
+   *     order: 'desc',
+   *     // the query offset
+   *     offset: 10,
+   *     // specifies the number of series to paginate
+   *     soffset: 0,
+   *     // changes the value reported for time intervals that have no data
+   *     fill: 0,
+   *   })
+   *   .then(console.info)
+   *   .catch(console.error);
+   */
+  set(k, v) {
+    const options = internal(this).options;
+
+    if (_.isObject(k)) {
+      _.forEach(k, (v1, k1) => this.set(k1, v1));
+    } else if (_.indexOf(qlKeys, k) !== -1) {
+      this[k] = v;
+    } else {
+      options[k] = v;
+    }
+    return this;
+  }
+
+  /**
+   * Get the reader options
+   * @param  {String} key - The key of options
+   * @return {Any}
+   * @since 2.2.0
+   * @example
+   * const reader = client.query('http').set({
+   *   limit: 10,
+   * });
+   * console.info(reader.get('limit'));
+   * // => 10
+   */
+  get(k) {
+    if (_.indexOf(qlKeys, k) !== -1) {
+      return this[k];
+    }
+    return internal(this).options[k];
+  }
+
+  /**
+   * Get the query promise
+   * @param  {Function} resolve - resolve function
+   * @param  {Function} reject - reject function
+   * @return {Promise}
+   * @since 2.2.0
+   */
+  then(resolve, reject) {
+    /* istanbul ignore else */
+    if (!this.fullfilledPromise) {
+      /* istanbul ignore if */
+      if (!this.measurement) {
+        throw new Error('measurement can not be null');
+      }
+      const client = internal(this).client;
+      const options = internal(this).options;
+      const q = this.toSelect();
+      const format = options.format;
+      debug('reader q:%s', q);
+      this.fullfilledPromise = new Promise((innerResolve, innerReject) => {
+        client.query(q, null, this.get('epoch')).then((data) => {
+          let fn = null;
+          switch (format) {
+            case 'json':
+              fn = util.toJSON;
+              break;
+            case 'csv':
+              fn = util.toCsv;
+              break;
+            default:
+              fn = _.identity;
+              break;
+          }
+          try {
+            const result = fn(data);
+            innerResolve(result);
+          } catch (err) {
+            innerReject(err);
+          }
+        }, innerReject);
+      });
+    }
+    return this.fullfilledPromise.then(resolve, reject);
+  }
+  /**
+   * Add the query to the queue
+   * @return {Reader}
+   * @since 2.2.0
+   * @example
+   * client.query('http')
+   *   .tag({
+   *     spdy: '1',
+   *   })
+   *   .queue();
+   */
+  queue() {
+    const queueSet = internal(this).queueSet;
+    /* istanbul ignore if */
+    if (!queueSet) {
+      throw new Error('queue set is undefined');
+    }
+    /* istanbul ignore if */
+    if (!this.measurement) {
+      throw new Error('measurement can not be null');
+    }
+    const q = this.toSelect();
+    debug('reader q:%s', q);
+    queueSet.add(q);
+    return this;
+  }
+  /**
+   * Get the influx ql of the reader
+   * @return {String}
+   * @since 2.2.1
+   * @example
+   * const ql = client.query('http')
+   *   .tag({
+   *     spdy: '1',
+   *   })
+   *   .toString();
+   * // => select * from "http" where "spdy" = '1'
+   */
+  toString() {
+    return this.toSelect();
+  }
+}
+
+module.exports = Reader;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Dec 10 2016 21:47:19 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
