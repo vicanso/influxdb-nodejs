@@ -9,7 +9,7 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
   reader.addField('code', 'spdy', 'type');
   reader.start = '-3h';
   reader.limit = 2;
-  reader.tag('spdy', '0');
+  reader.condition('spdy', '0');
   reader.addCondition('use <= 300');
   reader.fill = 0;
   reader.then(data => {
