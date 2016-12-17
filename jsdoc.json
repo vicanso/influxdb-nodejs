@@ -3,7 +3,7 @@
     "allowUnknownTags": false
   },
   "source": {
-      "include": ["./lib", "./extends"],
+      "include": ["./lib", "./node_modules/influx-ql/lib"],
       "includePattern": ".js$",
       "excludePattern": "(http.js|utils.js|influx.js)"
   },
