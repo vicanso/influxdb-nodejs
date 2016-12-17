@@ -373,7 +373,7 @@ describe('Client:Auth', () => {
 
   it('write point', done => {
     client.write('http')
-      .condition({
+      .tag({
         spdy: 'fast',
         type: '2',
         method: 'get',
