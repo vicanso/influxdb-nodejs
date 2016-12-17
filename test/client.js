@@ -161,7 +161,7 @@ describe('Client:singleton', () => {
 
   it('query point by tag', done => {
     client.query('http')
-      .tag('spdy', 'fast')
+      .condition('spdy', 'fast')
       .then(data => {
         assert.equal(data.results[0].series[0].values.length, 2);
         done();
@@ -170,7 +170,7 @@ describe('Client:singleton', () => {
 
   it('query point by field', done => {
     client.query('http')
-      .field('use', 301)
+      .condition('use', 301)
       .then(data => {
         assert.equal(data.results[0].series[0].values.length, 1);
         done();
@@ -373,7 +373,7 @@ describe('Client:Auth', () => {
 
   it('write point', done => {
     client.write('http')
-      .tag({
+      .condition({
         spdy: 'fast',
         type: '2',
         method: 'get',
@@ -390,7 +390,7 @@ describe('Client:Auth', () => {
 
   it('query point', done => {
     client.query('http')
-      .tag({
+      .condition({
         spdy: 'fast',
         type: '2',
       })
