@@ -26,6 +26,47 @@ View the [./examples](examples) directory for working examples.
 
 [API](https://vicanso.github.io/influxdb-nodejs/Client.html)
 
+Query influxdb with multi where condition
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.query('http')
+  .condition('spdy', '1')
+  .condition('method', ['GET', 'POST'])
+  .condition('use', 300, '>=')
+  .then(console.info)
+  .catch(console.error);
+// => influx ql: select * from "http" where "spdy" = '1' and "use" >= 300 and ("method" = 'GET' or "method" = 'POST')
+```
+
+Write points to influxdb in queue
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+function loginStatus(account, ip, type) {
+  client.write('login')
+    .tag({
+      type,  
+    })
+    .field({
+      account,
+      ip,  
+    })
+    .queue();
+  if (client.writeQueueLength >= 10) {
+    client.syncWrite()
+      .then(() => console.info('sync write queue success'))
+      .catch(err => console.error(`sync write queue fail, ${err.message}`));
+  }
+}
+
+setInterval(() => {
+  loginStatus('vicanso', '127.0.0.1', 'vip');
+}, 5000);
+```
+
 
 ## Comparison
 
