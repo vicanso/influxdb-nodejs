@@ -192,7 +192,16 @@ describe('Client:singleton', () => {
         assert.equal(data.results[0].series[0].values.length, 2);
         done();
       }).catch(done);
-  })
+  });
+
+  it('query use addFunction', done => {
+    client.query('http')
+      .addFunction('bottom', 'use', 1)
+      .then(data => {
+        assert.equal(data.results[0].series[0].values.length, 1);
+        done();
+      }).catch(done);
+  });
   
   it('set timeout', done => {
     client.timeout = 1;
