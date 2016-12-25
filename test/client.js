@@ -69,6 +69,7 @@ describe('Client:singleton', () => {
         .set('format', 'json');
     }).then((data) => {
       assert.equal(data.http.length, 1);
+      console.info(data.http[0].time);
       assert.equal(data.http[0].time.length, 30);
       done();
     }).catch(done);
