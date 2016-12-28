@@ -40,6 +40,26 @@ client.query('http')
 // => influx ql: select * from "http" where "spdy" = '1' and "use" >= 300 and ("method" = 'GET' or "method" = 'POST')
 ```
 
+Query influxdb using functon
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+client.query('http')
+  .condition('spdy', '1')
+  .addFunction('count', 'url')
+  .then(console.info)
+  .catch(console.error);
+// => select count("url") from "http" where "spdy" = '1'
+
+client.query('http')
+  .condition('spdy', '1')
+  .addFunction('bottom', 'use', 5)
+  .then(console.info)
+  .catch(console.error);
+// select bottom("use",5) from "http" where "spdy" = '1'
+```
+
 Write points to influxdb in queue
 
 ```js
