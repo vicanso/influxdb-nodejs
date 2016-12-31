@@ -60,19 +60,11 @@ describe('Client:singleton', () => {
 
   it('sync write queue', done => {
     client.syncWrite().then(() => {
-      return new Promise(resolve => {
-        setTimeout(resolve, 300);
-      });
-    }).then(() => {
       return client.query('http')
         .condition('uuid', 'vicanso')
         .set('format', 'json');
     }).then((data) => {
       assert.equal(data.http.length, 1);
-      // 有些时间返回的time字段时间ns部分只有8位
-      if (data.http[0].time.length < 30) {
-        console.info(data.http[0].time);
-      }
       assert(data.http[0].time.length);
       done();
     }).catch(done);
@@ -107,6 +99,31 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
+  it('write point with schema', done => {
+    const schema = {
+      use: 'integer',
+      sucesss: 'boolean',
+      vip: 'boolean',
+    };
+    client.schema('request', schema, {
+      stripUnknown: true,
+    });
+    client.write('request')
+      .field({
+        use: 300,
+        sucesss: 'T',
+        vip: 'true',
+        account: 'vicanso',
+      }).then(() => {
+        return client.showFieldKeys('request')
+      }).then((data) => {
+        assert.equal(data[0].values.length, 3);
+        _.forEach(data[0].values, (item) => {
+          assert.equal(item.type, schema[item.key]);
+        });
+        done();
+      }).catch(done);
+  });
 
   it('get point queue', () => {
     client.query('http')
@@ -284,7 +301,7 @@ describe('Client:singleton', () => {
 
   it('show measurements', done => {
     client.showMeasurements().then(measurements => {
-      assert.equal(measurements.length, 1);
+      assert.equal(measurements.length, 2);
       done();
     }).catch(done);
   });
@@ -329,7 +346,7 @@ describe('Client:singleton', () => {
 
   it('show series', done => {
     client.showSeries().then(series => {
-      assert.equal(series.length, 3);
+      assert.equal(series.length, 4);
       done();
     }).catch(done);
   });
@@ -342,7 +359,6 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 });
-
 
 describe('Client:Auth', () => {
   const client = new Client(`http://vicanso:mypwd@localhost:8085/${db}`);
