@@ -99,7 +99,7 @@ describe('Client:singleton', () => {
     }).catch(done);
   });
 
-  it('write point with schema', done => {
+  it('write point with schema(stripUnknown)', done => {
     const schema = {
       use: 'integer',
       sucesss: 'boolean',
@@ -113,11 +113,39 @@ describe('Client:singleton', () => {
         use: 300,
         sucesss: 'T',
         vip: 'true',
-        account: 'vicanso',
+        count: null,
+        name: undefined,
       }).then(() => {
         return client.showFieldKeys('request')
       }).then((data) => {
         assert.equal(data[0].values.length, 3);
+        _.forEach(data[0].values, (item) => {
+          assert.equal(item.type, schema[item.key]);
+        });
+        done();
+      }).catch(done);
+  });
+
+  it('write point with schema', done => {
+    const schema = {
+      use: 'integer',
+      sucesss: 'boolean',
+      vip: 'boolean',
+      account: 'string',
+    };
+    client.schema('request', schema);
+    client.write('request')
+      .field({
+        use: 300,
+        sucesss: 'T',
+        vip: 'true',
+        account: 'vicanso',
+        count: null,
+        name: undefined,
+      }).then(() => {
+        return client.showFieldKeys('request')
+      }).then((data) => {
+        assert.equal(data[0].values.length, 4);
         _.forEach(data[0].values, (item) => {
           assert.equal(item.type, schema[item.key]);
         });

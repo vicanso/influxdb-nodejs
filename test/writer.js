@@ -35,6 +35,7 @@ describe('Writer', () => {
     writer.tag({
       spdy: 'fast',
       type: '2',
+      route: null,
     })
     .tag('method', 'get')
     .field({
@@ -44,9 +45,6 @@ describe('Writer', () => {
       auth: 'T',
     })
     .field('code', 400)
-    .then(() => {
-        return delay(100);
-    })
     .then(() => {
       const reader = new Reader(influx);
       reader.measurement = 'http';
