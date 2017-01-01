@@ -192,6 +192,19 @@ if (process.env.PORT) {
 }
 ```
 
+## Influxdb Charts
+
+HTTP Spdy(experss demo)
+
+![](assets/http-spdy.png)
+
+HTTP Type(experss demo)
+
+![](assets/http-type.png)
+
+HTTP Error(experss demo)
+
+![](assets/http-error.png)
 
 ## Comparison
 

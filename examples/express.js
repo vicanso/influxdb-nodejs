@@ -79,15 +79,46 @@ app.get('/book/:id', (req, res) => {
 });
 
 app.get('/order/:id', (req, res) => {
-  res.status(400).json({
-    error: 'The id is not valid',
-  });
+  const code = _.sample([200, 304, 400, 403]);
+  switch (code) {
+    case 304:
+      res.status(304).send('');
+      break;
+    case 400:
+      res.status(400).json({
+        error: 'The id is not valid',
+      });
+      break;
+    case 403:
+      res.status(403).json({
+        error: 'Please login first',
+      });
+      break;
+    default:
+      res.json({
+        account: 'vicanso',
+      });
+      break;
+  }
 });
 
 app.get('/author/:id', (req, res) => {
-  res.status(500).json({
-    error: 'The database is disconnected',
-  });
+  const code = _.sample([200, 304, 500]);
+  switch (code) {
+    case 304:
+      res.status(304).send('');
+      break;
+    case 500:
+      res.status(500).json({
+        error: 'The database is disconnected',
+      });
+      break;
+    default:
+      res.json({
+        account: 'vicanso',
+      });
+      break;
+  }
 });
 
 let server;
