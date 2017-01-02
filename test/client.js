@@ -138,6 +138,7 @@ describe('Client:singleton', () => {
       sucesss: 'boolean',
       vip: 'boolean',
       account: 'string',
+      amount: 'float',
     };
     client.schema('request', schema);
     client.write('request')
@@ -146,12 +147,13 @@ describe('Client:singleton', () => {
         sucesss: 'T',
         vip: 'true',
         account: 'vicanso',
+        amount: '231.124',
         count: null,
         name: undefined,
       }).then(() => {
         return client.showFieldKeys('request')
       }).then((data) => {
-        assert.equal(data[0].values.length, 4);
+        assert.equal(data[0].values.length, 5);
         _.forEach(data[0].values, (item) => {
           assert.equal(item.type, schema[item.key]);
         });
