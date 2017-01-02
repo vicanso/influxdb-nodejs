@@ -92,7 +92,9 @@ describe('Reader', () => {
 
   it('query queue', done => {
     const set = new Set();
-    const reader = new Reader(influx, set);
+    const reader = new Reader(influx, (data) => {
+      set.add(data);
+    });
     reader.measurement = 'http';
     reader.condition('"type" = \'4\'');
     reader.queue();

@@ -135,7 +135,9 @@ describe('Writer', () => {
 
   it('write queue', done => {
     const set = new Set();
-    const writer = new Writer(influx, set);
+    const writer = new Writer(influx, (data) => {
+      set.add(data);
+    });
     writer.measurement = 'http';
     writer.tag('spdy', 'fast');
     writer.field('use', '200i');

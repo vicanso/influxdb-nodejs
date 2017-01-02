@@ -45,6 +45,12 @@ describe('Client:singleton', () => {
   });
 
   it('write point queue', () => {
+    client.once('queue', (type) => {
+      assert.equal(type, 'write');
+    });
+    client.once('writeQueue', (data) => {
+      assert.equal(data.fields.uuid, 'vicanso');
+    });
     client.write('http')
       .tag({
         spdy: 'fast',
