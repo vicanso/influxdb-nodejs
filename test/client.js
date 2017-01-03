@@ -106,12 +106,12 @@ describe('Client:singleton', () => {
   });
 
   it('write point with schema(stripUnknown)', done => {
-    const schema = {
+    const fieldSchema = {
       use: 'integer',
       sucesss: 'boolean',
       vip: 'boolean',
     };
-    client.schema('request', schema, {
+    client.schema('request', fieldSchema, {
       stripUnknown: true,
     });
     client.write('request')
@@ -126,22 +126,30 @@ describe('Client:singleton', () => {
       }).then((data) => {
         assert.equal(data[0].values.length, 3);
         _.forEach(data[0].values, (item) => {
-          assert.equal(item.type, schema[item.key]);
+          assert.equal(item.type, fieldSchema[item.key]);
         });
         done();
       }).catch(done);
   });
 
   it('write point with schema', done => {
-    const schema = {
+    const fieldSchema = {
       use: 'integer',
       sucesss: 'boolean',
       vip: 'boolean',
       account: 'string',
       amount: 'float',
     };
-    client.schema('request', schema);
+    const tagSchema = {
+      spdy: ['1', '5', '3', '2'],
+      method: '*',
+    };
+    client.schema('request', fieldSchema, tagSchema);
     client.write('request')
+      .tag({
+        spdy: '2',
+        method: 'GET',
+      })
       .field({
         use: 300,
         sucesss: 'T',
@@ -155,8 +163,42 @@ describe('Client:singleton', () => {
       }).then((data) => {
         assert.equal(data[0].values.length, 5);
         _.forEach(data[0].values, (item) => {
-          assert.equal(item.type, schema[item.key]);
+          assert.equal(item.type, fieldSchema[item.key]);
         });
+        done();
+      }).catch(done);
+  });
+
+
+  it('write point with schema, illegal tag value', done => {
+    const fieldSchema = {
+      use: 'integer',
+      sucesss: 'boolean',
+      vip: 'boolean',
+      account: 'string',
+      amount: 'float',
+    };
+    const tagSchema = {
+      spdy: ['1', '5', '3', '2'],
+      method: '*',
+    };
+    client.schema('request', fieldSchema, tagSchema);
+    client.write('request')
+      .tag({
+        spdy: '8',
+        method: 'POST',
+      })
+      .field({
+        use: 300,
+        account: 'vicanso',
+      }).then(() => {
+        return client.query('request')
+          .condition('method', 'POST')
+          .set({
+            format: 'json',
+          });
+      }).then((data) => {
+        assert.equal(data.request[0].spdy, null);
         done();
       }).catch(done);
   });
@@ -382,7 +424,7 @@ describe('Client:singleton', () => {
 
   it('show series', done => {
     client.showSeries().then(series => {
-      assert.equal(series.length, 4);
+      assert.equal(series.length, 6);
       done();
     }).catch(done);
   });

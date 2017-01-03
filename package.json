@@ -1,7 +1,7 @@
 {
   "name": "influxdb-nodejs",
   "description": "node.js influxdb client",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "author": "Tree Xie <vicansocanbico@gmail.com>",
   "keywords": [
     "influx",
@@ -10,6 +10,7 @@
     "stats"
   ],
   "scripts": {
+    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "test": "node ./node_modules/.bin/eslint ./lib/*.js && node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./test/*.js --",
     "generate-docs": "node ./node_modules/.bin/jsdoc -c jsdoc.json"
   },
