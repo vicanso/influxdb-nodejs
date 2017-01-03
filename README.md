@@ -26,6 +26,43 @@ View the [./examples](examples) directory for working examples.
 
 [API](https://vicanso.github.io/influxdb-nodejs/Client.html)
 
+
+Write point
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+const fieldSchema = {
+  use: 'integer',
+  bytes: 'integer',
+  url: 'string',
+};
+const tagSchema = {
+  spdy: ['speedy', 'fast', 'slow'],
+  method: '*',
+  // http stats code: 10x, 20x, 30x, 40x, 50x
+  type: ['1', '2', '3', '4', '5'],
+};
+client.schema('http', fieldSchema, tagSchema, {
+  // default is false
+  stripUnknown: true,
+});
+client.write('http')
+  .tag({
+    spdy: 'fast',
+    method: 'GET',
+    type: '2',  
+  })
+  .field({
+    use: 300,
+    bytes: 2312,
+    url: 'https://github.com/vicanso/influxdb-nodejs',
+  })
+  .then(() => console.info('write point success'))
+  .catch(console.error);
+```
+
+
 Query influxdb with multi where condition
 
 ```js

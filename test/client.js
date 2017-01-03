@@ -187,6 +187,7 @@ describe('Client:singleton', () => {
       .tag({
         spdy: '8',
         method: 'POST',
+        type: '1',
       })
       .field({
         use: 300,
@@ -198,7 +199,9 @@ describe('Client:singleton', () => {
             format: 'json',
           });
       }).then((data) => {
-        assert.equal(data.request[0].spdy, null);
+        const item = data.request[0];
+        assert.equal(item.type, '1')
+        assert.equal(item.spdy, null);
         done();
       }).catch(done);
   });
