@@ -141,6 +141,16 @@ client.schema('http', {
   bytes: 'integer',
   url: 'string',
 });
+client.on('writeQueue', () => {
+  // sync write queue if the length is 100
+  if (client.writeQueueLength === 100) {
+    client.syncWrite()
+      .then(() => {
+        console.info('sync write success');
+      })
+      .catch(console.error);
+  }
+});
 
 function httpStats(req, res, next) {
   const start = Date.now();
@@ -166,14 +176,6 @@ function httpStats(req, res, next) {
       .tag(tags)
       .field(fields)
       .queue();
-    // sync write queue if the length is 100
-    if (client.writeQueueLength === 100) {
-      client.syncWrite()
-        .then(() => {
-          console.info('sync write success');
-        })
-        .catch(console.error);
-    }
   });
   next();
 }
