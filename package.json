@@ -27,7 +27,7 @@
     "influx-ql": "^2.0.4",
     "lodash": "^4.17.3",
     "superagent": "^3.3.1",
-    "superagent-load-balancer": "^1.0.1"
+    "superagent-load-balancer": "^2.0.1"
   },
   "devDependencies": {
     "docdash": "^0.4.0",
