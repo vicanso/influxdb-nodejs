@@ -11,6 +11,10 @@ describe('Client:singleton', () => {
     setTimeout(done, 1500);
   });
 
+  it('get database', () => {
+    assert.equal(client.database, db);
+  });
+
   it('get available servers', () => {
     assert.equal(client.availableServers.length, 1);
     assert.equal(client.availableServers[0].port, 8086);
@@ -304,7 +308,7 @@ describe('Client:singleton', () => {
         done();
       }).catch(done);
   });
-  
+
   it('set timeout', done => {
     client.timeout = 1;
     assert.equal(client.timeout, 1);
@@ -443,7 +447,7 @@ describe('Client:singleton', () => {
 
 describe('Client:Auth', () => {
   const client = new Client(`http://vicanso:mypwd@localhost:8085/${db}`);
-  
+
   client.startHealthCheck();
   it('init', done => {
     setTimeout(done, 1500);
