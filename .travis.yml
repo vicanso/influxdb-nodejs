@@ -11,8 +11,11 @@ services:
 
 before_install:
   - docker pull influxdb:alpine
-  - docker run -d -p 8086:8086 influxdb:alpine
+  - docker run -d -p 8087:8086 influxdb:alpine --name=http8087
+  - docker run -d -p 8086:8086 influxdb:alpine --name=http8086
   - docker run -d -p 8085:8086 -e INFLUXDB_HTTP_AUTH_ENABLED=true influxdb:alpine
+  - docker run -d -p 9096:9096 --link=http8087 --link=http8086 -v $TRAVIS_BUILD_DIR/assets/config.toml:/influxdb/relay.toml vicanso/influxdb-relay
+  - docker run -d -p 9097:9096 --link=http8087 --link=http8086 -v $TRAVIS_BUILD_DIR/assets/config.toml:/influxdb/relay.toml vicanso/influxdb-relay
 
 script:
   - npm test
