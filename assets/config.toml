@@ -2,6 +2,6 @@
 name = "influxdb-relay"
 bind-addr = "0.0.0.0:9096"
 output = [
-  { name = "local8086", location = "http://http8086:8086/write", buffer-size-mb = 100, max-batch-kb = 50, max-delay-interval = "5s", timeout = "10s" },
-  { name = "local8087", location = "http://http8087:8087/write", buffer-size-mb = 100, max-batch-kb = 50, max-delay-interval = "5s", timeout = "10s" },
+  { name = "influxdb-1:", location = "http://influxdb-1:8086/write", buffer-size-mb = 100, max-batch-kb = 50, max-delay-interval = "5s", timeout = "10s" },
+  { name = "influxdb-2", location = "http://influxdb-2:8086/write", buffer-size-mb = 100, max-batch-kb = 50, max-delay-interval = "5s", timeout = "10s" },
 ]

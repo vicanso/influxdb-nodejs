@@ -1,15 +1,11 @@
-# influxdb-nodejs 
-  
+# influxdb-nodejs
+
 [![Build Status](https://travis-ci.org/vicanso/influxdb-nodejs.svg?branch=master)](https://travis-ci.org/vicanso/influxdb-nodejs)
 [![Coverage Status](https://img.shields.io/coveralls/vicanso/influxdb-nodejs/master.svg?style=flat)](https://coveralls.io/r/vicanso/influxdb-nodejs?branch=master)
 [![npm](http://img.shields.io/npm/v/influxdb-nodejs.svg?style=flat-square)](https://www.npmjs.org/package/influxdb-nodejs)
 [![Github Releases](https://img.shields.io/npm/dm/influxdb-nodejs.svg?style=flat-square)](https://github.com/vicanso/influxdb-nodejs)
 
 An [InfluxDB](https://influxdata.com/) Node.js Client.
-
-* The branch is for influxdb 1.x. If use below 1.x, please get branch v1.x
-
-* I maintain the project in my spare time, so the reply may be delayed; However I will reply asap.
 
 ## Installation
 
@@ -18,8 +14,8 @@ $ npm install influxdb-nodejs
 ```
 
 ## Examples
-  
-View the [./examples](examples) directory for working examples. 
+
+View the [./examples](examples) directory for working examples.
 
 
 ## API
@@ -69,9 +65,9 @@ Query influxdb with multi where condition
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.query('http')
-  .condition('spdy', '1')
-  .condition('method', ['GET', 'POST'])
-  .condition('use', 300, '>=')
+  .where('spdy', '1')
+  .where('method', ['GET', 'POST'])
+  .where('use', 300, '>=')
   .then(console.info)
   .catch(console.error);
 // => influx ql: select * from "http" where "spdy" = '1' and "use" >= 300 and ("method" = 'GET' or "method" = 'POST')
@@ -83,14 +79,14 @@ Query influxdb using functon
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
 client.query('http')
-  .condition('spdy', '1')
+  .where('spdy', '1')
   .addFunction('count', 'url')
   .then(console.info)
   .catch(console.error);
 // => select count("url") from "http" where "spdy" = '1'
 
 client.query('http')
-  .condition('spdy', '1')
+  .where('spdy', '1')
   .addFunction('bottom', 'use', 5)
   .then(console.info)
   .catch(console.error);

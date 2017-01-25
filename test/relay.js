@@ -24,6 +24,10 @@ describe('Influxdb-relay', () => {
         url: '/users/me',
       })
       .then(() => {
+        return new Promise((resolve) => {
+          setTimeout(resolve, 1000);
+        });
+      }).then(() => {
         return client8086.query('http');
       }).then((data) => {
         assert.equal(data.results[0].series[0].values.length, 1);
