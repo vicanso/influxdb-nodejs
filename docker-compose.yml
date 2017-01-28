@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   influxdb-1:
     image: "influxdb:alpine"
