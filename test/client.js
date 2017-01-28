@@ -5,7 +5,7 @@ const Client = require('..');
 const db = 'vicanso';
 
 describe('Client:singleton', () => {
-  const client = new Client(`http://localhost:8086,localhost:8087/${db}`);
+  const client = new Client(`http://localhost:8086,localhost:8076/${db}`);
   client.startHealthCheck();
   it('init', done => {
     setTimeout(done, 1500);
@@ -22,7 +22,7 @@ describe('Client:singleton', () => {
 
   it('get unavailable servers', () => {
     assert.equal(client.unavailableServers.length, 1);
-    assert.equal(client.unavailableServers[0].port, 8087);
+    assert.equal(client.unavailableServers[0].port, 8076);
   });
 
   it('create database if not exists', done => {
