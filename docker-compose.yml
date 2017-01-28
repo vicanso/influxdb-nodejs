@@ -1,0 +1,34 @@
+version: '3'
+services:
+  influxdb-1:
+    image: "influxdb:alpine"
+    ports:
+      - "8087:8086"
+  influxdb-2:
+    image: "influxdb:alpine"
+    ports:
+      - "8086:8086"
+  influxdb-3:
+    image: "influxdb:alpine"
+    ports:
+      - "8085:8086"
+    environment:
+      INFLUXDB_HTTP_AUTH_ENABLED: "true"
+  influxdb-relay-1:
+    image: "vicanso/influxdb-relay"
+    ports:
+      - "9096:9096"
+    depends_on:
+      - influxdb-1
+      - influxdb-2
+    volumes:
+      - ./assets/config.toml:/influxdb/relay.toml
+  influxdb-relay-2:
+    image: "vicanso/influxdb-relay"
+    ports:
+      - "9097:9096"
+    depends_on:
+      - influxdb-1
+      - influxdb-2
+    volumes:
+      - ./assets/config.toml:/influxdb/relay.toml
