@@ -1,15 +1,15 @@
 version: '2'
 services:
   influxdb-1:
-    image: "influxdb:alpine"
+    image: "influxdb:1.1-alpine"
     ports:
       - "8087:8086"
   influxdb-2:
-    image: "influxdb:alpine"
+    image: "influxdb:1.1-alpine"
     ports:
       - "8086:8086"
   influxdb-3:
-    image: "influxdb:alpine"
+    image: "influxdb:1.1-alpine"
     ports:
       - "8085:8086"
     environment:
