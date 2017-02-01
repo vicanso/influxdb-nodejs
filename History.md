@@ -1,3 +1,9 @@
+# 2.4.5
+  * Improve `startHealthCheck` function for support the check `interval` setting  
+  * Use `docker-compose` for test
+  * Update `shard duration` test for influxdb 1.2 (It can't be less than 1h in version 1.2)
+  * Imporve api docs
+
 # 2.4.4
   * Add `database` getter for client
 
