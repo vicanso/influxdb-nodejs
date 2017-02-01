@@ -363,14 +363,14 @@ describe('Client:singleton', () => {
       return client.showRetentionPolicies();
     }).then((rps) => {
       assert.equal(rps.length, 2);
-      return client.updateRetentionPolicy('mytest', '4h', 1, '30m', true);
+      return client.updateRetentionPolicy('mytest', '4h', 1, '1h', true);
     }).then(() => {
       return client.showRetentionPolicies();
     }).then((rps) => {
       const rp = rps[1];
       assert.equal(rp.name, 'mytest');
       assert.equal(rp.duration, '4h0m0s');
-      assert.equal(rp.shardGroupDuration, '30m0s');
+      assert.equal(rp.shardGroupDuration, '1h0m0s');
       assert.equal(rp.replicaN, 1);
       assert(rp.default);
       return client.updateRetentionPolicy('autogen', '0', 1, true);
