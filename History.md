@@ -1,3 +1,7 @@
+# 2.5.0
+  * Add `subQuery` function for `subqueries` in influxdb 1.2.0
+  * Add `clean` function to clean the query options
+
 # 2.4.5
   * Improve `startHealthCheck` function for support the check `interval` setting  
   * Use `docker-compose` for test
