@@ -309,6 +309,19 @@ describe('Client:singleton', () => {
       }).catch(done);
   });
 
+  it('subQuery', done => {
+    client.query('http')
+      .addFunction('max', 'use')
+      .addGroup('type')
+      .subQuery()
+      .addFunction('sum', 'max')
+      .then((data) => {
+        assert.equal(data.results[0].series[0].values.length, 1);
+        assert.equal(data.results[0].series[0].columns.join(','), 'time,sum');
+        done();
+      }).catch(done);
+  });
+
   it('set timeout', done => {
     client.timeout = 1;
     assert.equal(client.timeout, 1);
