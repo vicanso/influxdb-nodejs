@@ -153,6 +153,28 @@ describe('Writer', () => {
     done();
   });
 
+  it('set timestamp for write queue', done => {
+    const set = new Set();
+    const now = Date.now();
+    const writer = new Writer(influx, (data) => {
+      set.add(data);
+    });
+    writer.measurement = 'http';
+    writer.tag('spdy', 'fast');
+    writer.field('use', '200i');
+    writer.time(now, 'ms');
+    writer.queue();
+    for (let item of set) {
+      assert.equal(item.measurement, 'http');
+      assert.equal(item.tags.spdy, 'fast');
+      assert.equal(item.fields.use, '200i');
+      // ms
+      assert.equal(item.time.length, 13);
+    }
+    assert.equal(set.size, 1);
+    done();
+  });
+
   it('drop db', function(done) {
     this.timeout(5000);
     influx.dropDatabase(db).then(data => {
