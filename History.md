@@ -1,3 +1,7 @@
+# 2.5.1
+  * Convert timestamp to string in `time` function
+  * Check the timestamp in `queue` function of writer
+
 # 2.5.0
   * Add `subQuery` function for `subqueries` in influxdb 1.2.0
   * Add `clean` function to clean the query options
