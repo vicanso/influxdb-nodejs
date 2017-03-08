@@ -1298,7 +1298,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line697">line 697</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line705">line 705</a>
     </li></ul></dd>
     
 
@@ -1306,7 +1306,7 @@ console.info(ql.toSelect());
 
     
     <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-since"><ul class="dummy"><li>2.6.0</li></ul></dd>
     
 
     
@@ -1357,13 +1357,21 @@ console.info(ql.toSelect());
 
 
 
-    <h5>Example</h5>
+    <h5>Examples</h5>
     
     <pre class="prettyprint"><code>const ql = new QL('mydb');
 ql.measurement = 'http';
 ql.addField('status', 'spdy', 'fetch time');
 console.info(ql.toSelect());
 // => select "fetch time","spdy","status" from "mydb".."http"</code></pre>
+
+    <pre class="prettyprint"><code>const ql = new QL('mydb');
+ql.measurement = 'http';
+ql.addField({
+  'fetch time': 'ft',
+});
+console.info(ql.toSelect());
+// => select "fetch time" as "ft" from "mydb".."http"</code></pre>
 
 
 
@@ -1446,7 +1454,7 @@ console.info(ql.toSelect());
 
     
 
-    <h4 class="name" id="addFunction"><span class="type-signature"></span>addFunction<span class="signature">(type, field, field)</span><span class="type-signature"> &rarr; {<a href="QL.html">QL</a>}</span></h4>
+    <h4 class="name" id="addFunction"><span class="type-signature"></span>addFunction<span class="signature">(type, field, field, options)</span><span class="type-signature"> &rarr; {<a href="QL.html">QL</a>}</span></h4>
 
     
 
@@ -1458,7 +1466,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line842">line 842</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line878">line 878</a>
     </li></ul></dd>
     
 
@@ -1466,7 +1474,7 @@ console.info(ql.toSelect());
 
     
     <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-since"><ul class="dummy"><li>2.6.0</li></ul></dd>
     
 
     
@@ -1527,19 +1535,33 @@ ql.addGroup('spdy');
 console.info(ql.toSelect());
 // => select count("use"),mean("use") from "mydb".."http" group by "spdy"</code></pre>
 
-    <pre class="prettyprint"><code>// version 2.0.1
-const ql = new QL('mydb');
+    <pre class="prettyprint"><code>const ql = new QL('mydb');
 ql.measurement = 'http';
 ql.addFunction("bottom", 'use', 3);
 console.info(ql.toSelect());
-// => select bottom("use",3) from "mydb".."http"
-* @example
-// version 2.0.3
-const ql = new QL('mydb');
+// => select bottom("use",3) from "mydb".."http"</code></pre>
+
+    <pre class="prettyprint"><code>const ql = new QL('mydb');
 ql.measurement = 'http';
 ql.addFunction('count("use")');
 console.info(ql.toSelect());
 // => select count("use") from "mydb".."http"</code></pre>
+
+    <pre class="prettyprint"><code>const ql = new QL('mydb');
+ql.measurement = 'http';
+ql.addFunction('count("use")', {
+  alias: 'countUse',
+});
+console.info(ql.toSelect());
+// => select count("use") as "countUse" from "mydb".."http"</code></pre>
+
+    <pre class="prettyprint"><code>const ql = new QL('mydb');
+ql.measurement = 'http';
+ql.addFunction('count', 'use', {
+  alias: 'countUse',
+});
+console.info(ql.toSelect());
+// => select count("use") as "countUse" from "mydb".."http"</code></pre>
 
 
 
@@ -1635,6 +1657,29 @@ console.info(ql.toSelect());
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>set the alias for the function, eg: {&quot;alias&quot;: &quot;the alias name&quot;}</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1688,7 +1733,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line911">line 911</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line970">line 970</a>
     </li></ul></dd>
     
 
@@ -1857,7 +1902,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line1036">line 1036</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line1108">line 1108</a>
     </li></ul></dd>
     
 
@@ -1960,7 +2005,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line807">line 807</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line828">line 828</a>
     </li></ul></dd>
     
 
@@ -2085,7 +2130,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line733">line 733</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line754">line 754</a>
     </li></ul></dd>
     
 
@@ -2197,7 +2242,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line893">line 893</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line952">line 952</a>
     </li></ul></dd>
     
 
@@ -2319,7 +2364,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line950">line 950</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line1009">line 1009</a>
     </li></ul></dd>
     
 
@@ -2716,7 +2761,7 @@ console.info(reader.get('limit'));
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line715">line 715</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line723">line 723</a>
     </li></ul></dd>
     
 
@@ -2865,7 +2910,7 @@ console.info(ql.toSelect());
 
     
 
-    <h4 class="name" id="removeFunction"><span class="type-signature"></span>removeFunction<span class="signature">(type, field)</span><span class="type-signature"> &rarr; {<a href="QL.html">QL</a>}</span></h4>
+    <h4 class="name" id="removeFunction"><span class="type-signature"></span>removeFunction<span class="signature">(type, field, field)</span><span class="type-signature"> &rarr; {<a href="QL.html">QL</a>}</span></h4>
 
     
 
@@ -2877,7 +2922,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line871">line 871</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line918">line 918</a>
     </li></ul></dd>
     
 
@@ -2885,7 +2930,7 @@ console.info(ql.toSelect());
 
     
     <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>2.0.0</li></ul></dd>
+    <dd class="tag-since"><ul class="dummy"><li>2.6.0</li></ul></dd>
     
 
     
@@ -3018,6 +3063,29 @@ console.info(ql.toSelect());
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>field</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Any</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function param</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -3071,7 +3139,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line931">line 931</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line990">line 990</a>
     </li></ul></dd>
     
 
@@ -3453,7 +3521,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line1016">line 1016</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line1088">line 1088</a>
     </li></ul></dd>
     
 
@@ -3735,7 +3803,7 @@ console.info(ql.toSelect());
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line976">line 976</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line1035">line 1035</a>
     </li></ul></dd>
     
 
@@ -3978,7 +4046,7 @@ console.info(ql.toSelect());</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line772">line 772</a>
+        <a href="node_modules_influx-ql_lib_ql.js.html">node_modules/influx-ql/lib/ql.js</a>, <a href="node_modules_influx-ql_lib_ql.js.html#line793">line 793</a>
     </li></ul></dd>
     
 
@@ -4234,7 +4302,7 @@ console.info(ql.toSelect());
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Mar 08 2017 21:53:07 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Mar 08 2017 21:59:10 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
