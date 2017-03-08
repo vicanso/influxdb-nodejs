@@ -1,3 +1,7 @@
+# 2.6.0
+  * Use `nano-seconds` to get the time stamp
+  * Update `influx-ql` to support `alias` function
+  
 # 2.5.1
   * Convert timestamp to string in `time` function
   * Check the timestamp in `queue` function of writer
