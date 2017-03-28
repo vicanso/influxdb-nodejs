@@ -4,7 +4,7 @@ const _ = require('lodash');
 const Client = require('..');
 const db = 'vicanso';
 
-describe('Client:singleton', () => {
+describe('Client', () => {
   const client = new Client(`http://localhost:8086,localhost:8076/${db}`);
   client.startHealthCheck();
   it('init', done => {
@@ -452,6 +452,27 @@ describe('Client:singleton', () => {
   it('drop database', function(done) {
     this.timeout(5000);
     client.stopHealthCheck();
+    client.dropDatabase().then(() => {
+      done();
+    }).catch(done);
+  });
+});
+
+describe('Client:customLoadblance', () => {
+  const client = new Client(`http://localhost:8076,localhost:8086/${db}`, {
+    loadBalancingAlgorithm: 'last-backend',
+  });
+  client.addAlgorithm('last-backend', (request) => {
+    return client.availableServers.length - 1;
+  });
+  it('create database if not exists', done => {
+    client.createDatabase().then(data => {
+      done();
+    }).catch(done);
+  });
+
+  it('drop database', function(done) {
+    this.timeout(5000);
     client.dropDatabase().then(() => {
       done();
     }).catch(done);
