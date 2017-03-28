@@ -49,8 +49,8 @@ describe('Client:singleton', () => {
   });
 
   it('write point queue', () => {
-    client.once('queue', (type) => {
-      assert.equal(type, 'write');
+    client.once('queue', (data) => {
+      assert.equal(data.type, 'write');
     });
     client.once('writeQueue', (data) => {
       assert.equal(data.fields.uuid, 'vicanso');
