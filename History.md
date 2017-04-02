@@ -1,3 +1,9 @@
+# 2.7.0
+  * Add `sync` event and change `queue` event's data
+  * Judge whether `Buffer.from` is equal to `Uint8Array.from` to avoid throw TypeError, #17
+  * Add `addAlgorithm` function to support custom load balance
+  * Use `epoch` in influx.query function #18
+
 # 2.6.0
   * Use `nano-seconds` to get the time stamp
   * Update `influx-ql` to support `alias` function
