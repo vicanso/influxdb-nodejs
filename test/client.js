@@ -229,6 +229,24 @@ describe('Client', () => {
     }).catch(done);
   });
 
+  it('sync query queue, set epoch', done => {
+    client.query('http')
+      .condition('type', '2')
+      .queue();
+    client.query('http')
+      .condition('type', '3')
+      .queue();
+    client.epoch = 's';
+    client.syncQuery().then(data => {
+      client.epoch = null;
+      assert.equal(data.results.length, 2);
+      assert.equal(`${data.results[0].series[0].values[0][0]}`.length, 10)
+      assert.equal(data.results[0].series[0].values[0][5], '2');
+      assert.equal(data.results[1].series[0].values[0][5], '3');
+      done();
+    }).catch(done);
+  });
+
   it('sync query queue, format:json', done => {
     client.query('http')
       .condition('type', '2')
