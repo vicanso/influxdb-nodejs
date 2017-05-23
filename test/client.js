@@ -109,14 +109,30 @@ describe('Client', () => {
     }).catch(done);
   });
 
-  it('write point with schema(stripUnknown)', done => {
+  it('write point with schema(stripUnknown)', (done) => {
     const fieldSchema = {
       use: 'integer',
       sucesss: 'boolean',
       vip: 'boolean',
+      no: 'integer',
+      score: 'float',
     };
     client.schema('request', fieldSchema, {
+      type: ['vip'],
+    }, {
       stripUnknown: true,
+    });
+    client.once('invalid-fields', (data) => {
+      assert.equal(data.length, 4);
+      assert.equal(data[0].category, 'stripUnknown');
+      assert.equal(data[0].key, 'version');
+      assert.equal(data[0].value, 1);
+    });
+    client.once('invalid-tags', (data) => {
+      assert.equal(data.length, 1);
+      assert.equal(data[0].category, 'invalid');
+      assert.equal(data[0].key, 'type');
+      assert.equal(data[0].value, 'a');
     });
     client.write('request')
       .field({
@@ -125,8 +141,16 @@ describe('Client', () => {
         vip: 'true',
         count: null,
         name: undefined,
-      }).then(() => {
-        return client.showFieldKeys('request')
+        version: 1,
+        token: 'abcd',
+        no: 'abcd',
+        score: 'ab',
+      })
+      .tag({
+        type: 'a',
+      })
+      .then(() => {
+        return client.showFieldKeys('request');
       }).then((data) => {
         assert.equal(data[0].values.length, 3);
         _.forEach(data[0].values, (item) => {
