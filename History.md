@@ -1,3 +1,6 @@
+# 2.7.1
+  * Add `invalid-fields` and `invalid-tags` event
+
 # 2.7.0
   * Add `sync` event and change `queue` event's data
   * Judge whether `Buffer.from` is equal to `Uint8Array.from` to avoid throw TypeError, #17
