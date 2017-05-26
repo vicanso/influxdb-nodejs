@@ -123,16 +123,20 @@ describe('Client', () => {
       stripUnknown: true,
     });
     client.once('invalid-fields', (data) => {
-      assert.equal(data.length, 4);
-      assert.equal(data[0].category, 'stripUnknown');
-      assert.equal(data[0].key, 'version');
-      assert.equal(data[0].value, 1);
+      const fail = data.fail;
+      assert.equal(data.measurement, 'request');
+      assert.equal(fail.length, 4);
+      assert.equal(fail[0].category, 'stripUnknown');
+      assert.equal(fail[0].key, 'version');
+      assert.equal(fail[0].value, 1);
     });
     client.once('invalid-tags', (data) => {
-      assert.equal(data.length, 1);
-      assert.equal(data[0].category, 'invalid');
-      assert.equal(data[0].key, 'type');
-      assert.equal(data[0].value, 'a');
+      const fail = data.fail;
+      assert.equal(data.measurement, 'request');
+      assert.equal(fail.length, 1);
+      assert.equal(fail[0].category, 'invalid');
+      assert.equal(fail[0].key, 'type');
+      assert.equal(fail[0].value, 'a');
     });
     client.write('request')
       .field({
