@@ -1,4 +1,4 @@
-# 2.7.1
+# 2.7.2
   * Add `invalid-fields` and `invalid-tags` event
 
 # 2.7.0
