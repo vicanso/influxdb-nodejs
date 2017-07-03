@@ -28,10 +28,14 @@ Write point
 ```js
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
+// i --> integer
+// s --> string
+// f --> float
+// b --> boolean
 const fieldSchema = {
-  use: 'integer',
-  bytes: 'integer',
-  url: 'string',
+  use: 'i',
+  bytes: 'i',
+  url: 's',
 };
 const tagSchema = {
   spdy: ['speedy', 'fast', 'slow'],

@@ -4,9 +4,20 @@ const _ = require('lodash');
 const Client = require('..');
 const db = 'vicanso';
 
+function convertType(type) {
+  const dict = {
+    i: 'integer',
+    b: 'boolean',
+    f: 'float',
+    s: 'string',
+  };
+  return dict[type] || type;
+}
+
 describe('Client', () => {
   const client = new Client(`http://localhost:8086,localhost:8076/${db}`);
   client.startHealthCheck();
+
   it('init', done => {
     setTimeout(done, 1500);
   });
@@ -58,7 +69,7 @@ describe('Client', () => {
     client.write('http')
       .tag({
         spdy: 'fast',
-        type: '3'
+        type: '3',
       })
       .field({
         use: 200,
@@ -111,11 +122,11 @@ describe('Client', () => {
 
   it('write point with schema(stripUnknown)', (done) => {
     const fieldSchema = {
-      use: 'integer',
-      sucesss: 'boolean',
+      use: 'i',
+      sucesss: 'b',
       vip: 'boolean',
       no: 'integer',
-      score: 'float',
+      score: 'f',
     };
     client.schema('request', fieldSchema, {
       type: ['vip'],
@@ -158,7 +169,7 @@ describe('Client', () => {
       }).then((data) => {
         assert.equal(data[0].values.length, 3);
         _.forEach(data[0].values, (item) => {
-          assert.equal(item.type, fieldSchema[item.key]);
+          assert.equal(item.type, convertType(fieldSchema[item.key]));
         });
         done();
       }).catch(done);
