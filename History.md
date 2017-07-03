@@ -1,3 +1,6 @@
+# 2.7.3
+  * Support abbreviation for fields type
+
 # 2.7.2
   * Add `invalid-fields` and `invalid-tags` event
 
