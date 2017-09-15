@@ -1,3 +1,6 @@
+# 2.7.4
+  * Support update function
+
 # 2.7.3
   * Support abbreviation for fields type
 
