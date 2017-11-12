@@ -1,3 +1,6 @@
+# 2.7.5
+  * When queue is empty, `syncWrite` and `syncQuery` return `Promise.resolve()`
+
 # 2.7.4
   * Support update function
 
