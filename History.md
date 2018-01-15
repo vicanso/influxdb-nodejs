@@ -1,3 +1,6 @@
+# 2.7.6
+  * Fix conversion of multiple spaces in field/tag (jakubknejzlik)
+
 # 2.7.5
   * When queue is empty, `syncWrite` and `syncQuery` return `Promise.resolve()`
 
