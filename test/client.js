@@ -565,14 +565,7 @@ describe('Client:Auth', () => {
 
   it('create database', done => {
     client.createDatabase().then(() => {
-      setTimeout(done, 1000);
-    }).catch(done);
-  });
-
-  it('show databases', done => {
-    client.showDatabases().then(dbs => {
-      assert.equal(dbs.length, 2);
-      done();
+      setTimeout(done, 100);
     }).catch(done);
   });
 
@@ -591,6 +584,13 @@ describe('Client:Auth', () => {
       .then(data => {
         done();
       }).catch(done);
+  });
+
+  it('show databases', done => {
+    client.showDatabases().then(dbs => {
+      assert.equal(dbs.length, 2);
+      done();
+    }).catch(done);
   });
 
   it('query point', done => {
