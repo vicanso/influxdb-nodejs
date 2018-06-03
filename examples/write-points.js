@@ -2,6 +2,7 @@
 const _ = require('lodash');
 const Influx = require('..');
 const client = new Influx('http://127.0.0.1:8086/mydb');
+const rp = 'test-rp';
 
 function getBase() {
   const hours = (new Date()).getHours();
@@ -130,6 +131,9 @@ function simulateClientLogin() {
     .field({
       account,
     })
+    .set({
+      RP: rp,
+    })
     .then(() => {
       setTimeout(simulateClientLogin, interval);
     }).catch(err => {
@@ -138,8 +142,8 @@ function simulateClientLogin() {
     });
 }
 
-client.createDatabase().then(() => {
+client.createDatabase().then(() => client.createRetentionPolicy(rp, '2h')).then(() => {
   simulateClientRequest();
-  simulateClientLogin()
+  simulateClientLogin();
 });
 

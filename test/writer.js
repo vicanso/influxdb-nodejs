@@ -59,6 +59,45 @@ describe('Writer', () => {
     }).catch(done);
   });
 
+  it('write point to test rp', done => {
+    const rp = 'test';
+    influx.query(`create retention policy "${rp}" on "${db}" duration 2h replication 1`).then(() => {
+      const writer = new Writer(influx);
+      writer.measurement = 'http';
+      assert.equal(writer.measurement, 'http');
+      writer.tag({
+        spdy: 'fast',
+        type: '2',
+        route: null,
+      })
+      .tag('method', 'get')
+      .set('RP', 'test')
+      .field({
+        use: '500i',
+        size: 11 * 1024,
+        url: '/user/session',
+        auth: 'T',
+      })
+      .field('code', 400);
+      return writer;
+    })
+    .then(() => {
+      const reader = new Reader(influx);
+      reader.measurement = 'http';
+      reader.set({
+        RP: 'test',
+      });
+      return reader.condition('spdy', 'fast');
+    })
+    .then(data => {
+      const values = data.results[0].series[0].values;
+      assert.equal(values.length, 1);
+      assert.equal(values[0][1], true);
+      assert.equal(values[0][8], 500);
+      done();
+    }).catch(done);
+  });
+
   it('write point to test-ql measurement', done => {
     const measurement = 'test-ql';
     const writer = new Writer(influx);
