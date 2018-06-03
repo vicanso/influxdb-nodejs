@@ -565,7 +565,7 @@ describe('Client:Auth', () => {
 
   it('create database', done => {
     client.createDatabase().then(() => {
-      setTimeout(done, 100);
+      setTimeout(done, 1000);
     }).catch(done);
   });
 
