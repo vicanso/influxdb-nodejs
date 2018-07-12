@@ -1,3 +1,6 @@
+# 2.8.0
+  * Support multi query #27
+
 # 2.7.6
   * Fix conversion of multiple spaces in field/tag (jakubknejzlik)
 
