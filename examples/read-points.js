@@ -10,7 +10,7 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
   reader.start = '-3h';
   reader.limit = 2;
   reader.condition('spdy', '0');
-  reader.addCondition('use <= 300');
+  reader.where('use <= 300');
   reader.fill = 0;
   reader.then(data => {
     console.info(JSON.stringify(data));
@@ -30,4 +30,22 @@ const client = new Influx('http://127.0.0.1:8086/mydb');
   }).catch(err => {
     console.error(err);
   });
+}
+
+{
+  const reader = client.query('request');
+  reader.set({
+    limit: 2,
+  });
+  reader.multiQuery();
+  reader.measurement = 'login';
+  reader.set({
+    limit: 1,
+  });
+  reader.set({
+    format: 'json',
+  });
+  reader.then(data => {
+    console.info(JSON.stringify(data));
+  }).catch(console.error);
 }

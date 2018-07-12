@@ -129,6 +129,23 @@ describe('Reader', () => {
     }).catch(done);
   });
 
+  it('multi query', done => {
+    const reader = new Reader(influx);
+    reader.measurement = 'http';
+    reader.condition('method', 'get');
+    reader.multiQuery();
+    reader.measurement = 'http';
+    reader.condition('method', 'post');
+    reader.then(data => {
+      assert.equal(data.results.length, 2);
+      assert.equal(data.results[0].statement_id, 0);
+      assert.equal(data.results[0].series.length, 1);
+      assert.equal(data.results[1].statement_id, 1);
+      assert.equal(data.results[1].series.length, 1);
+      done();
+    }).catch(done);
+  });
+
   it('drop db', function(done) {
     this.timeout(5000);
     influx.dropDatabase(db).then(data => {

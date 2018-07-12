@@ -140,6 +140,28 @@ client.query('http')
   }).catch(console.error);
 ```
 
+Multi query
+
+```js
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+const reader = client.query('request');
+reader.set({
+  limit: 2,
+});
+reader.multiQuery();
+reader.measurement = 'login';
+reader.set({
+  limit: 1,
+});
+reader.set({
+  format: 'json',
+});
+reader.then(data => {
+  console.info(JSON.stringify(data));
+}).catch(console.error);
+```
+
 Use influxdb for express
 
 ```js
