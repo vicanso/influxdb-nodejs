@@ -23,7 +23,27 @@ View the [./examples](examples) directory for working examples.
 [API](https://vicanso.github.io/influxdb-nodejs/)
 
 
-Write point
+### New Client
+
+```js
+// no auth
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+```
+
+```js
+// normal auth (user and password will be added to URL query parameters)
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://user:pwd@127.0.0.1:8086/mydb');
+```
+
+```js
+// basic auth (will be used http basic auth)
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://user:pwd@127.0.0.1:8086/mydb?auth=basic');
+```
+
+### Write point
 
 ```js
 const Influx = require('influxdb-nodejs');
@@ -63,7 +83,7 @@ client.write('http')
 ```
 
 
-Query influxdb with multi where condition
+### Query influxdb with multi where condition
 
 ```js
 const Influx = require('influxdb-nodejs');
@@ -97,7 +117,7 @@ client.query('http')
 // select bottom("use",5) from "http" where "spdy" = '1'
 ```
 
-Write points to influxdb in queue
+### Write points to influxdb in queue
 
 ```js
 const Influx = require('influxdb-nodejs');
@@ -124,7 +144,7 @@ setInterval(() => {
 }, 5000);
 ```
 
-Sub query
+### Sub query
 
 ```js
 const Influx = require('influxdb-nodejs');
@@ -140,7 +160,7 @@ client.query('http')
   }).catch(console.error);
 ```
 
-Multi query
+### Multi query
 
 ```js
 const Influx = require('influxdb-nodejs');
@@ -162,7 +182,7 @@ reader.then(data => {
 }).catch(console.error);
 ```
 
-Use influxdb for express
+### Use influxdb for express
 
 ```js
 const express = require('express');

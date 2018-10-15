@@ -563,8 +563,20 @@ describe('Client:Auth', () => {
     });
   });
 
+
   it('create database', done => {
     client.createDatabase().then(() => {
+      done();
+    }).catch(done);
+  });
+
+  it('basic auth client', done => {
+    const tmp = new Client(`http://vicanso:mypwd@localhost:8085/${db}?auth=basic`);
+    tmp.showDatabases().then((data) => {
+      if (data.length === 0) {
+        done(new Error('show data bases fail'));
+        return;
+      }
       done();
     }).catch(done);
   });
