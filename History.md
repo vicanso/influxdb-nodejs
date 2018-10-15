@@ -1,3 +1,6 @@
+# 2.9.0
+  * Support basic authentication, #29
+
 # 2.8.0
   * Support multi query #27
 
