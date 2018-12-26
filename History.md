@@ -1,3 +1,6 @@
+# 2.10.0
+  * Support tz(timezone) function
+
 # 2.9.0
   * Support basic authentication, #29
 

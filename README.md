@@ -173,6 +173,7 @@ reader.multiQuery();
 reader.measurement = 'login';
 reader.set({
   limit: 1,
+  tz: 'America/Chicago',
 });
 reader.set({
   format: 'json',
