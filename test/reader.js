@@ -71,6 +71,14 @@ describe('Reader', () => {
     assert.equal(reader.toString(), 'select * from "http" where "spdy" = \'1\'');
   });
 
+
+  it('set time zone', () => {
+    const reader = new Reader(influx);
+    reader.measurement = 'http';
+    reader.set('tz', 'America/Chicago');
+    assert.equal(reader.toString(), 'select * from "http" tz(\'America/Chicago\')');
+  });
+
   it('query point', done => {
     const reader = new Reader(influx);
     reader.measurement = 'http';
