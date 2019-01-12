@@ -506,7 +506,7 @@ describe('Client', () => {
     }).catch(done);
   });
 
-  it('get measurement', done => {
+  it('add plugin', done => {
     let called = false;
     client.addPlugin((req) => {
       if (called) {
@@ -521,7 +521,9 @@ describe('Client', () => {
       .then(() => {
         if (!called) {
           done(new Error('not called'));
+          return;
         }
+        done();
       })
       .catch(done);
   });
