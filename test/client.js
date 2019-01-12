@@ -506,6 +506,26 @@ describe('Client', () => {
     }).catch(done);
   });
 
+  it('get measurement', done => {
+    let called = false;
+    client.addPlugin((req) => {
+      if (called) {
+        return;
+      }
+      if (!req.backendServer) {
+        done(new Error('the backend field is null'));
+      }
+      called = true;
+    });
+    client.query('http')
+      .then(() => {
+        if (!called) {
+          done(new Error('not called'));
+        }
+      })
+      .catch(done);
+  });
+
   it('drop database', function(done) {
     this.timeout(5000);
     client.stopHealthCheck();
