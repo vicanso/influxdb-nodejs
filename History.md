@@ -1,3 +1,6 @@
+# 2.11.0
+  * Support addPlugin function
+
 # 2.10.0
   * Support tz(timezone) function
 
