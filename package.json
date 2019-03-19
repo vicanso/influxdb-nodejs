@@ -10,9 +10,10 @@
     "stats"
   ],
   "scripts": {
+    "generate-docs": "jsdoc -c jsdoc.json --readme ./api.md",
+    "lint": "eslint ./lib/**/*.js",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
-    "test": "node ./node_modules/.bin/eslint ./lib/*.js && node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha ./test/*.js --",
-    "generate-docs": "node ./node_modules/.bin/jsdoc -c jsdoc.json --readme ./api.md"
+    "test": "npm run lint && node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/**/*.js"
   },
   "license": "MIT",
   "repository": {
@@ -23,20 +24,20 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "debug": "^3.1.0",
+    "debug": "^4.1.1",
     "influx-ql": "^2.9.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "nano-seconds": "^1.2.2",
     "superagent": "^3.8.3",
     "superagent-load-balancer": "^2.0.3"
   },
   "devDependencies": {
     "docdash": "^0.4.0",
-    "eslint": "^3.12.2",
-    "eslint-config-airbnb": "^13.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.8.0",
+    "eslint": "^5.15.3",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
     "istanbul": "^0.4.5",
     "jsdoc": "^3.4.3",
     "mocha": "^3.5.3"

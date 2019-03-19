@@ -2,7 +2,6 @@
 const assert = require('assert');
 const HTTP = require('../lib/http');
 const _ = require('lodash');
-const request = require('superagent');
 const db = 'vicanso';
 describe('HTTP', () => {
   const http = new HTTP([
@@ -17,7 +16,7 @@ describe('HTTP', () => {
       assert.equal(res.status, 204);
       assert(res.get('X-Influxdb-Version'));
       done();
-    }).catch(done);    
+    }).catch(done);
   });
 
   it('create database by post', done => {
