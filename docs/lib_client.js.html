@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8">
     <title>lib/client.js - Documentation</title>
-
+    
+    
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
@@ -11,6 +13,7 @@
     <![endif]-->
     <link type="text/css" rel="stylesheet" href="styles/prettify.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -21,8 +24,9 @@
 
 <label for="nav-trigger" class="overlay"></label>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a><ul class='methods'><li data-type='method'><a href="Client.html#addAlgorithm">addAlgorithm</a></li><li data-type='method'><a href="Client.html#addPlugin">addPlugin</a></li><li data-type='method'><a href="Client.html#createDatabase">createDatabase</a></li><li data-type='method'><a href="Client.html#createRetentionPolicy">createRetentionPolicy</a></li><li data-type='method'><a href="Client.html#dropDatabase">dropDatabase</a></li><li data-type='method'><a href="Client.html#dropRetentionPolicy">dropRetentionPolicy</a></li><li data-type='method'><a href="Client.html#findOneAndUpdate">findOneAndUpdate</a></li><li data-type='method'><a href="Client.html#on">on</a></li><li data-type='method'><a href="Client.html#query">query</a></li><li data-type='method'><a href="Client.html#queryPost">queryPost</a></li><li data-type='method'><a href="Client.html#queryRaw">queryRaw</a></li><li data-type='method'><a href="Client.html#showDatabases">showDatabases</a></li><li data-type='method'><a href="Client.html#showFieldKeys">showFieldKeys</a></li><li data-type='method'><a href="Client.html#showMeasurements">showMeasurements</a></li><li data-type='method'><a href="Client.html#showRetentionPolicies">showRetentionPolicies</a></li><li data-type='method'><a href="Client.html#showTagKeys">showTagKeys</a></li><li data-type='method'><a href="Client.html#startHealthCheck">startHealthCheck</a></li><li data-type='method'><a href="Client.html#stopHealthCheck">stopHealthCheck</a></li><li data-type='method'><a href="Client.html#syncQuery">syncQuery</a></li><li data-type='method'><a href="Client.html#syncWrite">syncWrite</a></li><li data-type='method'><a href="Client.html#updateRetentionPolicy">updateRetentionPolicy</a></li><li data-type='method'><a href="Client.html#write">write</a></li><li data-type='method'><a href="Client.html#writePoint">writePoint</a></li></ul></li><li><a href="QL.html">QL</a><ul class='methods'><li data-type='method'><a href="QL.html#addField">addField</a></li><li data-type='method'><a href="QL.html#addFunction">addFunction</a></li><li data-type='method'><a href="QL.html#addGroup">addGroup</a></li><li data-type='method'><a href="QL.html#addMeasurement">addMeasurement</a></li><li data-type='method'><a href="QL.html#clean">clean</a></li><li data-type='method'><a href="QL.html#emptyConditions">emptyConditions</a></li><li data-type='method'><a href="QL.html#emptyFields">emptyFields</a></li><li data-type='method'><a href="QL.html#emptyFunctions">emptyFunctions</a></li><li data-type='method'><a href="QL.html#emptyGroups">emptyGroups</a></li><li data-type='method'><a href="QL.html#emptyMeasurements">emptyMeasurements</a></li><li data-type='method'><a href="QL.html#multiQuery">multiQuery</a></li><li data-type='method'><a href="QL.html#removeField">removeField</a></li><li data-type='method'><a href="QL.html#removeFunction">removeFunction</a></li><li data-type='method'><a href="QL.html#removeGroup">removeGroup</a></li><li data-type='method'><a href="QL.html#removeMeasurement">removeMeasurement</a></li><li data-type='method'><a href="QL.html#subQuery">subQuery</a></li><li data-type='method'><a href="QL.html#toSelect">toSelect</a></li><li data-type='method'><a href="QL.html#where">where</a></li></ul></li><li><a href="Reader.html">Reader</a><ul class='methods'><li data-type='method'><a href="Reader.html#addCalculate">addCalculate</a></li><li data-type='method'><a href="Reader.html#addField">addField</a></li><li data-type='method'><a href="Reader.html#addFunction">addFunction</a></li><li data-type='method'><a href="Reader.html#addGroup">addGroup</a></li><li data-type='method'><a href="Reader.html#addMeasurement">addMeasurement</a></li><li data-type='method'><a href="Reader.html#clean">clean</a></li><li data-type='method'><a href="Reader.html#emptyConditions">emptyConditions</a></li><li data-type='method'><a href="Reader.html#emptyFields">emptyFields</a></li><li data-type='method'><a href="Reader.html#emptyFunctions">emptyFunctions</a></li><li data-type='method'><a href="Reader.html#emptyGroups">emptyGroups</a></li><li data-type='method'><a href="Reader.html#emptyMeasurements">emptyMeasurements</a></li><li data-type='method'><a href="Reader.html#get">get</a></li><li data-type='method'><a href="Reader.html#multiQuery">multiQuery</a></li><li data-type='method'><a href="Reader.html#queue">queue</a></li><li data-type='method'><a href="Reader.html#removeField">removeField</a></li><li data-type='method'><a href="Reader.html#removeFunction">removeFunction</a></li><li data-type='method'><a href="Reader.html#removeGroup">removeGroup</a></li><li data-type='method'><a href="Reader.html#removeMeasurement">removeMeasurement</a></li><li data-type='method'><a href="Reader.html#set">set</a></li><li data-type='method'><a href="Reader.html#subQuery">subQuery</a></li><li data-type='method'><a href="Reader.html#then">then</a></li><li data-type='method'><a href="Reader.html#toSelect">toSelect</a></li><li data-type='method'><a href="Reader.html#toString">toString</a></li><li data-type='method'><a href="Reader.html#where">where</a></li></ul></li><li><a href="Writer.html">Writer</a><ul class='methods'><li data-type='method'><a href="Writer.html#field">field</a></li><li data-type='method'><a href="Writer.html#queue">queue</a></li><li data-type='method'><a href="Writer.html#set">set</a></li><li data-type='method'><a href="Writer.html#tag">tag</a></li><li data-type='method'><a href="Writer.html#then">then</a></li><li data-type='method'><a href="Writer.html#time">time</a></li><li data-type='method'><a href="Writer.html#toJSON">toJSON</a></li></ul></li></ul>
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a><ul class='methods'><li data-type='method'><a href="Client.html#addAlgorithm">addAlgorithm</a></li><li data-type='method'><a href="Client.html#addPlugin">addPlugin</a></li><li data-type='method'><a href="Client.html#createDatabase">createDatabase</a></li><li data-type='method'><a href="Client.html#createRetentionPolicy">createRetentionPolicy</a></li><li data-type='method'><a href="Client.html#dropDatabase">dropDatabase</a></li><li data-type='method'><a href="Client.html#dropRetentionPolicy">dropRetentionPolicy</a></li><li data-type='method'><a href="Client.html#findOneAndUpdate">findOneAndUpdate</a></li><li data-type='method'><a href="Client.html#on">on</a></li><li data-type='method'><a href="Client.html#query">query</a></li><li data-type='method'><a href="Client.html#queryPost">queryPost</a></li><li data-type='method'><a href="Client.html#queryRaw">queryRaw</a></li><li data-type='method'><a href="Client.html#showDatabases">showDatabases</a></li><li data-type='method'><a href="Client.html#showFieldKeys">showFieldKeys</a></li><li data-type='method'><a href="Client.html#showMeasurements">showMeasurements</a></li><li data-type='method'><a href="Client.html#showRetentionPolicies">showRetentionPolicies</a></li><li data-type='method'><a href="Client.html#showTagKeys">showTagKeys</a></li><li data-type='method'><a href="Client.html#startHealthCheck">startHealthCheck</a></li><li data-type='method'><a href="Client.html#stopHealthCheck">stopHealthCheck</a></li><li data-type='method'><a href="Client.html#syncQuery">syncQuery</a></li><li data-type='method'><a href="Client.html#syncWrite">syncWrite</a></li><li data-type='method'><a href="Client.html#updateRetentionPolicy">updateRetentionPolicy</a></li><li data-type='method'><a href="Client.html#write">write</a></li><li data-type='method'><a href="Client.html#writePoint">writePoint</a></li></ul></li><li><a href="QL.html">QL</a><ul class='methods'><li data-type='method'><a href="QL.html#addField">addField</a></li><li data-type='method'><a href="QL.html#addFunction">addFunction</a></li><li data-type='method'><a href="QL.html#addGroup">addGroup</a></li><li data-type='method'><a href="QL.html#addMeasurement">addMeasurement</a></li><li data-type='method'><a href="QL.html#clean">clean</a></li><li data-type='method'><a href="QL.html#emptyConditions">emptyConditions</a></li><li data-type='method'><a href="QL.html#emptyFields">emptyFields</a></li><li data-type='method'><a href="QL.html#emptyFunctions">emptyFunctions</a></li><li data-type='method'><a href="QL.html#emptyGroups">emptyGroups</a></li><li data-type='method'><a href="QL.html#emptyMeasurements">emptyMeasurements</a></li><li data-type='method'><a href="QL.html#multiQuery">multiQuery</a></li><li data-type='method'><a href="QL.html#removeField">removeField</a></li><li data-type='method'><a href="QL.html#removeFunction">removeFunction</a></li><li data-type='method'><a href="QL.html#removeGroup">removeGroup</a></li><li data-type='method'><a href="QL.html#removeMeasurement">removeMeasurement</a></li><li data-type='method'><a href="QL.html#subQuery">subQuery</a></li><li data-type='method'><a href="QL.html#toSelect">toSelect</a></li><li data-type='method'><a href="QL.html#where">where</a></li></ul></li><li><a href="Reader.html">Reader</a><ul class='methods'><li data-type='method'><a href="Reader.html#addCalculate">addCalculate</a></li><li data-type='method'><a href="Reader.html#addField">addField</a></li><li data-type='method'><a href="Reader.html#addFunction">addFunction</a></li><li data-type='method'><a href="Reader.html#addGroup">addGroup</a></li><li data-type='method'><a href="Reader.html#addMeasurement">addMeasurement</a></li><li data-type='method'><a href="Reader.html#clean">clean</a></li><li data-type='method'><a href="Reader.html#emptyConditions">emptyConditions</a></li><li data-type='method'><a href="Reader.html#emptyFields">emptyFields</a></li><li data-type='method'><a href="Reader.html#emptyFunctions">emptyFunctions</a></li><li data-type='method'><a href="Reader.html#emptyGroups">emptyGroups</a></li><li data-type='method'><a href="Reader.html#emptyMeasurements">emptyMeasurements</a></li><li data-type='method'><a href="Reader.html#get">get</a></li><li data-type='method'><a href="Reader.html#multiQuery">multiQuery</a></li><li data-type='method'><a href="Reader.html#queue">queue</a></li><li data-type='method'><a href="Reader.html#removeField">removeField</a></li><li data-type='method'><a href="Reader.html#removeFunction">removeFunction</a></li><li data-type='method'><a href="Reader.html#removeGroup">removeGroup</a></li><li data-type='method'><a href="Reader.html#removeMeasurement">removeMeasurement</a></li><li data-type='method'><a href="Reader.html#set">set</a></li><li data-type='method'><a href="Reader.html#subQuery">subQuery</a></li><li data-type='method'><a href="Reader.html#then">then</a></li><li data-type='method'><a href="Reader.html#toSelect">toSelect</a></li><li data-type='method'><a href="Reader.html#toString">toString</a></li><li data-type='method'><a href="Reader.html#where">where</a></li></ul></li><li><a href="Writer.html">Writer</a><ul class='methods'><li data-type='method'><a href="Writer.html#field">field</a></li><li data-type='method'><a href="Writer.html#queue">queue</a></li><li data-type='method'><a href="Writer.html#set">set</a></li><li data-type='method'><a href="Writer.html#tag">tag</a></li><li data-type='method'><a href="Writer.html#then">then</a></li><li data-type='method'><a href="Writer.html#time">time</a></li><li data-type='method'><a href="Writer.html#toJSON">toJSON</a></li></ul></li></ul><h3>Namespaces</h3><ul><li></li></ul>
 </nav>
 
 <div id="main">
@@ -136,9 +140,9 @@ class Client extends EventEmitter {
     /* istanbul ignore else */
     if (result[2]) {
       const authInfos = result[2].substring(0, result[2].length - 1).split(
-        ':');
-      opts.username = authInfos[0];
-      opts.password = authInfos[1];
+        ':',
+      );
+      [opts.username, opts.password] = authInfos;
       // 根据query配置，判断使用哪种认证方式
       if (query) {
         const queryInfo = querystring.parse(query);
@@ -203,6 +207,7 @@ class Client extends EventEmitter {
   get database() {
     return internal(this).opts.database;
   }
+
   /**
    * Get the available list
    * @since 2.2.0
@@ -229,8 +234,8 @@ class Client extends EventEmitter {
   get unavailableServers() {
     /* eslint no-console:0 */
     console.warn('The function is deprecated');
-    const servers = internal(this).opts.servers;
-    const availableServers = this.availableServers;
+    const { servers } = internal(this).opts;
+    const { availableServers } = this;
     const arr = [];
     servers.forEach((item) => {
       const found = _.find(availableServers, (tmp) => {
@@ -287,6 +292,7 @@ class Client extends EventEmitter {
   get format() {
     return internal(this).options.format;
   }
+
   /**
    * Set the query data format type
    * @param  {String} type
@@ -312,6 +318,7 @@ class Client extends EventEmitter {
   get epoch() {
     return internal(this).options.epoch;
   }
+
   /**
    * Set the specified precision of epoch timestamps.It should be [h,m,s,ms,u,ns]
    * @since 2.2.0
@@ -383,7 +390,7 @@ class Client extends EventEmitter {
    *  .catch(err => console.error(`create database fail, ${err.message}`));
    */
   createDatabase() {
-    const opts = internal(this).opts;
+    const { opts } = internal(this);
     return internal(this).influx.createDatabase(opts.database);
   }
 
@@ -398,7 +405,7 @@ class Client extends EventEmitter {
    *  .catch(err => console.error(`drop database fail, ${err.message}`));
    */
   dropDatabase() {
-    const opts = internal(this).opts;
+    const { opts } = internal(this);
     return internal(this).influx.dropDatabase(opts.database);
   }
 
@@ -414,7 +421,7 @@ class Client extends EventEmitter {
    */
   showDatabases() {
     const ql = InfluxQL.showDatabases();
-    const influx = internal(this).influx;
+    const { influx } = internal(this);
     return influx.query(ql).then(data => _.flattenDeep(util.mergeValues(data)));
   }
 
@@ -434,7 +441,7 @@ class Client extends EventEmitter {
    */
   createRetentionPolicy(name, duration, replication, shardDuration, isDefault) {
     const internalData = internal(this);
-    const database = internalData.opts.database;
+    const { database } = internalData.opts;
     const q = InfluxQL.createRP(name, database, duration, shardDuration, replication, isDefault);
     return internalData.influx.query(q).then(_.noop);
   }
@@ -455,7 +462,7 @@ class Client extends EventEmitter {
    */
   updateRetentionPolicy(name, duration, replication, shardDuration, isDefault) {
     const internalData = internal(this);
-    const database = internalData.opts.database;
+    const { database } = internalData.opts;
     const q = InfluxQL.updateRP(name, database, duration, replication, shardDuration, isDefault);
     return internalData.influx.query(q).then(_.noop);
   }
@@ -472,7 +479,7 @@ class Client extends EventEmitter {
    */
   dropRetentionPolicy(name) {
     const internalData = internal(this);
-    const database = internalData.opts.database;
+    const { database } = internalData.opts;
     const q = InfluxQL.dropRP(name, database);
     return internalData.influx.queryPost(q).then(_.noop);
   }
@@ -489,7 +496,7 @@ class Client extends EventEmitter {
    */
   showRetentionPolicies() {
     const internalData = internal(this);
-    const opts = internalData.opts;
+    const { opts } = internalData;
     const q = InfluxQL.showRetentionPolicies(opts.database);
     return internalData.influx.query(q).then((data) => {
       const result = [];
@@ -498,7 +505,7 @@ class Client extends EventEmitter {
       }
       _.forEach(data.results, (item) => {
         _.forEach(item.series, (series) => {
-          const columns = series.columns;
+          const { columns } = series;
           _.forEach(series.values, (arr) => {
             const tmp = {};
             _.forEach(arr, (v, index) => {
@@ -524,7 +531,7 @@ class Client extends EventEmitter {
    */
   showMeasurements() {
     const ql = InfluxQL.showMeasurements();
-    const influx = internal(this).influx;
+    const { influx } = internal(this);
     return influx.query(ql).then(data => _.flattenDeep(util.mergeValues(data)));
   }
 
@@ -562,7 +569,7 @@ class Client extends EventEmitter {
    */
   showTagKeys(measurement) {
     const ql = InfluxQL.showTagKeys(measurement);
-    const influx = internal(this).influx;
+    const { influx } = internal(this);
     return influx.query(ql).then(util.convertTagAndFieldKeys);
   }
 
@@ -598,13 +605,13 @@ class Client extends EventEmitter {
    */
   showFieldKeys(measurement) {
     const ql = InfluxQL.showFieldKeys(measurement);
-    const influx = internal(this).influx;
+    const { influx } = internal(this);
     return influx.query(ql).then(util.convertTagAndFieldKeys);
   }
 
   showSeries(measurement) {
     const ql = InfluxQL.showSeries(measurement);
-    const influx = internal(this).influx;
+    const { influx } = internal(this);
     return influx.query(ql).then((data) => {
       const result = [];
       if (!data || !data.results) {
@@ -618,6 +625,7 @@ class Client extends EventEmitter {
       return _.flattenDeep(result).sort();
     });
   }
+
   /**
    * Get the writer for the influxdb
    * @param  {String} measurement - The measurment name
@@ -679,12 +687,13 @@ class Client extends EventEmitter {
     if (formatType) {
       reader.set('format', formatType);
     }
-    const epoch = this.epoch;
+    const { epoch } = this;
     if (epoch) {
       reader.set('epoch', epoch);
     }
     return reader;
   }
+
   /**
    * Update one record (latest)
    *
@@ -759,6 +768,7 @@ class Client extends EventEmitter {
     }
     return writer;
   }
+
   /**
    * Use influx ql to query the data
    * @param  {String} q  - The influx ql
@@ -829,7 +839,7 @@ class Client extends EventEmitter {
   syncWrite() {
     const internalData = internal(this);
     const set = internalData.writeQueue;
-    const influx = internalData.influx;
+    const { influx } = internalData;
     const arr = Array.from(set);
     if (arr.length === 0) {
       return Promise.resolve();
@@ -876,7 +886,7 @@ class Client extends EventEmitter {
   syncQuery(format) {
     const internalData = internal(this);
     const set = internalData.queryQueue;
-    const influx = internalData.influx;
+    const { influx } = internalData;
     const arr = Array.from(set);
     if (arr.length === 0) {
       return Promise.resolve();
@@ -902,6 +912,7 @@ class Client extends EventEmitter {
       return result;
     });
   }
+
   /**
    * Set or Get schema for the measurement, if the field(tag) validate fail, the field(tag) will be remove
    * @param  {String} measurement - the name of measurement
@@ -991,6 +1002,7 @@ class Client extends EventEmitter {
     }
     return schema.set(measurement, fieldSchema, tagSchema, options);
   }
+
   /**
    * Set the load balance algorithm
    * @param {String} type - the load balance type
@@ -1004,6 +1016,7 @@ class Client extends EventEmitter {
   addAlgorithm(type, fn) {
     return internal(this).influx.addAlgorithm(type, fn);
   }
+
   /**
    * Add plugin function
    * @param {Function} fn - plugin function
@@ -1025,15 +1038,19 @@ module.exports = Client;
 
 
 
+    
+    
 </div>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 12 2019 09:09:31 GMT+0800 (China Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Mar 19 2019 17:31:33 GMT+1300 (New Zealand Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
 <script src="scripts/linenumber.js"></script>
+
+
 </body>
 </html>
