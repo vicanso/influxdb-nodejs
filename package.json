@@ -13,7 +13,7 @@
     "generate-docs": "jsdoc -c jsdoc.json --readme ./api.md",
     "lint": "eslint ./lib/**/*.js",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
-    "test": "npm run lint && node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha ./test/**/*.js"
+    "test": "npm run lint && nyc --reporter=lcov --reporter=text-summary mocha ./test/**/*.js --exit"
   },
   "license": "MIT",
   "repository": {
@@ -38,8 +38,8 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
-    "istanbul": "^0.4.5",
     "jsdoc": "^3.5.5",
-    "mocha": "^3.5.3"
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0"
   }
 }

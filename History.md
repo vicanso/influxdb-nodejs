@@ -1,6 +1,8 @@
 # Unreleased
   * Improve package scripts.
   * Regenerate documentation using updated doc generation packages.
+  * Mocha `--exit` flag required for tests due to `superagent-load-balancer` using `interval`s that cannot be terminated.
+  * Added `nyc` as `istanbul` is now deprecated.
   * Updated `debug` from 3.1.0 to 4.1.1.
   * Updated `lodash` from 4.17.10 to 4.17.11.
   * Updated `docdash` from 0.4.0 to 1.0.3.
@@ -10,6 +12,8 @@
   * Updated `eslint-plugin-jsx-a11y` from 2.2.3 to 6.2.1.
   * Updated `eslint-plugin-react` from 6.8.0 to 7.12.4.
   * Updated `jsdoc` from 3.4.3 to 3.5.5.
+  * Updated `mocha` from 3.5.3 to 6.0.2.
+  * Removed `istanbul`.
 
 # 2.11.0
   * Support addPlugin function
