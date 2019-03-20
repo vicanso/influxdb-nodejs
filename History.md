@@ -1,4 +1,4 @@
-# Unreleased
+# 3.0.0
   * Improve package scripts.
   * Regenerate documentation using updated doc generation packages.
   * Mocha `--exit` flag required for tests due to `superagent-load-balancer` using `interval`s that cannot be terminated.
