@@ -553,7 +553,7 @@ console.info(client.format);
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>const formatType = clinet.format;
+    <pre class="prettyprint"><code>const formatType = client.format;
 console.info(formatType);
 // => undefined</code></pre>
 
@@ -632,7 +632,7 @@ console.info(formatType);
 client.query('login')
  .set({limit: 1})
  .queue();
-console.info(clinet.queryQueueLength);
+console.info(client.queryQueueLength);
 // => 2</code></pre>
 
 
@@ -943,7 +943,7 @@ client.write('http')
    use: 1000,
  })
  .queue();
-console.info(clinet.writeQueueLength);
+console.info(client.writeQueueLength);
 // => 2</code></pre>
 
 
@@ -2732,12 +2732,12 @@ console.on('queryQueue', (data) => {
 
     <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>const clinet = new Influx('http://127.0.0.1:8086/mydb')
+    <pre class="prettyprint"><code>const client = new Influx('http://127.0.0.1:8086/mydb')
 client.queryRaw('select * from "http"')
   .then(console.info)
   .catch(console.error);</code></pre>
 
-    <pre class="prettyprint"><code>const clinet = new Influx('http://127.0.0.1:8086/mydb')
+    <pre class="prettyprint"><code>const client = new Influx('http://127.0.0.1:8086/mydb')
 client.queryRaw('select * from "login"', 'testdb')
   .then(console.info)
   .catch(console.error);</code></pre>
