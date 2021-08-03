@@ -13,6 +13,7 @@
     <![endif]-->
     <link type="text/css" rel="stylesheet" href="styles/prettify.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -176,7 +177,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the available list</p>
 </div>
 
@@ -249,7 +250,7 @@ console.info(serverList)
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the database</p>
 </div>
 
@@ -322,7 +323,7 @@ console.info(database);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the specified precision of epoch timestamps</p>
 </div>
 
@@ -395,7 +396,7 @@ console.info(epoch);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the specified precision of epoch timestamps.It should be [h,m,s,ms,u,ns]</p>
 </div>
 
@@ -410,79 +411,6 @@ console.info(epoch);
     <pre class="prettyprint"><code>client.epoch = 'ms';
 console.info(client.epoch);
 // => 'ms'</code></pre>
-
-
-
-        
-            
-<h4 class="name" id="format"><span class="type-signature"></span>format<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_client.js.html">lib/client.js</a>, <a href="lib_client.js.html#line262">line 262</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>2.2.0</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Set the query data format type</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>client.format = 'json';
-console.info(client.format);
-// => 'json'</code></pre>
 
 
 
@@ -541,7 +469,7 @@ console.info(client.format);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the query data format type</p>
 </div>
 
@@ -553,9 +481,82 @@ console.info(client.format);
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>const formatType = clinet.format;
+    <pre class="prettyprint"><code>const formatType = client.format;
 console.info(formatType);
 // => undefined</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="format"><span class="type-signature"></span>format<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_client.js.html">lib/client.js</a>, <a href="lib_client.js.html#line262">line 262</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>2.2.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Set the query data format type</p>
+</div>
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>client.format = 'json';
+console.info(client.format);
+// => 'json'</code></pre>
 
 
 
@@ -614,7 +615,7 @@ console.info(formatType);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the query queue length</p>
 </div>
 
@@ -632,81 +633,8 @@ console.info(formatType);
 client.query('login')
  .set({limit: 1})
  .queue();
-console.info(clinet.queryQueueLength);
+console.info(client.queryQueueLength);
 // => 2</code></pre>
-
-
-
-        
-            
-<h4 class="name" id="timeout"><span class="type-signature"></span>timeout<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_client.js.html">lib/client.js</a>, <a href="lib_client.js.html#line236">line 236</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>2.2.0</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Set the http request timeout value.</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>client.timeout = 1000;
-console.info(client.timeout);
-// => 1000</code></pre>
 
 
 
@@ -765,7 +693,7 @@ console.info(client.timeout);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the http request timeout value, the unit is ms. The default is 0, no timeout.</p>
 </div>
 
@@ -780,6 +708,79 @@ console.info(client.timeout);
     <pre class="prettyprint"><code>const ms = client.timeout;
 console.info(ms);
 // => 0</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="timeout"><span class="type-signature"></span>timeout<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_client.js.html">lib/client.js</a>, <a href="lib_client.js.html#line236">line 236</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>2.2.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Set the http request timeout value.</p>
+</div>
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>client.timeout = 1000;
+console.info(client.timeout);
+// => 1000</code></pre>
 
 
 
@@ -840,7 +841,7 @@ console.info(ms);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the unavailable list</p>
 </div>
 
@@ -913,7 +914,7 @@ console.info(serverList)
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the write queue length</p>
 </div>
 
@@ -943,7 +944,7 @@ client.write('http')
    use: 1000,
  })
  .queue();
-console.info(clinet.writeQueueLength);
+console.info(client.writeQueueLength);
 // => 2</code></pre>
 
 
@@ -1013,7 +1014,7 @@ console.info(clinet.writeQueueLength);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the load balance algorithm</p>
 </div>
 
@@ -1182,7 +1183,7 @@ console.info(clinet.writeQueueLength);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Add plugin function</p>
 </div>
 
@@ -1327,7 +1328,7 @@ client.addPlugin(noCache);</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Create the database of the connection uri</p>
 </div>
 
@@ -1443,7 +1444,7 @@ client.createDatabase()
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Create retention policy</p>
 </div>
 
@@ -1699,7 +1700,7 @@ client.createDatabase()
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Drop the database of the connection uri</p>
 </div>
 
@@ -1815,7 +1816,7 @@ client.dropDatabase()
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Drop retention policy</p>
 </div>
 
@@ -1976,7 +1977,7 @@ client.dropDatabase()
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Update one record (latest)</p>
 </div>
 
@@ -2179,7 +2180,7 @@ client.dropDatabase()
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Listen on the event, not is support: 'queue', 'writeQueue', 'queryQueue'</p>
 </div>
 
@@ -2369,7 +2370,7 @@ console.on('queryQueue', (data) => {
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the influxdb query reader</p>
 </div>
 
@@ -2531,7 +2532,7 @@ console.on('queryQueue', (data) => {
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Use post for the influxdb query, such as create user</p>
 </div>
 
@@ -2718,7 +2719,7 @@ console.on('queryQueue', (data) => {
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Use influx ql to query the data</p>
 </div>
 
@@ -2732,12 +2733,12 @@ console.on('queryQueue', (data) => {
 
     <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>const clinet = new Influx('http://127.0.0.1:8086/mydb')
+    <pre class="prettyprint"><code>const client = new Influx('http://127.0.0.1:8086/mydb')
 client.queryRaw('select * from "http"')
   .then(console.info)
   .catch(console.error);</code></pre>
 
-    <pre class="prettyprint"><code>const clinet = new Influx('http://127.0.0.1:8086/mydb')
+    <pre class="prettyprint"><code>const client = new Influx('http://127.0.0.1:8086/mydb')
 client.queryRaw('select * from "login"', 'testdb')
   .then(console.info)
   .catch(console.error);</code></pre>
@@ -2911,7 +2912,7 @@ client.queryRaw('select * from "login"', 'testdb')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>List all database of the server</p>
 </div>
 
@@ -3027,7 +3028,7 @@ client.queryRaw('select * from "login"', 'testdb')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Show field keys of measurement</p>
 </div>
 
@@ -3211,7 +3212,7 @@ client.queryRaw('select * from "login"', 'testdb')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>List the measurement of the influxdb server</p>
 </div>
 
@@ -3327,7 +3328,7 @@ client.queryRaw('select * from "login"', 'testdb')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>List retention policies</p>
 </div>
 
@@ -3443,7 +3444,7 @@ client.queryRaw('select * from "login"', 'testdb')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Show tag keys of measurement</p>
 </div>
 
@@ -3629,7 +3630,7 @@ client.queryRaw('select * from "login"', 'testdb')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Start the influxdb server health check</p>
 </div>
 
@@ -3817,7 +3818,7 @@ client.queryRaw('select * from "login"', 'testdb')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Stop the influxdb server health check</p>
 </div>
 
@@ -3930,7 +3931,7 @@ client.queryRaw('select * from "login"', 'testdb')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Sync the query queue</p>
 </div>
 
@@ -4115,7 +4116,7 @@ client.syncQuery('json')
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Sync the write queue</p>
 </div>
 
@@ -4251,7 +4252,7 @@ client.syncWrite()
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Update retention policy</p>
 </div>
 
@@ -4507,7 +4508,7 @@ client.syncWrite()
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the writer for the influxdb</p>
 </div>
 
@@ -4702,7 +4703,7 @@ client.syncWrite()
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Write point to influxdb</p>
 </div>
 
@@ -4901,11 +4902,13 @@ client.syncWrite()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Mar 19 2019 17:31:33 GMT+1300 (New Zealand Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Tue Aug 03 2021 10:03:15 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
 <script src="scripts/linenumber.js"></script>
+
 
 
 </body>
