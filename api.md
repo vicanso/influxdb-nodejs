@@ -5,7 +5,7 @@
 [![npm](http://img.shields.io/npm/v/influxdb-nodejs.svg?style=flat-square)](https://www.npmjs.org/package/influxdb-nodejs)
 [![Github Releases](https://img.shields.io/npm/dm/influxdb-nodejs.svg?style=flat-square)](https://github.com/vicanso/influxdb-nodejs)
 
-A simple clinet for influxdb, including these features:
+A simple client for influxdb, including these features:
 
 - Writing multiple points
 
@@ -25,7 +25,7 @@ Writing multiple points and set schema for measurment
 
 ```js
 const Influx = require('influxdb-nodejs');
-const clinet = new Influx('http://127.0.0.1:8086/mydb');
+const client = new Influx('http://127.0.0.1:8086/mydb');
 const fieldSchema = {
   use: 'integer',
   bytes: 'integer',
