@@ -13,6 +13,7 @@
     <![endif]-->
     <link type="text/css" rel="stylesheet" href="styles/prettify.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -47,7 +48,7 @@
         Reader
         </h2>
         
-            <div class="class-description"><p>Influxdb Reader extends InfluxQL</p></div>
+            <div class="class-description usertext"><p>Influxdb Reader extends InfluxQL</p></div>
         
     
 </header>
@@ -62,7 +63,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Reader"><span class="type-signature"></span>new Reader<span class="signature">(client, queue)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Reader"><span class="type-signature"></span>new Reader<span class="signature">(client, queue)</span><span class="type-signature"> &rarr; {<a href="Reader.html">Reader</a>}</span></h4>
 
     
 
@@ -80,6 +81,9 @@
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>2.2.0</li></ul></dd>
     
 
     
@@ -113,7 +117,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the influxdb reader</p>
 </div>
 
@@ -220,6 +224,24 @@ const reader = client.query('http');</code></pre>
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Reader.html">Reader</a></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -313,7 +335,7 @@ const reader = client.query('http');</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the database for influx ql</p>
 </div>
 
@@ -390,7 +412,7 @@ ql.database = 'mydb';</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx ql end time</p>
 </div>
 
@@ -470,7 +492,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the influx query result fill value for time intervals that have no data</p>
 </div>
 
@@ -551,7 +573,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the measurement for select into</p>
 </div>
 
@@ -632,7 +654,7 @@ ql.intoRP = 'my-rp-copy';</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the database for select into</p>
 </div>
 
@@ -713,7 +735,7 @@ ql.intoRP = 'my-rp-copy';</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the rp for select into</p>
 </div>
 
@@ -726,7 +748,7 @@ ql.intoRP = 'my-rp-copy';</code></pre>
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>const ql = new QL('mydb');
-ql.mearsurement = 'http';
+ql.measurement = 'http';
 ql.rp = 'my-rp';
 ql.intoDatabase = 'mydb copy';
 ql.into = 'http copy';
@@ -794,7 +816,7 @@ ql.intoRP = 'my-rp-copy';</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx ql query result point limit</p>
 </div>
 
@@ -876,7 +898,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx ql measurement</p>
 </div>
 
@@ -955,7 +977,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx ql query offset of the result</p>
 </div>
 
@@ -1035,7 +1057,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the influx query result order of time</p>
 </div>
 
@@ -1116,7 +1138,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get influx ql default where relation</p>
 </div>
 
@@ -1194,7 +1216,7 @@ console.info(ql.relation);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx ql retention policy</p>
 </div>
 
@@ -1274,7 +1296,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx query result series limit</p>
 </div>
 
@@ -1353,7 +1375,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx ql offset series in the query results</p>
 </div>
 
@@ -1432,7 +1454,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx ql start time</p>
 </div>
 
@@ -1524,7 +1546,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set influx ql time zone</p>
 </div>
 
@@ -1605,7 +1627,7 @@ console.info(ql.tz);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Add influx ql calculate, use addFunction instead of it.</p>
 </div>
 
@@ -1737,12 +1759,12 @@ console.info(ql.tz);
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#addField">QL#addField</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -1772,7 +1794,7 @@ console.info(ql.tz);
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Add the field of the query result</p>
 </div>
 
@@ -1914,12 +1936,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#addFunction">QL#addFunction</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -1949,7 +1971,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Add influx ql function</p>
 </div>
 
@@ -2184,12 +2206,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#addGroup">QL#addGroup</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -2219,7 +2241,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Add influx ql group by</p>
 </div>
 
@@ -2363,12 +2385,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#addMeasurement">QL#addMeasurement</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -2398,7 +2420,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Add influx ql measurement</p>
 </div>
 
@@ -2541,12 +2563,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#clean">QL#clean</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -2576,7 +2598,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Clean all the influx ql condition</p>
 </div>
 
@@ -2647,12 +2669,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#emptyConditions">QL#emptyConditions</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -2682,7 +2704,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Empty the influx ql where condition</p>
 </div>
 
@@ -2775,12 +2797,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#emptyFields">QL#emptyFields</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -2810,7 +2832,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Remove all fields of the query result</p>
 </div>
 
@@ -2890,12 +2912,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#emptyFunctions">QL#emptyFunctions</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -2925,7 +2947,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Remove all influx ql functions</p>
 </div>
 
@@ -3015,12 +3037,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#emptyGroups">QL#emptyGroups</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -3050,7 +3072,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Empty influx ql group by</p>
 </div>
 
@@ -3138,12 +3160,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#emptyMeasurements">QL#emptyMeasurements</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -3173,7 +3195,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Empty influx ql measurements</p>
 </div>
 
@@ -3290,7 +3312,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the reader options</p>
 </div>
 
@@ -3426,12 +3448,12 @@ console.info(reader.get('limit'));
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#multiQuery">QL#multiQuery</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -3461,7 +3483,7 @@ console.info(reader.get('limit'));
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Multi query</p>
 </div>
 
@@ -3564,7 +3586,7 @@ select sum("max") from "mydb".."http"</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Add the query to the queue</p>
 </div>
 
@@ -3651,12 +3673,12 @@ select sum("max") from "mydb".."http"</code></pre>
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#removeField">QL#removeField</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -3686,7 +3708,7 @@ select sum("max") from "mydb".."http"</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Remove the field of the query result</p>
 </div>
 
@@ -3815,12 +3837,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#removeFunction">QL#removeFunction</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -3850,7 +3872,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Remove influx ql function</p>
 </div>
 
@@ -4036,12 +4058,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#removeGroup">QL#removeGroup</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -4071,7 +4093,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Remove influx ql group by</p>
 </div>
 
@@ -4209,12 +4231,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#removeMeasurement">QL#removeMeasurement</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -4244,7 +4266,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Remove influx ql measurement</p>
 </div>
 
@@ -4411,7 +4433,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the reader options</p>
 </div>
 
@@ -4598,12 +4620,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#subQuery">QL#subQuery</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -4633,7 +4655,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Set the sub query string, it will get the current ql for sub query
 and clean the query options</p>
 </div>
@@ -4736,7 +4758,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the query promise</p>
 </div>
 
@@ -4886,12 +4908,12 @@ console.info(ql.toSelect());
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#toSelect">QL#toSelect</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -4921,7 +4943,7 @@ console.info(ql.toSelect());
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the influx select ql</p>
 </div>
 
@@ -5047,7 +5069,7 @@ console.info(ql.toSelect());</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Get the influx ql of the reader</p>
 </div>
 
@@ -5135,12 +5157,12 @@ console.info(ql.toSelect());</code></pre>
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
         <a href="QL.html#where">QL#where</a>
     </li></ul></dd>
-    
-
     
 
     
@@ -5170,7 +5192,7 @@ console.info(ql.toSelect());</code></pre>
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>Add the influx ql where condition, alias for condition</p>
 </div>
 
@@ -5396,11 +5418,13 @@ console.info(ql.toSelect());
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Mar 19 2019 17:31:33 GMT+1300 (New Zealand Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Tue Aug 03 2021 10:03:15 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
 <script src="scripts/linenumber.js"></script>
+
 
 
 </body>
